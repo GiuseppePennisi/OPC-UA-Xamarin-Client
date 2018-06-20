@@ -641,7 +641,189 @@ namespace OPC_UA_Client
        
 
 
-        
+        }
+
+        public Tree GetRootNode()
+        {
+            ReferenceDescriptionCollection references;
+            Byte[] continuationPoint;
+            Tree browserTree = new Tree();
+            try
+            {
+                session.Browse(
+                    null,
+                    null,
+                    ObjectIds.ObjectsFolder,
+                    0u,
+                    BrowseDirection.Forward,
+                    ReferenceTypeIds.HierarchicalReferences,
+                    true,
+                    0,
+                    out continuationPoint,
+                    out references);
+
+                browserTree.currentView.Add(
+                    new ListNode
+                    {
+                        Id = ObjectIds.ObjectsFolder.ToString(),
+                        NodeName = "Root",
+                        Children = (references?.Count != 0)
+                    });
+                return browserTree;
+            }
+            catch
+            {
+                //Disconnect session
+                return null;
+            }
+        }
+
+        public Tree GetChildren(string node)
+        {
+            ReferenceDescriptionCollection references;
+            Byte[] continuationPoint;
+            Tree browserTree = new Tree();
+            try
+            {
+                session.Browse(
+                    null,
+                    null,
+                    node,
+                    0u,
+                    BrowseDirection.Forward,
+                    ReferenceTypeIds.HierarchicalReferences,
+                    true,
+                    0,
+                    out continuationPoint,
+                    out references);
+
+                if (references != null)
+                {
+                    foreach (var nodeReference in references)
+                    {
+                        ReferenceDescriptionCollection childReferences = null;
+                        Byte[] childContinuationPoint;
+
+                        session.Browse(
+                            null,
+                            null,
+                            ExpandedNodeId.ToNodeId(nodeReference.NodeId, session.NamespaceUris),
+                            0u,
+                            BrowseDirection.Forward,
+                            ReferenceTypeIds.HierarchicalReferences,
+                            true,
+                            0,
+                            out childContinuationPoint,
+                            out childReferences);
+
+                        INode currentNode = null;
+                        try
+                        {
+                            currentNode = session.ReadNode(ExpandedNodeId.ToNodeId(nodeReference.NodeId, session.NamespaceUris));
+                        }
+                        catch (Exception)
+                        {
+                            // skip this node
+                            continue;
+                        }
+
+                        byte currentNodeAccessLevel = 0;
+                        byte currentNodeEventNotifier = 0;
+                        bool currentNodeExecutable = false;
+
+                        VariableNode variableNode = currentNode as VariableNode;
+                        if (variableNode != null)
+                        {
+                            currentNodeAccessLevel = variableNode.UserAccessLevel;
+                            currentNodeAccessLevel = (byte)((uint)currentNodeAccessLevel & ~0x2);
+                        }
+
+                        ObjectNode objectNode = currentNode as ObjectNode;
+                        if (objectNode != null)
+                        {
+                            currentNodeEventNotifier = objectNode.EventNotifier;
+                        }
+
+                        ViewNode viewNode = currentNode as ViewNode;
+                        if (viewNode != null)
+                        {
+                            currentNodeEventNotifier = viewNode.EventNotifier;
+                        }
+
+                        MethodNode methodNode = currentNode as MethodNode;
+                        if (methodNode != null)
+                        {
+                            currentNodeExecutable = methodNode.UserExecutable;
+                        }
+
+                        browserTree.currentView.Add(new ListNode()
+                        {
+                            Id = nodeReference.NodeId.ToString(),
+                            NodeName = nodeReference.DisplayName.Text.ToString(),
+                            NodeClass = nodeReference.NodeClass.ToString(),
+                            AccessLevel = currentNodeAccessLevel.ToString(),
+                            EventNotifier = currentNodeEventNotifier.ToString(),
+                            Executable = currentNodeExecutable.ToString(),
+                            Children = (references?.Count != 0),
+                        });
+                    }
+                    if (browserTree.currentView.Count == 0)
+                    {
+                        INode currentNode = session.ReadNode(new NodeId(node));
+
+                        byte currentNodeAccessLevel = 0;
+                        byte currentNodeEventNotifier = 0;
+                        bool currentNodeExecutable = false;
+
+                        VariableNode variableNode = currentNode as VariableNode;
+
+                        if (variableNode != null)
+                        {
+                            currentNodeAccessLevel = variableNode.UserAccessLevel;
+                            currentNodeAccessLevel = (byte)((uint)currentNodeAccessLevel & ~0x2);
+                        }
+
+                        ObjectNode objectNode = currentNode as ObjectNode;
+
+                        if (objectNode != null)
+                        {
+                            currentNodeEventNotifier = objectNode.EventNotifier;
+                        }
+
+                        ViewNode viewNode = currentNode as ViewNode;
+
+                        if (viewNode != null)
+                        {
+                            currentNodeEventNotifier = viewNode.EventNotifier;
+                        }
+
+                        MethodNode methodNode = currentNode as MethodNode;
+
+                        if (methodNode != null)
+                        {
+                            currentNodeExecutable = methodNode.UserExecutable;
+                        }
+
+                        browserTree.currentView.Add(new ListNode()
+                        {
+                            Id = node,
+                            NodeName = currentNode.DisplayName.Text.ToString(),
+                            NodeClass = currentNode.NodeClass.ToString(),
+                            AccessLevel = currentNodeAccessLevel.ToString(),
+                            EventNotifier = currentNodeEventNotifier.ToString(),
+                            Executable = currentNodeExecutable.ToString(),
+                            Children = false
+                        });
+                    }
+                }
+                return browserTree;
+            }
+            catch
+            {
+                //Disconnect
+                return null;
+            }
+        }
     }
 }
 

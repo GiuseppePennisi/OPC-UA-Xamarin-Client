@@ -74,7 +74,7 @@ namespace OPC_UA_Client
                 IsVisible = false;
                 LoadingIndicator.IsRunning = false;
                 await DisplayAlert("Info", "Session created successfully", "Ok");
-                ContentPage sessionPage = new SessionPage(client, sessionView);
+                ContentPage sessionPage = new SessionPage(client, sessionView, client.GetRootNode());
                 sessionPage.Title = "OPC Session Services";
                 await Navigation.PushAsync(sessionPage);
             }
