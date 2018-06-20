@@ -60,6 +60,14 @@ namespace OPC_UA_Client
                 return;
 
             }
+            catch(NotImplementedException)
+            {
+                IsEnabled = false;
+                IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+                await DisplayAlert("Error", "The Endpoint is not supported!", "ok");
+                return;
+            }
             if (sessionView == null)
             {
 

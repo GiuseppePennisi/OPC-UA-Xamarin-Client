@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Opc.Ua;
 using Opc.Ua.Client;
 using Opc.Ua.Configuration;
+using OPC_UA_Client.Exceptions;
 using OPC_UA_Client.ViewModel;
 using Xamarin.Forms;
 
@@ -122,22 +123,27 @@ namespace OPC_UA_Client
             var endpoint = new ConfiguredEndpoint(null, endpoints[indexEndpoint]);
 
             Console.WriteLine("Prima della creazione");
-            session = await Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
-            if (session == null)
-            {
-                Console.WriteLine("Creazione sessione fallita: dentro il client");
-                sessionView = null;
-            }
-            else
-            {
-                Console.WriteLine("Sessione creata: dentro il client");
-                EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0);
-                sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
-            }
-            return sessionView;
+            try { session = await Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
+                if (session == null)
+                {
+                    Console.WriteLine("Creazione sessione fallita: dentro il client");
+                    sessionView = null;
+                }
+                else
+                {
+                    Console.WriteLine("Sessione creata: dentro il client");
+                    EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0);
+                    sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
+                }
+                return sessionView;
 
-        }
-
+            }
+            catch (ServiceResultException p)
+            {
+                throw new UnsupportedEndpointException(p.Message);
+                
+                }
+                    }
         public async Task<SessionView> CreateSessionChannelAsync(int indexEndpoint, string username, string password)
         {
 
@@ -168,9 +174,10 @@ namespace OPC_UA_Client
             catch (ServiceResultException p)
             {
                 Console.WriteLine("Sono dentro l'eccezione client");
-                throw new BadUserException("Username or Password wrong!", p);
+                throw new BadUserException(p.Message, p);
 
             }
+
 
         }
         

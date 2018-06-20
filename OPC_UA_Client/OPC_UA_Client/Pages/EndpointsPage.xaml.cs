@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OPC_UA_Client.Exceptions;
 using OPC_UA_Client.ViewModel;
 using Rg.Plugins.Popup;
 using Rg.Plugins.Popup.Extensions;
@@ -62,9 +63,20 @@ namespace OPC_UA_Client
 
                 if (action.Equals("Anonymous"))
                 {
-
-                    sessionView = await client.CreateSessionChannelAsync(i);
-
+                    try
+                    {
+                        sessionView = await client.CreateSessionChannelAsync(i);
+                    }
+                    catch (NotImplementedException)
+                    {
+                        await DisplayAlert("Error", "The Endpoint is not supported!", "ok");
+                        return;
+                    }
+                    catch (UnsupportedEndpointException p)
+                    {
+                        await DisplayAlert("Error", p.Message, "ok");
+                        return;
+                    }
                     if (sessionView == null)
                     {
                         await DisplayAlert("Error", "Cannot connect to an OPC UA Server!", "OK");
