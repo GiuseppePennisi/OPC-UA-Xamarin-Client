@@ -148,7 +148,7 @@ namespace OPC_UA_Client
             try
             {
                 session =await Task.Run(() =>
-                {
+                  {
                    return  Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
                 });
                 if (session == null)
