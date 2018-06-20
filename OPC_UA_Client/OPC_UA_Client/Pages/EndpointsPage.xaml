@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OPC_UA_Client.EndpointsPage">
+    <ContentPage.Content>
+        <StackLayout>
+           
+            <ListView x:Name="EndpointsDisplay" HasUnevenRows="True"
+            
+            ItemTapped="OnSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+                            <ViewCell.View >
+                                <StackLayout Orientation="Horizontal" >
+                                    <StackLayout Orientation="Vertical" Margin="10,10" >
+                                        <StackLayout Orientation="Horizontal" Margin="120,0,0,0" >
+                                            <Label Text="Endpoint ID:"  TextColor="#212121" Font="Bold,22"  ></Label>
+                                            <Label x:Name="EndpointID" Text="{Binding endpointID}"  TextColor="#212121" Font="Bold,22" ></Label>
+                                        </StackLayout>
+                                        <Label Text="Endpoint URL: " FontSize="Medium" TextColor="#212121" />
+                                        <Label Text="{Binding endpointURL}" FontSize="Small" TextColor="#757575"/>
+                                        <Label Text="Transport Profile URI: " FontSize="Medium" TextColor="#212121"/>
+                                        <Label Text="{Binding transportProfileURI}" FontSize="Small" TextColor="#757575"/>
+                                        <Label Text="Security Mode: " FontSize="Medium" TextColor="#212121"/>
+                                        <Label Text="{Binding securityMode}" FontSize="Small" TextColor="#757575"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+              
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

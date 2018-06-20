@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OPC_UA_Client.SessionPage">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Label Text="Session Name: " FontSize="Large" TextColor="#212121" />
+                <Label x:Name="SessionName" FontSize="Large" TextColor="#757575"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Label Text="Session Namespace Index: " FontSize="Medium" TextColor="#212121" />
+                <Label x:Name="NamespaceIndex" FontSize="Medium" TextColor="#757575"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Label Text="Session Identifier: " FontSize="Medium" TextColor="#212121" />
+                <Label VerticalOptions="End" x:Name="Identifier" FontSize="Medium" TextColor="#757575"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Label Text="Endpoint URL: " FontSize="Medium" TextColor="#212121" />
+                <Label VerticalOptions="End" x:Name="EndpointUrl" FontSize="Medium" TextColor="#757575"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Label Text="Transport Uri: " FontSize="Medium" TextColor="#212121" />
+                <Label VerticalOptions="End" x:Name="TransportUri" FontSize="Medium" TextColor="#757575"/>
+            </StackLayout>
+            <StackLayout Orientation="Vertical">
+                <Label Text="Security Mode: " FontSize="Medium" TextColor="#212121" />
+                <Label VerticalOptions="End" x:Name="SecurityMode" FontSize="Medium" TextColor="#757575"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+            <Button
+                x:Name="ReadButton"
+                Text="Read"
+                Font="small"
+                HorizontalOptions="End"
+                Clicked="OnRead"
+                Margin="0,40,0,0"
+                
+                BackgroundColor="#FF9800"
+                TextColor="White">
+            </Button>
+            <Button
+                x:Name="WriteButton"
+                Text="Write"
+                Font="small"
+                HorizontalOptions="End"
+                Clicked="OnWrite"
+                Margin="0,40,0,0"
+                BackgroundColor="#FF9800"
+                TextColor="White">
+            </Button>
+            <Button
+                x:Name="SubscriptionButton"
+                Text="Subscription"
+                Font="small"
+                HorizontalOptions="End"
+                Clicked="OnSubscription"
+                Margin="0,40,0,0"
+                BackgroundColor="#FF9800"
+                TextColor="White">
+            </Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

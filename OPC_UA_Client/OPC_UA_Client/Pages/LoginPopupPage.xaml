@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="OPC_UA_Client.LoginPopupPage">
+    <ScrollView x:Name="Scroll"
+        HorizontalOptions="Center"
+        VerticalOptions="Center" >
+        <AbsoluteLayout x:Name="Absolute">
+
+            <Frame x:Name="FrameContainer"
+                Margin="15"
+             HorizontalOptions="Center"
+            BackgroundColor="White">
+                <StackLayout 
+            Padding="25, 5">
+                    <Label Text="Username: "
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" TextColor="#212121"/>
+                    <Entry WidthRequest="25" HorizontalOptions="FillAndExpand" x:Name="UsernameEntry" Placeholder="Username" />
+
+                    <Label Text="Password: "
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" TextColor="#212121"/>
+                    <Entry
+              HorizontalOptions="FillAndExpand"
+              x:Name="PasswordEntry"
+              
+              Placeholder="Password"
+              IsPassword="True"/>
+
+                    <Button
+            Margin="10, 5"
+            BackgroundColor="#FF9800"
+            HorizontalOptions="Fill"
+            Clicked="OnLoginButton"
+            x:Name="LoginButton"
+            TextColor="White"
+            Text="Login">
+                        <Button.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double" Android="50" iOS="30" WinPhone="30"/>
+                        </Button.HeightRequest>
+                    </Button>
+                    <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" BackgroundColor="Aqua" IsVisible="true"></ActivityIndicator>
+                </StackLayout>
+
+            </Frame>
+
+        </AbsoluteLayout>
+
+    </ScrollView>
+
+</pages:PopupPage>

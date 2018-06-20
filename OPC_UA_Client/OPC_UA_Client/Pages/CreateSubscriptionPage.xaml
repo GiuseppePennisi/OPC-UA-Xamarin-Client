@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OPC_UA_Client.Pages.CreateSubscriptionPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Label Text="Requested Publishing Interval: "
+                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                </Label>
+                <Entry x:Name="RequestedPublishingInterval" Text="1000" 
+                   Placeholder="Requested Publishing Interval" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                </Entry>
+                <Label Text="Requested Lifetime Count: "
+                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                </Label>
+                <Entry x:Name="RequestedLifetimeCount"  Text="40"
+                   Placeholder="Requested Lifetime Count" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                </Entry>
+
+                <Label Text="Requested Max Keep Alive Count: "
+                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                </Label>
+                <Entry x:Name="RequestedMaxKeepAliveCount" Text="5"
+                   Placeholder="Requested Max Keep Alive Count" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                </Entry>
+
+                <Label Text="Max notification per publish: "
+                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                </Label>
+                <Entry x:Name="MaxNotificationPerPublish" Text="0"
+                   Placeholder="Max notification per publish" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                </Entry>
+
+                <Label Text="Priority: "
+                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                </Label>
+                <Entry x:Name="Priority" Text="0"
+                   Placeholder="Priority" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                </Entry>
+
+                <Label Text="Publishing Enabled: "
+                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                </Label>
+                <Switch x:Name="PublishingEnabled" IsToggled="False"></Switch>
+                <Button x:Name="CreateSubscriptionButton"
+                Text="Create Subscription"
+                Font="small"
+                HorizontalOptions="End"
+                Clicked="OnCreateSubscription"
+                Margin="0,40,0,0"
+                BackgroundColor="#2196f3"
+                TextColor="White"
+                        />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

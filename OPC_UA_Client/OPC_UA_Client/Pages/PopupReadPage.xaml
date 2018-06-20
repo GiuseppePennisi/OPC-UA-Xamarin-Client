@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="OPC_UA_Client.Pages.PopupReadPage" BackgroundClicked="OncloseStack">
+
+
+    <AbsoluteLayout >
+        <Frame x:Name="FrameContainer"   BackgroundColor="White"  AbsoluteLayout.LayoutBounds="45,45,300,350" HorizontalOptions="Center" VerticalOptions="Center">
+            <StackLayout >
+                <ListView x:Name="ReadDisplay" HasUnevenRows="True" SelectedItem="Mode=Twoway" SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell >
+                                <ViewCell.View>
+                                    <StackLayout>
+                                        <Label Text="Value:" FontSize="Medium" TextColor="#2980b9" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding value}" TextColor="#2196f3" FontSize="Medium" HorizontalOptions="Center"/>
+                                        <Label Text="Status Code:" FontSize="Medium" TextColor="#2980b9" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding statusCode}" TextColor="#2196f3" FontSize="Medium" HorizontalOptions="Center"/>
+                                        <Label Text="TimeStamp Source:" FontSize="Medium" TextColor="#2980b9" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding timeStampSource}" TextColor="#2196f3" FontSize="Medium" HorizontalOptions="Center"/>
+                                        <Label Text="TimeStamp Server:" FontSize="Medium" TextColor="#2980b9" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding timeStampServer}" TextColor="#2196f3" FontSize="Medium" HorizontalOptions="Center"/>
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button BackgroundColor="#FF9800" Text="Ok" TextColor="White" Clicked="OncloseStack" />
+            </StackLayout>
+        </Frame>
+    </AbsoluteLayout>
+</pages:PopupPage>

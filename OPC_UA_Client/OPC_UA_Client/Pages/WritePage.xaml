@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OPC_UA_Client.Pages.WritePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Node ID: "
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
+            </Label>
+            <Entry x:Name="NodeID" 
+                   Placeholder="Node ID" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
+            </Entry>
+            <Label Text="Node ID Type: "
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
+            </Label>
+            <Picker x:Name="TypeNodeIdPicker"  HorizontalOptions="FillAndExpand" TextColor="#212121">
+                <Picker.Items>
+                    <x:String>Integer</x:String>
+                    <x:String>String</x:String>
+                </Picker.Items>
+                <Picker.SelectedIndex>0</Picker.SelectedIndex>
+            </Picker>
+            <Label Text="Node Namespace: "
+                   FontSize="Medium" TextColor="#212121">
+            </Label>
+            <Entry x:Name="NodeNamespace"
+                   Placeholder="Node Namespace" TextColor="#212121" FontSize="Small" PlaceholderColor="#BDBDBD">
+            </Entry>
+            <Label Text="Data Type: " FontSize="Medium" TextColor="#212121"/>
+            <Picker x:Name="DataTypePicker" HorizontalOptions="FillAndExpand" TextColor="#212121" SelectedIndexChanged="OnSelectedType">
+                <Picker.Items>
+                    <x:String>Unsigned Integer 32</x:String>
+                    <x:String>String</x:String>
+                    <x:String>Boolean</x:String>
+                </Picker.Items>
+                <Picker.SelectedIndex>0</Picker.SelectedIndex>
+            </Picker>
+            <Label Text="Value: " FontSize="Medium" TextColor="#212121">
+            </Label>
+            <StackLayout x:Name="IntStringEntry"  IsEnabled="True" IsVisible="True">
+            <Entry x:Name="ValueToWrite"
+                   Placeholder="Value to write" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
+            </Entry>
+            </StackLayout>
+            <StackLayout x:Name="BooleanEntry" IsEnabled="False" IsVisible="False">
+            <Switch x:Name="BoolSwitch" IsToggled="False"> </Switch>
+            </StackLayout>
+            <Button x:Name="WriteButton"
+                Text="Write"
+                Font="small"
+                HorizontalOptions="End"
+                Clicked="OnWrite"
+                Margin="0,40,0,0"
+                BackgroundColor="#FF9800"
+                TextColor="White"
+                        >
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
