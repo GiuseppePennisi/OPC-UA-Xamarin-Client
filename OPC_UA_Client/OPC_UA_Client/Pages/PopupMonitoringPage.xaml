@@ -2,7 +2,8 @@
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             x:Class="OPC_UA_Client.Pages.PopupMonitoringPage">
+             x:Class="OPC_UA_Client.Pages.PopupMonitoringPage"
+             NavigationPage.HasBackButton="False">
     <StackLayout >
         <Label x:Name="ClientHandleEntry" ></Label>
         <Label x:Name="SourceTimeEntry"></Label>

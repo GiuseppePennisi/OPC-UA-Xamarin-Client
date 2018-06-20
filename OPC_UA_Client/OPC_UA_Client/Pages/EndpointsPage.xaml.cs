@@ -101,5 +101,24 @@ namespace OPC_UA_Client
             }
 
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+
+            // Begin an asyncronous task on the UI thread because we intend to ask the users permission.
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                if (await DisplayAlert("Warning", "Are you sure you want to return in Homepage?", "Yes", "No"))
+                {
+                    base.OnBackButtonPressed();
+
+                    await Navigation.PopToRootAsync();
+                }
+            });
+
+            // Always return true because this method is not asynchronous.
+            // We must handle the action ourselves: see above.
+            return true;
+        }
     }
 }
