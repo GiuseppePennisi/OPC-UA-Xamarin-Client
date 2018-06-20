@@ -35,9 +35,12 @@ namespace OPC_UA_Client
 
         private async void OnLoginButton(object sender, EventArgs e)
         {
-            LoadingIndicator.IsRunning = true;
-
-            try
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                LoadingIndicator.IsRunning = true;
+               
+            });
+           try
             {
 
                 string username = UsernameEntry.Text;
