@@ -63,23 +63,36 @@
                 TextColor="White">
                 </Button>
             </StackLayout>
-            <StackLayout>
-                <Label Text="Address Space Browse" FontSize="Large"/>
-                <ListView x:Name="treeView" 
+                <StackLayout VerticalOptions="Fill">
+                    <Label  Text="Address Space Browse" FontSize="Large" HorizontalOptions="Center"/>
+                    <StackLayout x:Name="ParentLayout" Orientation ="Horizontal" HorizontalOptions="Center" IsVisible="False">
+                        <Label Text="Parent Node: " FontSize="Medium"/>
+                        <Label x:Name="ParentNodeEntry" FontSize="Medium"/>
+                    </StackLayout>
+                    <ListView x:Name="treeView" 
                         SelectedItem="Mode=Twoway"
                         ItemTapped="OnItemTapped">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Orientation = "Vertical" Margin = "10,10,10,10">
-                                    <Label Text = "{Binding NodeName}" />
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation = "Vertical" Margin = "10,10,10,10">
+                                        <Label Text = "{Binding NodeName}" FontSize="Small" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start"
+                    x:Name="BackTreeButton"
+                    Text="Go Back Tree"
+                    Font="small"
+                    Clicked="OnBackTree"
+                    BackgroundColor="#FF9800"
+                    TextColor="White"/>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
