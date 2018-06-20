@@ -2,6 +2,7 @@
 using OPC_UA_Client.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,13 +17,18 @@ namespace OPC_UA_Client
 	{
         public ClientOPC client;
         public SessionView sessionView;
-		public SessionPage (ClientOPC _client, SessionView _sessionView)
+		public SessionPage (ClientOPC _client, SessionView _sessionView, Tree tree)
 		{
+            BindingContext = nodes;
+            storedTree = tree;
             InitializeComponent();
             client = _client;
             sessionView = _sessionView;
             DisplaySession();
+            DisplayNodes();
         }
+        public ObservableCollection<ListNode> nodes = new ObservableCollection<ListNode>();
+        public Tree storedTree;
 
         private void DisplaySession() {
             NamespaceIndex.Text = sessionView.indexNameSpace;
@@ -32,6 +38,17 @@ namespace OPC_UA_Client
             SecurityMode.Text = sessionView.endpointView.securityMode;
             TransportUri.Text = sessionView.endpointView.transportProfileURI;
 
+        }
+
+        private void DisplayNodes()
+        {
+            nodes.Clear();
+            foreach (var node in storedTree.currentView)
+            {
+                nodes.Add(node);
+            }
+            treeView.ItemsSource = null;
+            treeView.ItemsSource = nodes;
         }
 
         private async void OnRead(object sender, EventArgs e)
@@ -74,6 +91,24 @@ namespace OPC_UA_Client
             // Always return true because this method is not asynchronous.
             // We must handle the action ourselves: see above.
             return true;
+        }
+
+        private void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+
+            if (e.Item == null)
+            {
+                return;
+            }
+            ListNode selected = e.Item as ListNode;
+
+            if (selected.Children == true)
+            {
+                Console.WriteLine("PIPPO" + selected.Id);
+                storedTree = client.GetChildren(selected.Id);
+                DisplayNodes();
+
+            }
         }
     }
 }

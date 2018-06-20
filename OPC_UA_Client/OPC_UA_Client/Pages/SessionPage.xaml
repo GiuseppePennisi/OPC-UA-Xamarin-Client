@@ -4,6 +4,7 @@
              x:Class="OPC_UA_Client.SessionPage"
              NavigationPage.HasBackButton="False">
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Label Text="Session Name: " FontSize="Large" TextColor="#212121" />
@@ -30,7 +31,7 @@
                 <Label VerticalOptions="End" x:Name="SecurityMode" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
-            <Button
+                <Button
                 x:Name="ReadButton"
                 Text="Read"
                 Font="small"
@@ -40,8 +41,8 @@
                 
                 BackgroundColor="#FF9800"
                 TextColor="White">
-            </Button>
-            <Button
+                </Button>
+                <Button
                 x:Name="WriteButton"
                 Text="Write"
                 Font="small"
@@ -50,8 +51,8 @@
                 Margin="0,40,0,0"
                 BackgroundColor="#FF9800"
                 TextColor="White">
-            </Button>
-            <Button
+                </Button>
+                <Button
                 x:Name="SubscriptionButton"
                 Text="Subscription"
                 Font="small"
@@ -60,8 +61,25 @@
                 Margin="0,40,0,0"
                 BackgroundColor="#FF9800"
                 TextColor="White">
-            </Button>
+                </Button>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Address Space Browse" FontSize="Large"/>
+                <ListView x:Name="treeView" 
+                        SelectedItem="Mode=Twoway"
+                        ItemTapped="OnItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation = "Vertical" Margin = "10,10,10,10">
+                                    <Label Text = "{Binding NodeName}" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
