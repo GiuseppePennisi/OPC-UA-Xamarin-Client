@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:OPC_UA_Client"
-             x:Class="OPC_UA_Client.MainPage" BackgroundColor="White">
+             x:Class="OPC_UA_Client.MainPage" BackgroundColor="White"
+             NavigationPage.HasBackButton="False">
     <ContentPage.Content> 
         <StackLayout Margin="20,20,20,20">
         <Label Text="Enter your OPC UA server's endpoint URL here:"
