@@ -17,10 +17,15 @@ namespace OPC_UA_Client
 	{
         public ClientOPC client;
         public SessionView sessionView;
-		public SessionPage (ClientOPC _client, SessionView _sessionView, Tree tree)
+        Stack<Tree> hierarchyAddressSpace;
+        Stack<string> hierarchyStringAddressSpace;
+        public SessionPage (ClientOPC _client, SessionView _sessionView, Tree tree)
 		{
             BindingContext = nodes;
             storedTree = tree;
+            hierarchyAddressSpace = new Stack<Tree>();
+            hierarchyStringAddressSpace = new Stack<string>();
+            hierarchyAddressSpace.Push(tree);
             InitializeComponent();
             client = _client;
             sessionView = _sessionView;
@@ -106,9 +111,23 @@ namespace OPC_UA_Client
             {
                 Console.WriteLine("PIPPO" + selected.Id);
                 storedTree = client.GetChildren(selected.Id);
+                hierarchyAddressSpace.Push(storedTree);
+                hierarchyStringAddressSpace.Push(selected.NodeName);
+                ParentNodeEntry.Text = selected.NodeName;
+                ParentLayout.IsVisible = true;
                 DisplayNodes();
 
             }
+        }
+
+        private void OnBackTree(object sender, EventArgs e)
+        {
+            hierarchyAddressSpace.Pop();
+            hierarchyStringAddressSpace.Pop();
+            storedTree = hierarchyAddressSpace.First();
+            ParentNodeEntry.Text = hierarchyStringAddressSpace.First();
+            DisplayNodes();
+            Console.WriteLine("HELP" + hierarchyAddressSpace.Count());
         }
     }
 }

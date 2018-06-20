@@ -825,8 +825,6 @@ namespace OPC_UA_Client
 
     }
 
-      
-    
 }
 
 
