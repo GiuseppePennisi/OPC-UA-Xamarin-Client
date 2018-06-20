@@ -637,12 +637,6 @@ namespace OPC_UA_Client
 
 
         }
-
-       
-
-
-        }
-
         public Tree GetRootNode()
         {
             ReferenceDescriptionCollection references;
@@ -824,7 +818,13 @@ namespace OPC_UA_Client
                 return null;
             }
         }
+
+
+
     }
+
+      
+    
 }
 
 
