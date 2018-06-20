@@ -147,8 +147,10 @@ namespace OPC_UA_Client
             Console.WriteLine("Prima della creazione");
             try
             {
-                session = await Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
-
+                session =await Task.Run(() =>
+                {
+                   return  Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
+                });
                 if (session == null)
                 {
                     Console.WriteLine("Creazione sessione fallita: dentro il client");
