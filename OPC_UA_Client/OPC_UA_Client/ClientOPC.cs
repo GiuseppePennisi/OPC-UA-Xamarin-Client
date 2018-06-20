@@ -312,30 +312,53 @@ namespace OPC_UA_Client
             return nodesRead;
         }
 
-        public List<String> WriteVariable(int typeId, string identifier, ushort namespaceIndex, Object value, uint attribute)
+        public List<String> WriteVariable( string identifier, ushort namespaceIndex, Object value, uint attribute)
         {
             NodeId node = null;
             List<String> statusCodeWrite = new List<String>();
 
-            if (typeId == 0)
+                    node = new NodeId(identifier, namespaceIndex);
+            
+            DataValue valueToWrite = new DataValue()
             {
-                uint id;
-                try
-                {
-                    id = Convert.ToUInt32(identifier);
-                    node = new NodeId(id, namespaceIndex);
-                }
-                catch (FormatException p)
-                {
-                    throw new FormatException("Invalid Node ID Format", p);
-                }
+                Value = (new Variant(value))
 
+            };
 
+            DiagnosticInfoCollection diagnosticInfos = null;
+            WriteValueCollection nodesTowrite = new WriteValueCollection();
+
+            WriteValue nodeToWrite = new WriteValue()
+            {
+
+                NodeId = node,
+                AttributeId = attribute,
+                Value = valueToWrite,
+                IndexRange = null // da aggiungere al metodo dopo
+            };
+
+            nodesTowrite.Add(nodeToWrite);
+            StatusCodeCollection writeResults;
+            session.Write(null, nodesTowrite, out writeResults, out diagnosticInfos);
+            for (int i = 0; i < writeResults.Count; i++)
+            {
+                Console.WriteLine("-----------------------------------------");
+                Console.WriteLine(writeResults[i].ToString());
+                statusCodeWrite.Add(writeResults[i].ToString());
             }
-            else if (typeId == 1)
-            {
+            return statusCodeWrite;
+        }
+
+
+        public List<String> WriteVariable( uint identifier, ushort namespaceIndex, Object value, uint attribute)
+        {
+            NodeId node = null;
+            List<String> statusCodeWrite = new List<String>();
+
+            
+
                 node = new NodeId(identifier, namespaceIndex);
-            }
+            
 
             DataValue valueToWrite = new DataValue()
             {
@@ -366,6 +389,40 @@ namespace OPC_UA_Client
             }
             return statusCodeWrite;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void CertificateValidator_CertificateValidation(CertificateValidator validator, CertificateValidationEventArgs e)
         {

@@ -38,7 +38,7 @@ namespace OPC_UA_Client
             Device.BeginInvokeOnMainThread(() =>
             {
                 LoadingIndicator.IsRunning = true;
-               
+                LoadingIndicator.IsVisible = true;
             });
            try
             {

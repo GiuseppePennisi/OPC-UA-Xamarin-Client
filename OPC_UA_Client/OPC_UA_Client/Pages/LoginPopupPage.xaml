@@ -42,7 +42,7 @@
                             <OnPlatform x:TypeArguments="x:Double" Android="50" iOS="30" WinPhone="30"/>
                         </Button.HeightRequest>
                     </Button>
-                    <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" BackgroundColor="Aqua" IsVisible="True"></ActivityIndicator>
+                    <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" BackgroundColor="White" IsVisible="False"></ActivityIndicator>
                 </StackLayout>
 
             </Frame>
