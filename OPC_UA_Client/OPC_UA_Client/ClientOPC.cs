@@ -20,12 +20,11 @@ namespace OPC_UA_Client
         public ApplicationConfiguration config;
         public bool haveAppCertificate;
         public uint clientHandle { get; set; }
-        public List<DataChangeView> dataChangeViews;
-
+       
         public ClientOPC()
         {
             session = null;
-            dataChangeViews = new List<DataChangeView>();
+          
             config = null;
             clientHandle = 0;
         }
@@ -172,7 +171,7 @@ namespace OPC_UA_Client
             }
 
         }
-
+        
         /*TimestampsToReturn*/
         public List<NodeView> readVariable(string identifier, ushort namespaceIndex, Double maxAge, int timestamp, uint attribute)
         {
@@ -522,7 +521,7 @@ namespace OPC_UA_Client
                 node = new NodeId(identifierNode, namespaceIndex);
             }
 
-
+            Console.WriteLine("Sono il clientHandle"+clientHandle);
             MonitoredItem monitoredItem = new MonitoredItem(clientHandle)
             {
                 AttributeId = Attributes.Value,
@@ -536,7 +535,7 @@ namespace OPC_UA_Client
             };
             clientHandle++; //Identifier di un singolo monitored item --> univoco solo all'interno della subscription
 
-            monitoredItem.Notification += OnNotificationItem;
+            monitoredItem.Notification += new MonitoredItemNotificationEventHandler(OnNotificationItem);
 
             //Aggiunge l'item tra i monitored items della subscription senza crearlo
 
@@ -546,6 +545,8 @@ namespace OPC_UA_Client
 
             //Comunica con il server e crea effettivamente il monitoredItem
             IList<MonitoredItem> createdMonitoredItems = sub.CreateItems();
+            sub.ApplyChanges();
+            Console.WriteLine("creazione avvenuta con successo");
             //Questa funzione ritorna la lista dei monitoredItems creati al momento della chiamata
 
             return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
@@ -612,52 +613,33 @@ namespace OPC_UA_Client
 
         private void OnNotificationItem(MonitoredItem item, MonitoredItemNotificationEventArgs e)
         {
-            DataChangeView view = IsCreatedDataChangeView(item.ClientHandle);
-            if (view == null)
-            {
-                view = new DataChangeView(item.ClientHandle);
-                dataChangeViews.Add(view);
-            }
+            DataChangeView view=new DataChangeView();
+            Console.WriteLine("Sono l'item" + item.ClientHandle);
+          
 
-            string message = "update: " + item.ClientHandle;
-            foreach (var value in item.DequeueValues())
+            string message = ("update: " + item.ClientHandle);
+                foreach (var value in item.DequeueValues())
             {
 
                 Console.WriteLine("{0}: {1}, {2}, {3}", item.DisplayName, value.Value, value.SourceTimestamp, value.StatusCode);
+                view.ClientHandle = item.ClientHandle;
                 view.DisplayName = item.DisplayName;
                 view.Value = value.Value.ToString();
                 view.SourceTimestamp = value.SourceTimestamp.ToString();
                 view.ServerTimestamp = value.ServerTimestamp.ToString();
                 view.StatusCode = value.StatusCode.ToString();
+             
+
                 MessagingCenter.Send<ClientOPC, DataChangeView>(this, message, view);
                 Console.WriteLine("ho inviato la view");
             }
-            UpdateDataChangeView(view);
+           
 
 
         }
 
-        public DataChangeView IsCreatedDataChangeView(uint clientHandle)
-        {
-            foreach (DataChangeView view in dataChangeViews)
-            {
-                if (view.ClientHandle == clientHandle)
-                    return view;
-            }
-            return null;
-        }
+       
 
-
-        private void UpdateDataChangeView(DataChangeView view)
-        {
-            foreach (DataChangeView v in dataChangeViews)
-            {
-                if (v.ClientHandle == view.ClientHandle)
-                {
-                    dataChangeViews.Remove(v);
-                    dataChangeViews.Add(view);
-                }
-            }
 
         }
 
