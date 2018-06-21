@@ -517,11 +517,11 @@ namespace OPC_UA_Client
         }
 
         // string nodeClass: Parametro per gestire MonitoredItem con NodeClass diversa da Variable
-        public MonitoredItemView CreateMonitoredItem(uint subscriptionId, int typeId, ushort namespaceIndex, string identifierNode, int samplingInterval, bool discardOldest, uint queueSize, int monitoringMode, int filterTrigger, uint deadbandType, double deadbandValue)
+        public MonitoredItemView CreateMonitoredItem(uint subscriptionId, ushort namespaceIndex, uint identifierNode, int samplingInterval, bool discardOldest, uint queueSize, int monitoringMode, int filterTrigger, uint deadbandType, double deadbandValue)
         {
 
             Subscription sub = GetSubscription(subscriptionId);
-
+            NodeId node;
             //Initialize Filter Parameters
             DataChangeTrigger _trigger;
             string filterTriggerView;
@@ -590,27 +590,16 @@ namespace OPC_UA_Client
             }
 
             //Set NodeId della variabile che si vuole leggere con gestione dell'identifier sia string che integer
-            NodeId node = null;
-            if (typeId == 0)
-            {
-                uint id;
-                try
-                {
-                    id = Convert.ToUInt32(identifierNode);
-                    node = new NodeId(id, namespaceIndex);
-                }
-                catch (FormatException p)
-                {
-                    throw new FormatException("Invalid Node ID Format", p);
-                }
-
-
-            }
-            else if (typeId == 1)
-            {
-                node = new NodeId(identifierNode, namespaceIndex);
-            }
-
+             node = new NodeId(identifierNode, namespaceIndex);
+           try { 
+                    session.ReadNode(node);
+                    }
+                    catch (ServiceResultException )
+                    {
+                    Console.WriteLine("Sono dentro la mon int");
+                        throw new NoNodeToReadException("Node not found!");
+                    }
+                
             Console.WriteLine("Sono il clientHandle"+clientHandle);
             MonitoredItem monitoredItem = new MonitoredItem(clientHandle)
             {
@@ -641,6 +630,124 @@ namespace OPC_UA_Client
 
             return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
         }
+
+
+        public MonitoredItemView CreateMonitoredItem(uint subscriptionId, ushort namespaceIndex, string identifierNode, int samplingInterval, bool discardOldest, uint queueSize, int monitoringMode, int filterTrigger, uint deadbandType, double deadbandValue)
+        {
+
+            Subscription sub = GetSubscription(subscriptionId);
+            NodeId node;
+            //Initialize Filter Parameters
+            DataChangeTrigger _trigger;
+            string filterTriggerView;
+            switch (filterTrigger)
+            {
+                case 0:
+                    _trigger = DataChangeTrigger.Status;
+                    filterTriggerView = "Status";
+                    break;
+                case 1:
+                    _trigger = DataChangeTrigger.StatusValue;
+                    filterTriggerView = "StatusValue";
+                    break;
+                case 2:
+                    _trigger = DataChangeTrigger.StatusValueTimestamp;
+                    filterTriggerView = "StatusValueTimestamp";
+                    break;
+                default:
+                    _trigger = DataChangeTrigger.StatusValue;
+                    filterTriggerView = "StatusValue";
+                    break;
+            }
+
+            string deadbandTypeView;
+            switch (deadbandType)
+            {
+                case 0:
+                    deadbandTypeView = "None";
+                    break;
+                case 1:
+                    deadbandTypeView = "Absolute";
+                    break;
+                case 2:
+                    deadbandTypeView = "Percent";
+                    break;
+                default:
+                    deadbandTypeView = null;
+                    break;
+
+            }
+
+            DataChangeFilter filter = new DataChangeFilter()
+            {
+                Trigger = _trigger,
+                DeadbandType = deadbandType,
+                DeadbandValue = deadbandValue
+            };
+
+            //Initialize Monitored Item Parameters
+            MonitoringMode _monitoringMode;
+            switch (monitoringMode)
+            {
+                case 0:
+                    _monitoringMode = MonitoringMode.Disabled;
+                    break;
+                case 1:
+                    _monitoringMode = MonitoringMode.Sampling;
+                    break;
+                case 2:
+                    _monitoringMode = MonitoringMode.Reporting;
+                    break;
+                default:
+                    _monitoringMode = MonitoringMode.Reporting;
+                    break;
+
+            }
+
+            //Set NodeId della variabile che si vuole leggere con gestione dell'identifier sia string che integer
+            node = new NodeId(identifierNode, namespaceIndex);
+            try
+            {
+                session.ReadNode(node);
+            }
+            catch (ServiceResultException)
+            {
+                Console.WriteLine("Sono dentro la mon strint");
+                throw new NoNodeToReadException("Node not found!");
+            }
+
+            Console.WriteLine("Sono il clientHandle" + clientHandle);
+            MonitoredItem monitoredItem = new MonitoredItem(clientHandle)
+            {
+                AttributeId = Attributes.Value,
+                DiscardOldest = discardOldest,
+                Filter = filter,
+                MonitoringMode = _monitoringMode,
+                NodeClass = NodeClass.Variable,
+                QueueSize = queueSize,
+                SamplingInterval = samplingInterval,
+                StartNodeId = node
+            };
+            clientHandle++; //Identifier di un singolo monitored item --> univoco solo all'interno della subscription
+
+            monitoredItem.Notification += new MonitoredItemNotificationEventHandler(OnNotificationItem);
+
+            //Aggiunge l'item tra i monitored items della subscription senza crearlo
+
+            sub.AddItem(monitoredItem);
+
+            //Se aggiungiamo altri monitoredItem la funzione successiva li creerà tutti
+
+            //Comunica con il server e crea effettivamente il monitoredItem
+            IList<MonitoredItem> createdMonitoredItems = sub.CreateItems();
+            sub.ApplyChanges();
+            Console.WriteLine("creazione avvenuta con successo");
+            //Questa funzione ritorna la lista dei monitoredItems creati al momento della chiamata
+
+            return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
+        }
+
+
 
         public List<MonitoredItemView> GetMonitoredItemViews(uint subscriptionId)
         {

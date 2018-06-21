@@ -36,7 +36,8 @@ namespace OPC_UA_Client.Pages
         {
             int typeID;
             ushort namespaceIndex;
-            string identifierNode;
+            string identifierNode=null;
+            uint identifierNodeInt=0;
             int samplingInterval;
             bool discardOldest;
             uint queueSize;
@@ -54,7 +55,7 @@ namespace OPC_UA_Client.Pages
                 {
                     try
                     {
-                        identifierNode = NodeID.Text;
+                        identifierNodeInt = Convert.ToUInt32(NodeID.Text);
                     }
                     catch (FormatException p)
                     {
@@ -101,24 +102,40 @@ namespace OPC_UA_Client.Pages
                     throw new EmptyEntryException("Empty Deadband Value Entry!");
                 try { 
                 deadbandValue = Convert.ToDouble(DeadbandValue.Text);
+                    if ((deadbandType == 2) && (deadbandValue < 0 || deadbandValue > 1))
+                        throw new FormatException("Deadband value is not between 0 and 1!");
                 }
                 catch(FormatException p)
                 {
                     throw new FormatException("Deadband Value Format is not valid!", p);
                 }
-                client.CreateMonitoredItem(subscriptionId, typeID, namespaceIndex, identifierNode, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue);
 
+                if (typeID == 0)
+                {
+                    client.CreateMonitoredItem(subscriptionId, namespaceIndex, identifierNodeInt, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue);
+                }
+                else
+                {
+                    client.CreateMonitoredItem(subscriptionId, namespaceIndex, identifierNode, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue);
+
+                }
                 await DisplayAlert("Info", "Monitored Item Created Successfully", "Ok");
 
                 ContentPage detailSubPage = new DetailSubscriptionPage(client, subscriptionId);
                 detailSubPage.Title = "OPC Subscription Details";
+                
                 await Navigation.PushAsync(detailSubPage);
+                Navigation.RemovePage(this);
             }
             catch(FormatException p)
             {
                 await DisplayAlert("Error", p.Message, "Ok");
             }
             catch (EmptyEntryException p)
+            {
+                await DisplayAlert("Error", p.Message, "Ok");
+            }
+            catch (NoNodeToReadException p)
             {
                 await DisplayAlert("Error", p.Message, "Ok");
             }

@@ -97,8 +97,9 @@ namespace OPC_UA_Client.Pages
               
                     ContentPage detailSubPage = new DetailSubscriptionPage(client, subView.SubscriptionID);
                     detailSubPage.Title = "OPC Subscription Details";
-                    await Navigation.PushAsync(detailSubPage);
                 
+                await Navigation.PushAsync(detailSubPage);
+                Navigation.RemovePage(this);
             }
             catch (EmptyEntryException p)
             {
