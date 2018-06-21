@@ -37,8 +37,10 @@ namespace OPC_UA_Client
         {
             Device.BeginInvokeOnMainThread(() =>
             {
-                LoadingIndicator.IsRunning = true;
-                LoadingIndicator.IsVisible = true;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.ShowLoading();
+                });
             });
            try
             {
@@ -55,7 +57,12 @@ namespace OPC_UA_Client
 
                 IsEnabled = false;
                 IsVisible = false;
-                LoadingIndicator.IsRunning = false;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
+
+
+                });
                 await DisplayAlert("Error", p.Message, "ok");
                 return;
 
@@ -64,26 +71,41 @@ namespace OPC_UA_Client
             {
                 IsEnabled = false;
                 IsVisible = false;
-                LoadingIndicator.IsRunning = false;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
+
+
+                });
                 await DisplayAlert("Error", "The Endpoint is not supported!", "ok");
                 return;
             }
             if (sessionView == null)
             {
 
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
 
+
+                });
                 IsEnabled = false;
                 IsVisible = false;
-                LoadingIndicator.IsRunning = false;
+              
                 await DisplayAlert("Error", "Cannot connect to an OPC UA Server", "OK");
             }
             else
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
 
+
+                });
 
                 IsEnabled = false;
                 IsVisible = false;
-                LoadingIndicator.IsRunning = false;
+               
                 await DisplayAlert("Info", "Session created successfully", "Ok");
                 ContentPage sessionPage = new SessionPage(client, sessionView, client.GetRootNode());
                 sessionPage.Title = "OPC Session Services";

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using OPC_UA_Client.Exceptions;
 using OPC_UA_Client.ViewModel;
 using Rg.Plugins.Popup;
@@ -56,16 +57,24 @@ namespace OPC_UA_Client
             string action = null;
             try
             {
-
+               
                 action = await DisplayActionSheet("Select authentication mode: ", "cancel", null, "Anonymous", "Username & Password");
-
+               
 
 
                 if (action.Equals("Anonymous"))
                 {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        UserDialogs.Instance.ShowLoading();
+
+
+                    });
+
                     try
                     {
                         sessionView = await client.CreateSessionChannelAsync(i);
+                       
                     }
                     catch (NotImplementedException)
                     {
@@ -84,6 +93,12 @@ namespace OPC_UA_Client
                     }
                     else
                     {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            UserDialogs.Instance.HideLoading();
+
+
+                        });
 
                         await DisplayAlert("Info", "Session created successfully!", "Ok");
                         ContentPage sessionPage = new SessionPage(client, sessionView,client.GetRootNode());
