@@ -8,15 +8,15 @@
             <StackLayout>
                 <StackLayout>
                     <Label Text="Node ID: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                     </Label>
                     <Entry x:Name="NodeID" 
-                   Placeholder="Node ID" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Node ID" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                     </Entry>
                     <Label Text="Node ID Type: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                     </Label>
-                    <Picker x:Name="TypeNodeIdPicker"  HorizontalOptions="FillAndExpand" TextColor="#2196f3">
+                    <Picker x:Name="TypeNodeIdPicker"  HorizontalOptions="FillAndExpand" TextColor="#757575">
                         <Picker.Items>
                             <x:String>Integer</x:String>
                             <x:String>String</x:String>
@@ -24,90 +24,92 @@
                         <Picker.SelectedIndex>0</Picker.SelectedIndex>
                     </Picker>
                     <Label Text="Node Namespace: "
-                   FontSize="Medium" TextColor="#2980b9">
+                   FontSize="Medium" TextColor="#212121">
                     </Label>
                     <Entry x:Name="NodeNamespace"
-                   Placeholder="Node Namespace" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Node Namespace" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                     </Entry>
 
                     <Label Text="Requested Sampling Interval: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                     </Label>
                     <Entry x:Name="RequestedSamplingInterval" Text="1000"
-                   Placeholder="Requested Sampling Interval" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Requested Sampling Interval" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                     </Entry>
                     <Label Text="Monitoring Mode: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                     </Label>
-                    <Picker x:Name="MonitoringModePicker"  HorizontalOptions="FillAndExpand" TextColor="#2196f3">
+                    <Picker x:Name="MonitoringModePicker"  HorizontalOptions="FillAndExpand" TextColor="#757575">
                         <Picker.Items>
                             <x:String>Disabled</x:String>
                             <x:String>Sampling</x:String>
-                            <x:String>Reporting</x:String>                                                       
+                            <x:String>Reporting</x:String>
                         </Picker.Items>
                         <Picker.SelectedIndex>2</Picker.SelectedIndex>
                     </Picker>
                     <Label Text="Queue Size: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                     </Label>
                     <Entry x:Name="QueueSize" 
-                  Text="4" Placeholder="Queue Size [Default: 4]" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                  Text="4" Placeholder="Queue Size [Default: 4]" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                     </Entry>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Discard Oldest: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                         </Label>
                         <Switch x:Name="DiscardOldest" IsToggled="True"></Switch>
                     </StackLayout>
                     <Button x:Name="FilterSettingsButton"
                 Text="Display Filter Settings"
                 Font="small"
-                HorizontalOptions="End"
+                HorizontalOptions="Start"
                 Clicked= "OnDisplayFilterSettings"
                 Margin="0,0,0,40"
-                BackgroundColor="#2196f3"
+                BackgroundColor="#FF9800"
                 TextColor="White"
                         />
                 </StackLayout>
-                <StackLayout x:Name="FilterForm" IsVisible="False" IsEnabled="False" Margin="0,0,40,40">
-                    <Label Text="Data Change Trigger: "
+                <StackLayout>
+                    <StackLayout x:Name="FilterForm" IsVisible="False" IsEnabled="False" Margin="0,0,40,40">
+                        <Label Text="Data Change Trigger: "
                    FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
-                    </Label>
-                    <Picker x:Name="TriggerPicker"  HorizontalOptions="FillAndExpand" TextColor="#2196f3">
-                        <Picker.Items>
-                            <x:String>Status</x:String>
-                            <x:String>StatusValue</x:String>
-                            <x:String>StatusValueTimestamp</x:String>
-                        </Picker.Items>
-                        <Picker.SelectedIndex>1</Picker.SelectedIndex>
-                    </Picker>
-                    <Label Text="Deadband Type: "
+                        </Label>
+                        <Picker x:Name="TriggerPicker"  HorizontalOptions="FillAndExpand" TextColor="#2196f3">
+                            <Picker.Items>
+                                <x:String>Status</x:String>
+                                <x:String>StatusValue</x:String>
+                                <x:String>StatusValueTimestamp</x:String>
+                            </Picker.Items>
+                            <Picker.SelectedIndex>1</Picker.SelectedIndex>
+                        </Picker>
+                        <Label Text="Deadband Type: "
                    FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
-                    </Label>
-                    <Picker x:Name="DeadbandTypePicker"  HorizontalOptions="FillAndExpand" TextColor="#2196f3">
-                        <Picker.Items>
-                            <x:String>None</x:String>
-                            <x:String>Absolute</x:String>
-                            <x:String>Percent</x:String>
-                        </Picker.Items>
-                        <Picker.SelectedIndex>1</Picker.SelectedIndex>
-                    </Picker>
-                    <Label Text="Deadband Value: "
+                        </Label>
+                        <Picker x:Name="DeadbandTypePicker"  HorizontalOptions="FillAndExpand" TextColor="#2196f3">
+                            <Picker.Items>
+                                <x:String>None</x:String>
+                                <x:String>Absolute</x:String>
+                                <x:String>Percent</x:String>
+                            </Picker.Items>
+                            <Picker.SelectedIndex>1</Picker.SelectedIndex>
+                        </Picker>
+                        <Label Text="Deadband Value: "
                    FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
-                    </Label>
-                    <Entry x:Name="DeadbandValue" Text="0,01" 
+                        </Label>
+                        <Entry x:Name="DeadbandValue" Text="0,01" 
                    Placeholder="Requested Sampling Interval [Default: 0,01]" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
-                    </Entry>
-                </StackLayout>
-                <Button x:Name="CreateMonitoredItemButton"
+                        </Entry>
+                    </StackLayout>
+                    <Button x:Name="CreateMonitoredItemButton"
                 Text="Create Monitored Item"
                 Font="small"
-                HorizontalOptions="End"
+                            
                 Clicked="OnCreateMonitoredItem"
                 Margin="0,0,0,40"
-                BackgroundColor="#2196f3"
+                BackgroundColor="#FF9800"
                 TextColor="White"
                         />
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
