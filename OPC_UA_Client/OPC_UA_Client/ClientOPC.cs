@@ -487,8 +487,8 @@ namespace OPC_UA_Client
              * i valori revised (PublishingInterval, KeepAliveCount, LifetimeCount) 
             */
             subscription.Create();
-            Console.WriteLine("PIPPO: il publishing interval è pari a: "+subscription.);
-            sub = new SubscriptionView(subscription.Id, subscription.PublishingInterval, subscription.LifetimeCount, subscription.KeepAliveCount, subscription.MaxNotificationsPerPublish, subscription.PublishingEnabled, subscription.Priority);
+            Console.WriteLine("PIPPO: il publishing interval è pari a: "+subscription.CurrentPublishingInterval);
+            sub = new SubscriptionView(subscription.Id, subscription.CurrentPublishingInterval, subscription.CurrentLifetimeCount, subscription.CurrentKeepAliveCount, subscription.MaxNotificationsPerPublish, subscription.PublishingEnabled, subscription.CurrentPriority);
 
             return sub;
         }
@@ -698,7 +698,7 @@ namespace OPC_UA_Client
         public SubscriptionView GetSubscriptionViewById(uint subscriptionId)
         {
             Subscription sub = GetSubscription(subscriptionId);
-            return new SubscriptionView(sub.Id, sub.PublishingInterval, sub.LifetimeCount, sub.KeepAliveCount, sub.MaxNotificationsPerPublish, sub.PublishingEnabled, sub.Priority);
+            return new SubscriptionView(sub.Id, sub.CurrentPublishingInterval, sub.CurrentLifetimeCount, sub.CurrentKeepAliveCount, sub.MaxNotificationsPerPublish, sub.CurrentPublishingEnabled, sub.CurrentPriority);
         }
 
         private void OnNotificationItem(MonitoredItem item, MonitoredItemNotificationEventArgs e)
