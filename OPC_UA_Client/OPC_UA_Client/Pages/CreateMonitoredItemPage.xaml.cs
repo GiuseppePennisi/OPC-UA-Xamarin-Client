@@ -52,5 +52,25 @@ namespace OPC_UA_Client.Pages
             detailSubPage.Title = "OPC Subscription Details";
             await Navigation.PushAsync(detailSubPage);
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            // Begin an asyncronous task on the UI thread because we intend to ask the users permission.
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                if (await DisplayAlert("Warning", "Do you want go back to Subscription Detail Page?", "Yes", "No"))
+                {
+                   
+
+                    base.OnBackButtonPressed();
+
+                    await Navigation.PopAsync();
+                }
+            });
+
+            // Always return true because this method is not asynchronous.
+            // We must handle the action ourselves: see above.
+            return true;
+        }
     }
 }
