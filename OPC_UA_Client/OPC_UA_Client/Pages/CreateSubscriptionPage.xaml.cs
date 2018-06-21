@@ -28,9 +28,9 @@ namespace OPC_UA_Client.Pages
           uint reqMaxKeepAliveCount = Convert.ToUInt32(RequestedMaxKeepAliveCount.Text);
           uint maxNotPerPublish= Convert.ToUInt32(MaxNotificationPerPublish.Text);
           byte priority = Convert.ToByte(Priority.Text);
-          bool pubEnabled = PublishingEnabled.IsToggled;
           
-            SubscriptionView subView = client.CreateSub(reqPubInterval, reqLifeTimeCount, reqMaxKeepAliveCount, maxNotPerPublish, pubEnabled, priority);
+          
+            SubscriptionView subView = client.CreateSub(reqPubInterval, reqLifeTimeCount, reqMaxKeepAliveCount, maxNotPerPublish, true, priority);
             if (subView.PublishingInterval != reqPubInterval || subView.KeepAliveCount != reqMaxKeepAliveCount || subView.LifeTimeCount != reqLifeTimeCount)
             {
                 createItem = await DisplayAlert("Info", "Subscription created successfully with revised parameters.\nDo you want to create a monitored item?", "yes", "no");

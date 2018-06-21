@@ -78,10 +78,10 @@ namespace OPC_UA_Client.Pages
                         break;
                 }
                 if (typeNodeId == 0)
-                    statusCodes = client.WriteVariable(id, nodeNameSpace, value, 13); /*13 = tipo enumerativo Attributes.Value*/
+                    statusCodes = client.WriteVariable(id, nodeNameSpace, value, 13); /*13 = tipo enumerativo Attributes.Value, Versione con uint*/
                 else
                 {
-                    statusCodes = client.WriteVariable(nodeID, nodeNameSpace, value, 13); /*13 = tipo enumerativo Attributes.Value*/
+                    statusCodes = client.WriteVariable(nodeID, nodeNameSpace, value, 13); /*13 = tipo enumerativo Attributes.Value, Versione con string*/
 
                 }
                 foreach (var s in statusCodes)

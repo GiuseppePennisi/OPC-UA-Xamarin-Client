@@ -7,50 +7,46 @@
         <ScrollView>
             <StackLayout>
                 <Label Text="Requested Publishing Interval: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                 </Label>
                 <Entry x:Name="RequestedPublishingInterval" Text="1000" 
-                   Placeholder="Requested Publishing Interval" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Requested Publishing Interval" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                 </Entry>
                 <Label Text="Requested Lifetime Count: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                 </Label>
                 <Entry x:Name="RequestedLifetimeCount"  Text="40"
-                   Placeholder="Requested Lifetime Count" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Requested Lifetime Count" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                 </Entry>
 
                 <Label Text="Requested Max Keep Alive Count: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                 </Label>
                 <Entry x:Name="RequestedMaxKeepAliveCount" Text="5"
-                   Placeholder="Requested Max Keep Alive Count" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Requested Max Keep Alive Count" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                 </Entry>
 
                 <Label Text="Max notification per publish: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                 </Label>
                 <Entry x:Name="MaxNotificationPerPublish" Text="0"
-                   Placeholder="Max notification per publish" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Max notification per publish" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                 </Entry>
 
                 <Label Text="Priority: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
+                   FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
                 </Label>
                 <Entry x:Name="Priority" Text="0"
-                   Placeholder="Priority" TextColor="#2196f3" FontSize="Small" PlaceholderColor="#B3E5FC">
+                   Placeholder="Priority" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                 </Entry>
 
-                <Label Text="Publishing Enabled: "
-                   FontSize="Medium" TextColor="#2980b9" Margin="0,10,0,0">
-                </Label>
-                <Switch x:Name="PublishingEnabled" IsToggled="False"></Switch>
                 <Button x:Name="CreateSubscriptionButton"
                 Text="Create Subscription"
                 Font="small"
                 HorizontalOptions="End"
                 Clicked="OnCreateSubscription"
                 Margin="0,40,0,0"
-                BackgroundColor="#2196f3"
+                BackgroundColor="#FF9800"
                 TextColor="White"
                         />
             </StackLayout>
