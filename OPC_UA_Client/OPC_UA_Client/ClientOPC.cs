@@ -191,7 +191,7 @@ namespace OPC_UA_Client
         {
             NodeId node = new NodeId(identifier, namespaceIndex);
             List<NodeView> nodesRead = new List<NodeView>();
-
+            string reset = "--/--/---- --:--:--";
             DataValueCollection results = null;
             DiagnosticInfoCollection diagnosticInfos = null;
             ReadValueId nodeToRead = new ReadValueId
@@ -228,7 +228,26 @@ namespace OPC_UA_Client
                 foreach (DataValue result in results)
                 {
 
-                    nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), result.SourceTimestamp.ToString(), result.ServerTimestamp.ToString()));
+                    switch (timestamp)
+                    {
+                        case 0:
+
+                            nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), result.SourceTimestamp.ToString(), reset));
+
+                            break;
+                        case 1:
+                            nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), reset, result.ServerTimestamp.ToString()));
+
+                            break;
+                        case 2:
+                            nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), result.SourceTimestamp.ToString(), result.ServerTimestamp.ToString()));
+
+                            break;
+                        case 3:
+                            nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), reset, reset));
+
+                            break;
+                    }
                 }
             }
             catch (NullReferenceException p)
@@ -295,11 +314,11 @@ namespace OPC_UA_Client
                             break;
                         case 2:
                             nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), result.SourceTimestamp.ToString(), result.ServerTimestamp.ToString()));
-                            t = TimestampsToReturn.Both;
+                           
                             break;
                         case 3:
                             nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), reset, reset));
-                            t = TimestampsToReturn.Neither;
+                           
                             break;
                     }
 
