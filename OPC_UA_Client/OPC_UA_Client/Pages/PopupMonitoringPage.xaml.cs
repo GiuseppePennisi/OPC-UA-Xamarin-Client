@@ -23,7 +23,7 @@ namespace OPC_UA_Client.Pages
         string message;
         public  PopupMonitoringPage (ClientOPC _client, uint clientHandle)
 		{
-           
+            CloseWhenBackgroundIsClicked = true;
             CHandle = clientHandle;
             client = _client;
              message = "update: " + CHandle;
@@ -56,7 +56,7 @@ namespace OPC_UA_Client.Pages
             {
                 MessagingCenter.Unsubscribe<ClientOPC, DataChangeView>(this,message);
                     await Navigation.PopAsync();
-                
+                 Navigation.RemovePage(this);
             });
 
             // Always return true because this method is not asynchronous.
@@ -64,10 +64,20 @@ namespace OPC_UA_Client.Pages
             return true;
         }
 
+        private void CloseMonitoring(object sender, EventArgs e)
+        {
+            // Begin an asyncronous task on the UI thread because we intend to ask the users permission.
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                MessagingCenter.Unsubscribe<ClientOPC, DataChangeView>(this, message);
+                await Navigation.PopAsync();
+                Navigation.RemovePage(this);
+            });
 
-
-
-
+            // Always return true because this method is not asynchronous.
+            // We must handle the action ourselves: see above.
+            return;
+        }
     }
     }
 

@@ -66,7 +66,7 @@ namespace OPC_UA_Client.Pages
             monPage.Title = "Create Monitored Item Section";
            
             await Navigation.PushAsync(monPage);
-            Navigation.RemovePage(this);
+            
         }
 
         protected override bool OnBackButtonPressed()
@@ -81,7 +81,7 @@ namespace OPC_UA_Client.Pages
                     base.OnBackButtonPressed();
                   
                     await Navigation.PopAsync();
-                    
+                    Navigation.RemovePage(this);
                 }
             });
 

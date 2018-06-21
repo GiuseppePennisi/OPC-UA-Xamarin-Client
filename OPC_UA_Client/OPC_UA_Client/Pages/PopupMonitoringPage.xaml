@@ -4,12 +4,40 @@
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              x:Class="OPC_UA_Client.Pages.PopupMonitoringPage"
              NavigationPage.HasBackButton="False">
-    <StackLayout >
-        <Label x:Name="ClientHandleEntry" ></Label>
-        <Label x:Name="SourceTimeEntry"></Label>
-        <Label x:Name="ServerTimeEntry"></Label>
-        <Label x:Name="StatusCodeEntry"></Label>
-        <Label x:Name="ValueEntry" FontSize="Large" ></Label>
-    </StackLayout>
-    
+    <AbsoluteLayout >
+        <Frame x:Name="FrameContainer" Margin="10,0,0,0"  BackgroundColor="White"  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" OutlineColor="#FF9800">
+           
+            <StackLayout>
+                <Label Text="Monitoring Details" Font="Bold,22"></Label>
+                <StackLayout Orientation="Horizontal">
+                    <Label FontSize="Medium" Text="Client Handle:" TextColor="#212121"></Label>
+                    <Label  FontSize="Medium" x:Name="ClientHandleEntry" TextColor="#757575"></Label>
+                </StackLayout>
+              
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                    <Label FontSize="Medium" Text="Source Timestamp: " TextColor="#212121" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label FontSize="Medium" x:Name="SourceTimeEntry" TextColor="#757575" HorizontalOptions="CenterAndExpand"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" >
+                    <Label FontSize="Medium" Text="Server Timestamp: " TextColor="#212121"></Label>
+                    <Label FontSize="Medium" x:Name="ServerTimeEntry" TextColor="#757575"></Label>
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal">
+
+                    <Label FontSize="Medium" Text="Status Code: " TextColor="#212121"></Label>
+                    <Label FontSize="Medium" x:Name="StatusCodeEntry" TextColor="#757575"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+
+                    <Label FontSize="Medium" Text="Value: " TextColor="#212121"></Label>
+                    <Label FontSize="Medium" x:Name="ValueEntry" TextColor="#757575" ></Label>
+                </StackLayout>
+                <Button Text="Close" Clicked="CloseMonitoring" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
+            </StackLayout>
+             
+        </Frame>
+       
+    </AbsoluteLayout>
+
 </pages:PopupPage>

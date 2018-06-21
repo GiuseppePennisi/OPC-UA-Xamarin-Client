@@ -22,7 +22,7 @@ namespace OPC_UA_Client.Pages
 
         private async void OnCreateSubscription(object sender, EventArgs e)
         {
-            bool createItem;
+            
             Double reqPubInterval;
             uint reqLifeTimeCount;
             uint reqMaxKeepAliveCount;
@@ -111,5 +111,8 @@ namespace OPC_UA_Client.Pages
                 await DisplayAlert("Error", p.Message, "Ok");
             }
         }
+
+
+
     }
 }

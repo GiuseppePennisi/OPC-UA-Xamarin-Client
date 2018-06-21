@@ -78,6 +78,7 @@ namespace OPC_UA_Client
                     }
                     catch (NotImplementedException)
                     {
+                        
                         Device.BeginInvokeOnMainThread(() =>
                         {
                             UserDialogs.Instance.HideLoading();
@@ -89,12 +90,15 @@ namespace OPC_UA_Client
                     }
                     catch (UnsupportedEndpointException p)
                     {
+                       
                         Device.BeginInvokeOnMainThread(() =>
                         {
                             UserDialogs.Instance.HideLoading();
 
 
                         });
+
+
                         await DisplayAlert("Error", p.Message, "ok");
                         return;
                     }

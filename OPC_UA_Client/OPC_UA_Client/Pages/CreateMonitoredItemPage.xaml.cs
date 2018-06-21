@@ -121,10 +121,11 @@ namespace OPC_UA_Client.Pages
                 }
                 await DisplayAlert("Info", "Monitored Item Created Successfully", "Ok");
 
-                ContentPage detailSubPage = new DetailSubscriptionPage(client, subscriptionId);
-                detailSubPage.Title = "OPC Subscription Details";
+                ContentPage detailSubPage1 = new DetailSubscriptionPage(client, subscriptionId);
+                detailSubPage1.Title = "OPC Subscription Details";
+                Navigation.RemovePage(Navigation.NavigationStack[this.Navigation.NavigationStack.Count - 2]);
+                await Navigation.PushAsync(detailSubPage1);
                 
-                await Navigation.PushAsync(detailSubPage);
                 Navigation.RemovePage(this);
             }
             catch(FormatException p)
@@ -153,6 +154,7 @@ namespace OPC_UA_Client.Pages
                     base.OnBackButtonPressed();
 
                     await Navigation.PopAsync();
+                    Navigation.RemovePage(this);
                 }
             });
 

@@ -6,8 +6,8 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" VerticalOptions="Center">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Label Text="Subscription ID: " FontSize="Large" TextColor="#212121" />
-                <Label x:Name="subscriptionIdentifier" FontSize="Large" TextColor="#212121"/>
+                <Label Text="Subscription ID: " Font="Bold,22" TextColor="#212121" />
+                <Label x:Name="subscriptionIdentifier" Font="Bold,22" TextColor="#212121"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Label Text="Publish Interval: " FontSize="Medium" TextColor="#212121" />
@@ -35,14 +35,14 @@
                 <Button x:Name="CreateMonitoredItem"
                 Text="Create Monitored Item"
                 Font="small"
-                HorizontalOptions="End"
+                HorizontalOptions="Start"
                 Clicked="NewMonitoredItem"
                 Margin="0,40,0,0"
                 BackgroundColor="#FF9800"
                 TextColor="White"
                         />
             </StackLayout>
-
+            <BoxView BackgroundColor="#FF9800" WidthRequest="5"></BoxView>
             <ListView x:Name="MonitoredItemsDisplay" HasUnevenRows="True"
             SelectedItem="Mode=Twoway"
             ItemTapped="OnSelectedItem" >
@@ -53,32 +53,32 @@
                                 <StackLayout Orientation="Horizontal" >
                                     <StackLayout Orientation="Vertical" Margin="10,10" >
                                         <StackLayout Orientation="Horizontal" Margin="120,0,0,0" >
-                                            <Label Text="Client Handle: "  TextColor="#1565C0" Font="Bold,22"  ></Label>
-                                            <Label x:Name="ClientHandle" Text="{Binding clientHandle}"  TextColor="#1565C0" Font="Bold,22" ></Label>
+                                            <Label Text="Client Handle: "  TextColor="#212121" Font="Bold,22"  ></Label>
+                                            <Label x:Name="ClientHandle" Text="{Binding clientHandle}"  TextColor="#212121" Font="Bold,22" ></Label>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="Namespace Index: " FontSize="Medium" TextColor="#2980b9" />
-                                            <Label Text="{Binding namespaceIndex}" FontSize="Medium" TextColor="#2196f3"/>
+                                            <Label Text="Namespace Index: " FontSize="Medium" TextColor="#212121" />
+                                            <Label Text="{Binding namespaceIndex}" FontSize="Medium" TextColor="#757575"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="Node Identifier: " FontSize="Medium" TextColor="#2980b9"/>
-                                            <Label Text="{Binding identifier}" FontSize="Medium" TextColor="#2196f3"/>
+                                            <Label Text="Node Identifier: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding identifier}" FontSize="Medium" TextColor="#757575"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="Sampling Interval: " FontSize="Medium" TextColor="#2980b9"/>
-                                            <Label Text="{Binding samplingInterval}" FontSize="Medium" TextColor="#2196f3"/>
+                                            <Label Text="Sampling Interval: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding samplingInterval}" FontSize="Medium" TextColor="#757575"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="Filter Trigger: " FontSize="Medium" TextColor="#2980b9"/>
-                                            <Label Text="{Binding filterTrigger}" FontSize="Medium" TextColor="#2196f3"/>
+                                            <Label Text="Filter Trigger: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding filterTrigger}" FontSize="Medium" TextColor="#757575"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="Deadband Type: " FontSize="Medium" TextColor="#2980b9"/>
-                                            <Label Text="{Binding deadbandType}" FontSize="Medium" TextColor="#2196f3"/>
+                                            <Label Text="Deadband Type: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding deadbandType}" FontSize="Medium" TextColor="#757575"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="Deadband Value: " FontSize="Medium" TextColor="#2980b9"/>
-                                            <Label Text="{Binding deadbandValue}" FontSize="Medium" TextColor="#2196f3"/>
+                                            <Label Text="Deadband Value: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding deadbandValue}" FontSize="Medium" TextColor="#757575"/>
                                         </StackLayout>
                                     </StackLayout>
                                 </StackLayout>
