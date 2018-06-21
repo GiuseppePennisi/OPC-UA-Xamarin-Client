@@ -78,16 +78,34 @@ namespace OPC_UA_Client
                     }
                     catch (NotImplementedException)
                     {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            UserDialogs.Instance.HideLoading();
+
+
+                        });
                         await DisplayAlert("Error", "The Endpoint is not supported!", "ok");
                         return;
                     }
                     catch (UnsupportedEndpointException p)
                     {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            UserDialogs.Instance.HideLoading();
+
+
+                        });
                         await DisplayAlert("Error", p.Message, "ok");
                         return;
                     }
                     if (sessionView == null)
                     {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            UserDialogs.Instance.HideLoading();
+
+
+                        });
                         await DisplayAlert("Error", "Cannot connect to an OPC UA Server!", "OK");
 
                     }

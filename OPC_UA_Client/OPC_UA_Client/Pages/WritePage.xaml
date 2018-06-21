@@ -49,7 +49,7 @@
             <Button x:Name="WriteButton"
                 Text="Write"
                 Font="small"
-                HorizontalOptions="End"
+                HorizontalOptions="Center"
                 Clicked="OnWrite"
                 Margin="0,40,0,0"
                 BackgroundColor="#FF9800"

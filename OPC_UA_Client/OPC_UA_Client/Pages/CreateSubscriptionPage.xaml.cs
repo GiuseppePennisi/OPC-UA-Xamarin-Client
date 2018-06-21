@@ -10,44 +10,111 @@ using Xamarin.Forms.Xaml;
 
 namespace OPC_UA_Client.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CreateSubscriptionPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class CreateSubscriptionPage : ContentPage
+    {
         ClientOPC client;
-		public CreateSubscriptionPage (ClientOPC _client)
-		{
+        public CreateSubscriptionPage(ClientOPC _client)
+        {
             client = _client;
-			InitializeComponent ();
-		}
+            InitializeComponent();
+        }
 
         private async void OnCreateSubscription(object sender, EventArgs e)
         {
-          bool createItem;
-          Double reqPubInterval = Convert.ToDouble(RequestedPublishingInterval.Text);
-          uint reqLifeTimeCount = Convert.ToUInt32(RequestedLifetimeCount.Text);
-          uint reqMaxKeepAliveCount = Convert.ToUInt32(RequestedMaxKeepAliveCount.Text);
-          uint maxNotPerPublish= Convert.ToUInt32(MaxNotificationPerPublish.Text);
-          byte priority = Convert.ToByte(Priority.Text);
-          
-          
-            SubscriptionView subView = client.CreateSub(reqPubInterval, reqLifeTimeCount, reqMaxKeepAliveCount, maxNotPerPublish, true, priority);
-            if (subView.PublishingInterval != reqPubInterval || subView.KeepAliveCount != reqMaxKeepAliveCount || subView.LifeTimeCount != reqLifeTimeCount)
+            bool createItem;
+            Double reqPubInterval;
+            uint reqLifeTimeCount;
+            uint reqMaxKeepAliveCount;
+            uint maxNotPerPublish;
+            byte priority;
+            try
             {
-                createItem = await DisplayAlert("Info", "Subscription created successfully with revised parameters.\nDo you want to create a monitored item?", "yes", "no");
+                if (string.IsNullOrWhiteSpace(RequestedPublishingInterval.Text))
+                    throw new EmptyEntryException("Empty Requested Publish Interval Entry!");
+                try
+                {
+                    reqPubInterval = Convert.ToDouble(RequestedPublishingInterval.Text);
+                }
+                catch(FormatException p)
+                {
+                    throw new FormatException("Request Publish Format not valid!", p);
+                }
+
+                if (string.IsNullOrWhiteSpace(RequestedLifetimeCount.Text))
+                    throw new EmptyEntryException("Empty Request Lifetime Count Empty!");
+                try
+                {
+                     reqLifeTimeCount = Convert.ToUInt32(RequestedLifetimeCount.Text);
+                }
+                catch(FormatException p)
+                {
+                    throw new FormatException("Request Lifetime Count Format not valid!",p);
+                }
+
+                if (string.IsNullOrWhiteSpace(RequestedMaxKeepAliveCount.Text))
+                    throw new EmptyEntryException("Empty Request Max Keep Alive Count Entry!");
+                try
+                {
+                    reqMaxKeepAliveCount = Convert.ToUInt32(RequestedMaxKeepAliveCount.Text);
+
+                }
+                catch(FormatException p)
+                {
+                    throw new FormatException("Request Max Keep Alive Count Format non valid!", p);
+                }
+
+                if (string.IsNullOrWhiteSpace(MaxNotificationPerPublish.Text))
+                    throw new EmptyEntryException("Empty Max Notification Per Publish Entry !");
+                try { 
+                 maxNotPerPublish = Convert.ToUInt32(MaxNotificationPerPublish.Text);
+                }
+                catch (FormatException p)
+                {
+                    throw new FormatException("Max Notification Per Publish Format not valid!", p);
+                }
+
+                if (string.IsNullOrWhiteSpace(Priority.Text))
+                    throw new EmptyEntryException("Empty Priority Entry!");
+                try
+                {
+                     priority = Convert.ToByte(Priority.Text);
+                }
+                catch(FormatException p)
+                {
+                    throw new FormatException("Priority Format not valid!", p);
+                }
+
+                SubscriptionView subView = client.CreateSub(reqPubInterval, reqLifeTimeCount, reqMaxKeepAliveCount, maxNotPerPublish, true, priority);
+                if (subView.PublishingInterval != reqPubInterval || subView.KeepAliveCount != reqMaxKeepAliveCount || subView.LifeTimeCount != reqLifeTimeCount)
+                {
+                    createItem = await DisplayAlert("Info", "Subscription created successfully with revised parameters.\nDo you want to create a monitored item?", "yes", "no");
+                }
+                else
+                {
+                    createItem = await DisplayAlert("Info", "Subscription created successfully with requested parameters.\nDo you want to create a monitored item?", "yes", "no");
+                }
+                if (createItem)
+                {
+                    ContentPage monPage = new CreateMonitoredItemPage(client, subView.SubscriptionID);
+                    monPage.Title = "Create Monitored Item Section";
+                    await Navigation.PushAsync(monPage);
+                }
+                else
+                {
+                    ContentPage detailSubPage = new DetailSubscriptionPage(client, subView.SubscriptionID);
+                    detailSubPage.Title = "OPC Subscription Details";
+                    await Navigation.PushAsync(detailSubPage);
+                }
             }
-            else {
-                createItem = await DisplayAlert("Info", "Subscription created successfully with requested parameters.\nDo you want to create a monitored item?", "yes", "no");
-            }
-            if (createItem)
+            catch (EmptyEntryException p)
             {
-                ContentPage monPage = new CreateMonitoredItemPage(client,subView.SubscriptionID);
-                monPage.Title = "Create Monitored Item Section";
-                await Navigation.PushAsync(monPage);
+                await DisplayAlert("Error", p.Message, "Ok");
             }
-            else {
-                ContentPage detailSubPage = new DetailSubscriptionPage(client, subView.SubscriptionID);
-                detailSubPage.Title = "OPC Subscription Details";
-                await Navigation.PushAsync(detailSubPage);
+            catch (FormatException p)
+            {
+
+                await DisplayAlert("Error", p.Message, "Ok");
             }
         }
     }

@@ -487,7 +487,7 @@ namespace OPC_UA_Client
              * i valori revised (PublishingInterval, KeepAliveCount, LifetimeCount) 
             */
             subscription.Create();
-
+            Console.WriteLine("PIPPO: il publishing interval è pari a: "+subscription.);
             sub = new SubscriptionView(subscription.Id, subscription.PublishingInterval, subscription.LifetimeCount, subscription.KeepAliveCount, subscription.MaxNotificationsPerPublish, subscription.PublishingEnabled, subscription.Priority);
 
             return sub;
