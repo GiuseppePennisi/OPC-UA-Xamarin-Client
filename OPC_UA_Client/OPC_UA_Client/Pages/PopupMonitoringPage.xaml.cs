@@ -1,4 +1,7 @@
 ﻿using OPC_UA_Client.ViewModel;
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.Xamarin.Forms;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -21,26 +24,38 @@ namespace OPC_UA_Client.Pages
         public uint CHandle;
         public DataChangeView v;
         string message;
+       
+        
         public  PopupMonitoringPage (ClientOPC _client, uint clientHandle)
 		{
+
+
+          
+            
             CloseWhenBackgroundIsClicked = true;
             CHandle = clientHandle;
             client = _client;
-             message = "update: " + CHandle;
-            //devi verificare che il client Handle sia uguale a quello che passi con a sub e la send 
-            MessagingCenter.Subscribe<ClientOPC,DataChangeView>(this,message,(client,view)=> {
-                Console.WriteLine("IL CHANDLE DELLA VIEW è: "+ view.ClientHandle);
-                Console.WriteLine("IL CHANDLE ATTUALE è: " +CHandle);
+            message = "update: " + CHandle;
+       
+
+        //devi verificare che il client Handle sia uguale a quello che passi con a sub e la send 
+
+
+
+
+        MessagingCenter.Subscribe<ClientOPC,DataChangeView>(this,message,(client,view)=> {
+               
                 
                 Device.BeginInvokeOnMainThread(() => {
-                Console.WriteLine("IL mio client Handle è : "+view.ClientHandle.ToString());
                 
                 ClientHandleEntry.Text = view.ClientHandle.ToString();
                 SourceTimeEntry.Text = view.SourceTimestamp.ToString();
-              //  ServerTimeEntry.Text = view.ServerTimestamp.ToString();
+              //ServerTimeEntry.Text = view.ServerTimestamp.ToString();
                 StatusCodeEntry.Text = view.StatusCode.ToString();
                 ValueEntry.Text = view.Value.ToString();
-            
+                    
+                
+                 
                 });
                 
             });
@@ -78,6 +93,16 @@ namespace OPC_UA_Client.Pages
             // We must handle the action ourselves: see above.
             return;
         }
+
+       
+
+        private async Task GoToGraph(object sender, EventArgs e)
+        {
+            var _GraphPage = new GraphPage(client,message);
+            await Navigation.PushAsync(_GraphPage);
+        }
+
+       
     }
     }
 

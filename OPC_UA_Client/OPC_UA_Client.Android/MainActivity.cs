@@ -30,9 +30,10 @@ namespace OPC_UA_Client.Droid
             base.OnCreate(bundle);
             UserDialogs.Init(this);
             global::Xamarin.Forms.Forms.Init(this, bundle);
-          
+            OxyPlot.Xamarin.Forms.Platform.Android.PlotViewRenderer.Init();
 
-                LoadApplication(new App());
+
+            LoadApplication(new App());
 
            
         }

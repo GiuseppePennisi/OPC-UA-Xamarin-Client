@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              x:Class="OPC_UA_Client.Pages.PopupMonitoringPage"
+                 xmlns:oxy="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms"
              NavigationPage.HasBackButton="False">
     <AbsoluteLayout >
         <Frame x:Name="FrameContainer" Margin="10,0,0,0"  BackgroundColor="White"  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" OutlineColor="#FF9800">
@@ -22,8 +23,7 @@
                     <Label FontSize="Medium" Text="Server Timestamp: " TextColor="#212121"></Label>
                     <Label FontSize="Medium" x:Name="ServerTimeEntry" TextColor="#757575"></Label>
                 </StackLayout>
-                
-                <StackLayout Orientation="Horizontal">
+               <StackLayout Orientation="Horizontal">
 
                     <Label FontSize="Medium" Text="Status Code: " TextColor="#212121"></Label>
                     <Label FontSize="Medium" x:Name="StatusCodeEntry" TextColor="#757575"></Label>
@@ -34,8 +34,11 @@
                     <Label FontSize="Medium" x:Name="ValueEntry" TextColor="#757575" ></Label>
                 </StackLayout>
                 <Button Text="Close" Clicked="CloseMonitoring" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
+                <Button Text="Graph" Clicked="GoToGraph" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
+               
+
             </StackLayout>
-             
+            
         </Frame>
        
     </AbsoluteLayout>
