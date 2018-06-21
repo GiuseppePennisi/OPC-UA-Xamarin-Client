@@ -77,8 +77,12 @@ namespace OPC_UA_Client.Pages
                     client.CloseSubscription(subscriptionId);
 
                     base.OnBackButtonPressed();
-
+                    for (var counter = 1; counter < 2; counter++)
+                    {
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                    }
                     await Navigation.PopAsync();
+                    
                 }
             });
 
