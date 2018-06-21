@@ -909,7 +909,11 @@ namespace OPC_UA_Client
             }
         }
 
-
+        public bool CloseSubscription(uint subscriptionId)
+        {
+            Subscription sub = GetSubscription(subscriptionId);
+            return(session.RemoveSubscription(sub));
+        }
 
     }
 
