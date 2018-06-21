@@ -88,24 +88,17 @@ namespace OPC_UA_Client.Pages
                 SubscriptionView subView = client.CreateSub(reqPubInterval, reqLifeTimeCount, reqMaxKeepAliveCount, maxNotPerPublish, true, priority);
                 if (subView.PublishingInterval != reqPubInterval || subView.KeepAliveCount != reqMaxKeepAliveCount || subView.LifeTimeCount != reqLifeTimeCount)
                 {
-                    createItem = await DisplayAlert("Info", "Subscription created successfully with revised parameters.\nDo you want to create a monitored item?", "yes", "no");
+                     await DisplayAlert("Info", "Subscription created successfully with revised parameters.", "ok");
                 }
                 else
                 {
-                    createItem = await DisplayAlert("Info", "Subscription created successfully with requested parameters.\nDo you want to create a monitored item?", "yes", "no");
+                    await DisplayAlert("Info", "Subscription created successfully with requested parameters.", "ok");
                 }
-                if (createItem)
-                {
-                    ContentPage monPage = new CreateMonitoredItemPage(client, subView.SubscriptionID);
-                    monPage.Title = "Create Monitored Item Section";
-                    await Navigation.PushAsync(monPage);
-                }
-                else
-                {
+              
                     ContentPage detailSubPage = new DetailSubscriptionPage(client, subView.SubscriptionID);
                     detailSubPage.Title = "OPC Subscription Details";
                     await Navigation.PushAsync(detailSubPage);
-                }
+                
             }
             catch (EmptyEntryException p)
             {
