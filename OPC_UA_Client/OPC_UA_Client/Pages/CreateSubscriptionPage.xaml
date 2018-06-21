@@ -43,7 +43,7 @@
                 <Button x:Name="CreateSubscriptionButton"
                 Text="Create Subscription"
                 Font="small"
-                HorizontalOptions="End"
+                HorizontalOptions="Center"
                 Clicked="OnCreateSubscription"
                 Margin="0,40,0,0"
                 BackgroundColor="#FF9800"

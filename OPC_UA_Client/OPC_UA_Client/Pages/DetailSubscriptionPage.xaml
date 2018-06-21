@@ -6,32 +6,41 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" VerticalOptions="Center">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Label Text="Subscription ID: " FontSize="Large" TextColor="#1565C0" />
-                <Label x:Name="subscriptionIdentifier" FontSize="Large" TextColor="#1565C0"/>
+                <Label Text="Subscription ID: " FontSize="Large" TextColor="#212121" />
+                <Label x:Name="subscriptionIdentifier" FontSize="Large" TextColor="#212121"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="Publish Interval: " FontSize="Medium" TextColor="#2980b9" />
-                <Label x:Name="publishInterval" FontSize="Medium" TextColor="#2196f3"/>
+                <Label Text="Publish Interval: " FontSize="Medium" TextColor="#212121" />
+                <Label x:Name="publishInterval" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="Lifetime Count: " FontSize="Medium" TextColor="#2980b9" />
-                <Label x:Name="lifetimeCount" FontSize="Medium" TextColor="#2196f3"/>
+                <Label Text="Lifetime Count: " FontSize="Medium" TextColor="#212121" />
+                <Label x:Name="lifetimeCount" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="Keep Alive Count" FontSize="Medium" TextColor="#2980b9" />
-                <Label x:Name="keepAliveCount" FontSize="Medium" TextColor="#2196f3"/>
+                <Label Text="Keep Alive Count" FontSize="Medium" TextColor="#212121" />
+                <Label x:Name="keepAliveCount" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="Max Notifications Per Publish: " FontSize="Medium" TextColor="#2980b9" />
-                <Label x:Name="maxNotifications" FontSize="Medium" TextColor="#2196f3"/>
+                <Label Text="Max Notifications Per Publish: " FontSize="Medium" TextColor="#212121" />
+                <Label x:Name="maxNotifications" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="Priority: " FontSize="Medium" TextColor="#2980b9" />
-                <Label x:Name="priority" FontSize="Medium" TextColor="#2196f3"/>
+                <Label Text="Priority: " FontSize="Medium" TextColor="#212121" />
+                <Label x:Name="priority" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="Publishing Enabled: " FontSize="Medium" TextColor="#2980b9" />
-                <Label x:Name="publishingEnabled" FontSize="Medium" TextColor="#2196f3"/>
+                <Label Text="Publishing Enabled: " FontSize="Medium" TextColor="#212121" />
+                <Label x:Name="publishingEnabled" FontSize="Medium" TextColor="#757575"/>
+                <Button x:Name="CreateMonitoredItem"
+                Text="Create Monitored Item"
+                Font="small"
+                HorizontalOptions="End"
+                Clicked="NewMonitoredItem"
+                Margin="0,40,0,0"
+                BackgroundColor="#FF9800"
+                TextColor="White"
+                        />
             </StackLayout>
 
             <ListView x:Name="MonitoredItemsDisplay" HasUnevenRows="True"

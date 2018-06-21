@@ -59,5 +59,12 @@ namespace OPC_UA_Client.Pages
             var _monitorPopup = new PopupMonitoringPage(client, selected.clientHandle);
             await Navigation.PushAsync(_monitorPopup);
         }
+
+        private async void NewMonitoredItem(object sender, EventArgs e)
+        {
+            ContentPage monPage = new CreateMonitoredItemPage(client, subscriptionId);
+            monPage.Title = "Create Monitored Item Section";
+            await Navigation.PushAsync(monPage);
+        }
     }
 }
