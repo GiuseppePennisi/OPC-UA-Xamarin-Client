@@ -57,6 +57,7 @@ namespace OPC_UA_Client.Pages
             MonitoredItemView selected = e.Item as MonitoredItemView;
             Console.WriteLine("Client handle Detail sub: " + selected.clientHandle);
             var _monitorPopup = new PopupMonitoringPage(client, selected.clientHandle);
+            _monitorPopup.Title = "Item Monitoring Service";
             await Navigation.PushAsync(_monitorPopup);
         }
 

@@ -1,4 +1,5 @@
 ﻿
+using Acr.UserDialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,13 @@ namespace OPC_UA_Client
             if (endpointUrl != null)
             {
                 bool connectToServer = true;
-                ConnectIndicator.IsRunning = true;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        UserDialogs.Instance.ShowLoading();
+                    });
+                });
                 ConnectButton.IsEnabled = false;
                 ListEndpoint results;
                 await Task.Run(() =>OpcClient.CreateCertificate());
@@ -49,21 +56,30 @@ namespace OPC_UA_Client
                     if (results == null)
                     {
 
-                        ConnectIndicator.IsRunning = false;
-                        ConnectButton.IsEnabled = true;
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                UserDialogs.Instance.HideLoading();
+                            });
+                            ConnectButton.IsEnabled = true;
                         await DisplayAlert("Error", "The URI Format is invalid!", "Ok");
                         return;
 
                     }
                     ContentPage listEndpointRoot = new EndpointsPage(results, OpcClient);
                     listEndpointRoot.Title = "Endpoints";
-                    ConnectIndicator.IsRunning = false;
-                    ConnectButton.IsEnabled = true;
+                    Device.BeginInvokeOnMainThread(() =>
+                        {
+                            UserDialogs.Instance.HideLoading();
+                        });
+                        ConnectButton.IsEnabled = true;
                     await Navigation.PushAsync(listEndpointRoot);
                 }
                     catch (BadConnectException p)
                     {
-                        ConnectIndicator.IsRunning = false;
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            UserDialogs.Instance.HideLoading();
+                        });
                         ConnectButton.IsEnabled = true;
                         await DisplayAlert("Error", p.Message, "Ok");
                         return;
@@ -71,7 +87,10 @@ namespace OPC_UA_Client
                     }
                 }
                 else {
-                    ConnectIndicator.IsRunning = false;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        UserDialogs.Instance.HideLoading();
+                    });
                     await DisplayAlert("Warning", "Cannot connect to an OPC UA server!", "Ok");
                 }
 

@@ -12,7 +12,7 @@
         <Entry x:Name="EntryUrl"
                    Placeholder="endpointURL" PlaceholderColor="#BDBDBD" TextColor="#757575">
         </Entry>
-        <Button x:Name="ConnectButton"
+            <Button x:Name="ConnectButton"
                 Text="Connect"
                 Font="small"
                 HorizontalOptions="End"
@@ -22,14 +22,10 @@
                 BackgroundColor="#FF9800"
                 TextColor="White"
                 >
-            
-        </Button>
-            
-        <ActivityIndicator x:Name="ConnectIndicator" 
-                IsRunning="False"
-                Color="#FF9800"/>
 
-        <Label x:Name="label" 
+            </Button>
+
+            <Label x:Name="label" 
                    Text="{Binding LabelText, Mode=TwoWay}"
                 FontSize="Medium"
                    FontAttributes="None"
