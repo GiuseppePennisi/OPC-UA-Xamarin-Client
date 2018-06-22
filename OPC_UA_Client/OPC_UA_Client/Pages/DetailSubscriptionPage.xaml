@@ -32,6 +32,8 @@
             <StackLayout Orientation="Horizontal">
                 <Label Text="Publishing Enabled: " FontSize="Medium" TextColor="#212121" />
                 <Label x:Name="publishingEnabled" FontSize="Medium" TextColor="#757575"/>
+            </StackLayout>
+            <StackLayout>
                 <Button x:Name="CreateMonitoredItem"
                 Text="Create Monitored Item"
                 Font="small"
@@ -42,6 +44,7 @@
                 TextColor="White"
                         />
             </StackLayout>
+
             <BoxView BackgroundColor="#FF9800" WidthRequest="5"></BoxView>
             <ListView x:Name="MonitoredItemsDisplay" HasUnevenRows="True"
             SelectedItem="Mode=Twoway"
