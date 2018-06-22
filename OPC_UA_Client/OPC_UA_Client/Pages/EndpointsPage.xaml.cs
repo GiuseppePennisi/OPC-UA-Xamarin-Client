@@ -140,15 +140,11 @@ namespace OPC_UA_Client
                     await Navigation.PushPopupAsync(_loginPopup);
 
                 }
-
-
             }
             catch (NullReferenceException)
             {
-             
-       
+ 
             }
-
         }
 
         protected override bool OnBackButtonPressed()

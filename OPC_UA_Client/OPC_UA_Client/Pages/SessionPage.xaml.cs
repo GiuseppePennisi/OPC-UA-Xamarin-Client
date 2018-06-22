@@ -109,7 +109,6 @@ namespace OPC_UA_Client
 
             if (selected.Children == true)
             {
-                Console.WriteLine("PIPPO" + selected.Id);
                 storedTree = client.GetChildren(selected.Id);
                 hierarchyAddressSpace.Push(storedTree);
                 hierarchyStringAddressSpace.Push(selected.NodeName);
@@ -123,9 +122,23 @@ namespace OPC_UA_Client
         private void OnBackTree(object sender, EventArgs e)
         {
             hierarchyAddressSpace.Pop();
-            hierarchyStringAddressSpace.Pop();
+            if (hierarchyStringAddressSpace.Count != 0)
+            {
+                hierarchyStringAddressSpace.Pop();
+                
+            }
+            else {
+                if (hierarchyStringAddressSpace.Count != 0) {
+                    ParentNodeEntry.Text = hierarchyStringAddressSpace.First();
+                }
+                else { 
+                BackTreeButton.IsEnabled = false;
+                ParentLayout.IsVisible = false;
+                }
+            }
+            
             storedTree = hierarchyAddressSpace.First();
-            ParentNodeEntry.Text = hierarchyStringAddressSpace.First();
+            
             DisplayNodes();
             Console.WriteLine("HELP" + hierarchyAddressSpace.Count());
         }
