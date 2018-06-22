@@ -22,10 +22,10 @@ namespace OPC_UA_Client.Pages
         ClientOPC  client;
         Double i = 0;
 
-        public GraphPage (ClientOPC _client,string _message, string _title)
+        public GraphPage (ClientOPC _client,string _message)
 		{
             LinePlot = new PlotModel();
-            LinePlot.Title ="Client Handle" + _title; 
+            LinePlot.Title ="Curve Of Monitoring"; 
             
             
             LinePlot.Series.Add(new LineSeries());
