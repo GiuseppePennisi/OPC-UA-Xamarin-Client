@@ -19,17 +19,17 @@ namespace OPC_UA_Client.Pages
 	{
         public PlotModel LinePlot { get; set; }
         string message;
-        string title;
-        ClientOPC client;
-        
+        ClientOPC  client;
         Double i = 0;
 
         public GraphPage (ClientOPC _client,string _message, string _title)
 		{
             LinePlot = new PlotModel();
-            LinePlot.Title = _title; 
+            LinePlot.Title ="Client Handle" + _title; 
+            
             
             LinePlot.Series.Add(new LineSeries());
+            
             client = _client;
             message = _message;
             
@@ -37,7 +37,9 @@ namespace OPC_UA_Client.Pages
 
 
                 Device.BeginInvokeOnMainThread(() => {
-                    (LinePlot.Series[0] as LineSeries).Points.Add(new DataPoint(Convert.ToDouble(view.Value), i));
+                    (LinePlot.Series[0] as LineSeries).Color = OxyColors.Orange;
+                    (LinePlot.Series[0] as LineSeries).Points.Add(new DataPoint( i, Convert.ToDouble(view.Value)));
+                    
                     LinePlot.InvalidatePlot(true);
                     i++;
                 

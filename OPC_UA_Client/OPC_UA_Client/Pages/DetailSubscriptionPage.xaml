@@ -45,7 +45,7 @@
                         />
             </StackLayout>
 
-            <BoxView BackgroundColor="#FF9800" WidthRequest="5"></BoxView>
+            <BoxView BackgroundColor="#FF9800" WidthRequest="1" HeightRequest="2"></BoxView>
             <ListView x:Name="MonitoredItemsDisplay" HasUnevenRows="True"
             SelectedItem="Mode=Twoway"
             ItemTapped="OnSelectedItem" >
