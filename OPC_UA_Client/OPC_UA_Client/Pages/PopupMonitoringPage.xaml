@@ -34,7 +34,7 @@
                     <Label FontSize="Medium" x:Name="ValueEntry" TextColor="#757575" ></Label>
                 </StackLayout>
                 <Button Text="Close" Clicked="CloseMonitoring" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
-                <Button Text="Graph" Clicked="GoToGraph" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
+                <Button Text="Graph" x:Name="GraphButton" Clicked="GoToGraph" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
                
 
             </StackLayout>

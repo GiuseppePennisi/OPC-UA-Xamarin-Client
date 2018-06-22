@@ -24,8 +24,8 @@ namespace OPC_UA_Client.Pages
         public uint CHandle;
         public DataChangeView v;
         string message;
-       
-        
+        bool isNumeric;
+        double result;
         public  PopupMonitoringPage (ClientOPC _client, uint clientHandle)
 		{
 
@@ -53,9 +53,8 @@ namespace OPC_UA_Client.Pages
               //ServerTimeEntry.Text = view.ServerTimestamp.ToString();
                 StatusCodeEntry.Text = view.StatusCode.ToString();
                 ValueEntry.Text = view.Value.ToString();
-                    
-                
-                 
+                isNumeric = Double.TryParse(view.Value, out result);
+                GraphButton.IsEnabled = isNumeric;
                 });
                 
             });
@@ -98,7 +97,7 @@ namespace OPC_UA_Client.Pages
 
         private async Task GoToGraph(object sender, EventArgs e)
         {
-            var _GraphPage = new GraphPage(client,message);
+            var _GraphPage = new GraphPage(client,message, ClientHandleEntry.Text);
             await Navigation.PushAsync(_GraphPage);
         }
 
