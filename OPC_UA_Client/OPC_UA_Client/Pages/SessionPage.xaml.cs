@@ -17,8 +17,8 @@ namespace OPC_UA_Client
 	{
         public ClientOPC client;
         public SessionView sessionView;
-        Stack<Tree> hierarchyAddressSpace;
-        Stack<string> hierarchyStringAddressSpace;
+        Stack<Tree> hierarchyAddressSpace; //Mantiene la gerarchia di nodi percorsi
+        Stack<string> hierarchyStringAddressSpace; //Mantiene la gerarchia di nodi parent 
         public SessionPage (ClientOPC _client, SessionView _sessionView, Tree tree)
 		{
             BindingContext = nodes;
@@ -98,7 +98,7 @@ namespace OPC_UA_Client
             return true;
         }
 
-        private void OnItemTapped(object sender, ItemTappedEventArgs e)
+        private async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
 
             if (e.Item == null)
@@ -117,30 +117,36 @@ namespace OPC_UA_Client
                 DisplayNodes();
 
             }
+            else {
+                await DisplayAlert("Info", "There are no children for this node!","Ok");
+            }
         }
 
-        private void OnBackTree(object sender, EventArgs e)
+        private async void OnBackTree(object sender, EventArgs e)
         {
-            hierarchyAddressSpace.Pop();
-            if (hierarchyStringAddressSpace.Count != 0)
-            {
-                hierarchyStringAddressSpace.Pop();
-                
-            }
-            else {
-                if (hierarchyStringAddressSpace.Count != 0) {
-                    ParentNodeEntry.Text = hierarchyStringAddressSpace.First();
-                }
-                else { 
-                BackTreeButton.IsEnabled = false;
+            Console.WriteLine("STRING HIERARCHY" + hierarchyStringAddressSpace.Count);
+            Console.WriteLine("TREE HIERARCHY" + hierarchyAddressSpace.Count);
+            if (hierarchyAddressSpace.Count == 1 && hierarchyStringAddressSpace.Count == 0) {
+                await DisplayAlert("Info", "This is the address space root node!", "Ok");
+                storedTree = hierarchyAddressSpace.First();
                 ParentLayout.IsVisible = false;
-                }
+                DisplayNodes();
+                return;
             }
-            
+            if (hierarchyAddressSpace.Count == 2 && hierarchyStringAddressSpace.Count == 1) {
+                hierarchyAddressSpace.Pop();
+                storedTree = hierarchyAddressSpace.First();
+                hierarchyStringAddressSpace.Pop();
+                ParentLayout.IsVisible = false;
+                DisplayNodes();
+                return;
+            }
+            hierarchyAddressSpace.Pop();
             storedTree = hierarchyAddressSpace.First();
-            
+            hierarchyStringAddressSpace.Pop();
+            ParentNodeEntry.Text = hierarchyStringAddressSpace.First();
+            ParentLayout.IsVisible = true;
             DisplayNodes();
-            Console.WriteLine("HELP" + hierarchyAddressSpace.Count());
         }
     }
 }
