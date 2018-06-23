@@ -19,6 +19,21 @@ namespace OPC_UA_Client.Pages
             InitializeComponent();
         }
 
+        public WritePage(ClientOPC _client, string _nodeId) //Node Id Format: ns=1;i=1003
+        {
+            InitializeComponent();
+            string[] tmp = _nodeId.Split(';');
+            string nSIndex = tmp[0].Substring(3);
+            string idNode = tmp[1].Substring(2);
+            NodeID.Text = idNode;
+            NodeNamespace.Text = nSIndex;
+            client = _client;
+            NodeID.Text = idNode;
+            NodeNamespace.Text = nSIndex;
+        }
+
+        
+
         private async void OnWrite(object sender, EventArgs e)
         {
             List<String> statusCodes;

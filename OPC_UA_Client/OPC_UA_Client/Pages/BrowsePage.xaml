@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OPC_UA_Client.Pages.BrowsePage"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Fill">
+            <Label  Text="Address Space Browse" FontSize="Large" HorizontalOptions="Center"/>
+            <StackLayout x:Name="ParentLayout" Orientation ="Horizontal" HorizontalOptions="Center" IsVisible="False">
+                <Label Text="Parent Node: " FontSize="Medium"/>
+                <Label x:Name="ParentNodeEntry" FontSize="Medium"/>
+            </StackLayout>
+            <Button
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    x:Name="BackTreeButton"
+                    Text="Go Back Tree"
+                    Font="small"
+                    Clicked="OnBackTree"
+                    BackgroundColor="#FF9800"
+                    TextColor="White"/>
+            <ListView x:Name="treeView" 
+                        SelectedItem="Mode=Twoway"
+                        ItemTapped="OnItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation = "Horizontal" Margin = "10,10,10,10">
+                                <Label Text = "{Binding NodeName}" FontSize="Small" />
+                                <Label Text="["/>
+                                <Label Text="{Binding Id}" FontSize="Small"/>
+                                <Label Text=" ]"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

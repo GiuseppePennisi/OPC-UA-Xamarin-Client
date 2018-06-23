@@ -17,23 +17,14 @@ namespace OPC_UA_Client
 	{
         public ClientOPC client;
         public SessionView sessionView;
-        Stack<Tree> hierarchyAddressSpace; //Mantiene la gerarchia di nodi percorsi
-        Stack<string> hierarchyStringAddressSpace; //Mantiene la gerarchia di nodi parent 
-        public SessionPage (ClientOPC _client, SessionView _sessionView, Tree tree)
+        public SessionPage (ClientOPC _client, SessionView _sessionView)
 		{
-            BindingContext = nodes;
-            storedTree = tree;
-            hierarchyAddressSpace = new Stack<Tree>();
-            hierarchyStringAddressSpace = new Stack<string>();
-            hierarchyAddressSpace.Push(tree);
             InitializeComponent();
             client = _client;
             sessionView = _sessionView;
             DisplaySession();
-            DisplayNodes();
         }
-        public ObservableCollection<ListNode> nodes = new ObservableCollection<ListNode>();
-        public Tree storedTree;
+        
 
         private void DisplaySession() {
             NamespaceIndex.Text = sessionView.indexNameSpace;
@@ -42,18 +33,6 @@ namespace OPC_UA_Client
             EndpointUrl.Text = sessionView.endpointView.endpointURL;
             SecurityMode.Text = sessionView.endpointView.securityMode;
             TransportUri.Text = sessionView.endpointView.transportProfileURI;
-
-        }
-
-        private void DisplayNodes()
-        {
-            nodes.Clear();
-            foreach (var node in storedTree.currentView)
-            {
-                nodes.Add(node);
-            }
-            treeView.ItemsSource = null;
-            treeView.ItemsSource = nodes;
         }
 
         private async void OnRead(object sender, EventArgs e)
@@ -98,55 +77,11 @@ namespace OPC_UA_Client
             return true;
         }
 
-        private async void OnItemTapped(object sender, ItemTappedEventArgs e)
+        private async void OnBrowse(object sender, EventArgs e)
         {
-
-            if (e.Item == null)
-            {
-                return;
-            }
-            ListNode selected = e.Item as ListNode;
-
-            if (selected.Children == true)
-            {
-                storedTree = client.GetChildren(selected.Id);
-                hierarchyAddressSpace.Push(storedTree);
-                hierarchyStringAddressSpace.Push(selected.NodeName);
-                ParentNodeEntry.Text = selected.NodeName;
-                ParentLayout.IsVisible = true;
-                DisplayNodes();
-
-            }
-            else {
-                await DisplayAlert("Info", "There are no children for this node!","Ok");
-            }
-        }
-
-        private async void OnBackTree(object sender, EventArgs e)
-        {
-            Console.WriteLine("STRING HIERARCHY" + hierarchyStringAddressSpace.Count);
-            Console.WriteLine("TREE HIERARCHY" + hierarchyAddressSpace.Count);
-            if (hierarchyAddressSpace.Count == 1 && hierarchyStringAddressSpace.Count == 0) {
-                await DisplayAlert("Info", "This is the address space root node!", "Ok");
-                storedTree = hierarchyAddressSpace.First();
-                ParentLayout.IsVisible = false;
-                DisplayNodes();
-                return;
-            }
-            if (hierarchyAddressSpace.Count == 2 && hierarchyStringAddressSpace.Count == 1) {
-                hierarchyAddressSpace.Pop();
-                storedTree = hierarchyAddressSpace.First();
-                hierarchyStringAddressSpace.Pop();
-                ParentLayout.IsVisible = false;
-                DisplayNodes();
-                return;
-            }
-            hierarchyAddressSpace.Pop();
-            storedTree = hierarchyAddressSpace.First();
-            hierarchyStringAddressSpace.Pop();
-            ParentNodeEntry.Text = hierarchyStringAddressSpace.First();
-            ParentLayout.IsVisible = true;
-            DisplayNodes();
+            ContentPage browsePage = new BrowsePage(client, client.GetRootNode());
+            browsePage.Title = "OPC Browse Service";
+            await Navigation.PushAsync(browsePage);
         }
     }
 }
