@@ -39,16 +39,14 @@
                 <Entry x:Name="Priority" Text="0"
                    Placeholder="Priority" TextColor="#757575" FontSize="Small" PlaceholderColor="#BDBDBD">
                 </Entry>
-
+                
                 <Button x:Name="CreateSubscriptionButton"
                 Text="Create Subscription"
                 Font="small"
-                HorizontalOptions="Center"
                 Clicked="OnCreateSubscription"
-                Margin="0,40,0,0"
+                Margin="0,0,0,0"
                 BackgroundColor="#FF9800"
-                TextColor="White"
-                        />
+                TextColor="White" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

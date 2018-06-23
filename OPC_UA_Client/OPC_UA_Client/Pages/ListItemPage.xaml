@@ -5,7 +5,7 @@
              NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name="NoItemsLabel" Text="No Monitored Items To Display!" FontSize="Large" IsVisible="False"/>
+            <Label x:Name="NoItemsLabel" Text="No Monitored Items To Display!" FontSize="Large" IsVisible="False" HorizontalOptions="Center"/>
             <ListView x:Name="MonitoredItemsDisplay" HasUnevenRows="True"
             SelectedItem="Mode=Twoway"
             ItemTapped="OnSelectedItem">

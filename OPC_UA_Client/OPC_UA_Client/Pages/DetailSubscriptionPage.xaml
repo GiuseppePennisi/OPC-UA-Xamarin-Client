@@ -39,21 +39,17 @@
                     <Button x:Name="CreateMonitoredItem"
                 Text="Create Monitored Item"
                 Font="small"
-                HorizontalOptions="Start"
                 Clicked="NewMonitoredItem"
                 Margin="0,25,0,0"
                 BackgroundColor="#FF9800"
-                TextColor="White"
-                WidthRequest="200"/>
+                TextColor="White"/>
                     <Button x:Name="ViewMonitoredItems"
                 Text="View Monitored Items"
                 Font="small"
-                HorizontalOptions="Start"
                 Clicked="OnViewItems"
                 Margin="0,25,0,0"
                 BackgroundColor="#FF9800"
-                TextColor="White"
-                WidthRequest="200"/>
+                TextColor="White" />
             </StackLayout>
         </StackLayout>
     </StackLayout>
