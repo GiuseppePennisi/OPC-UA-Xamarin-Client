@@ -16,6 +16,18 @@ namespace OPC_UA_Client.Pages
         uint subscriptionId;
 		public CreateMonitoredItemPage (ClientOPC _client, uint _subscriptionId)
 		{
+        MessagingCenter.Subscribe<BrowsePage, string>(this, "update", (page, nodeId) => { //Node Id Format: ns=1;i=1003
+            Device.BeginInvokeOnMainThread(() => {
+                    string[] tmp = nodeId.Split(';');
+                    string nSIndex = tmp[0].Substring(3);
+                    string idNode = tmp[1].Substring(2);
+                    NodeID.Text = idNode;
+                    NodeNamespace.Text = nSIndex;
+                    this.NodeID.Text = idNode;
+                    this.NodeNamespace.Text = nSIndex;
+                });
+            });
+
             client = _client;
             subscriptionId = _subscriptionId;
 			InitializeComponent ();
@@ -161,6 +173,14 @@ namespace OPC_UA_Client.Pages
             // Always return true because this method is not asynchronous.
             // We must handle the action ourselves: see above.
             return true;
+        }
+
+        private async void OnBrowse(object sender, EventArgs e)
+        {
+            ContentPage browsePage = new BrowsePage(client, client.GetRootNode(), subscriptionId);
+            browsePage.Title = "OPC Browse Service";
+            await Navigation.PushAsync(browsePage);
+            //Gestire on Back Navigation
         }
     }
 }

@@ -6,6 +6,15 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
+                <Button
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    x:Name="BrowseButton"
+                    Text="Browse"
+                    Font="small"
+                    Clicked="OnBrowse"
+                    BackgroundColor="#FF9800"
+                    TextColor="White"/>
                 <StackLayout>
                     <Label Text="Node ID: "
                    FontSize="Medium" TextColor="#212121" Margin="0,10,0,0">
