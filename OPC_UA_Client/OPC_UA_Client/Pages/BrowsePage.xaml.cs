@@ -1,4 +1,5 @@
-﻿using OPC_UA_Client.ViewModel;
+﻿using Acr.UserDialogs;
+using OPC_UA_Client.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,16 +50,35 @@ namespace OPC_UA_Client.Pages
             {
                 return;
             }
+
             ListNode selected = e.Item as ListNode;
 
             if (selected.Children == true)
             {
-                storedTree = client.GetChildren(selected.Id);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        UserDialogs.Instance.ShowLoading();
+                    });
+                });
+
+                storedTree = await Task.Run(() =>
+                {
+                    Task.Delay(200).Wait();
+                    return client.GetChildren(selected.Id);
+                });
+               
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
+                });
                 hierarchyAddressSpace.Push(storedTree);
                 hierarchyStringAddressSpace.Push(selected.NodeName);
                 ParentNodeEntry.Text = selected.NodeName;
                 ParentLayout.IsVisible = true;
                 DisplayNodes();
+                
             }
             else
             {
