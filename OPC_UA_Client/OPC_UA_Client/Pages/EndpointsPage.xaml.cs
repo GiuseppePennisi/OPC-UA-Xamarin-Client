@@ -123,7 +123,7 @@ namespace OPC_UA_Client
                         });
 
                         await DisplayAlert("Info", "Session created successfully!", "Ok");
-                        ContentPage sessionPage = new SessionPage(client, sessionView,client.GetRootNode());
+                        ContentPage sessionPage = new SessionPage(client, sessionView);
                         sessionPage.Title = "OPC Session Services";
 
                         await Navigation.PushAsync(sessionPage);

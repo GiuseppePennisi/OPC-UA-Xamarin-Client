@@ -41,10 +41,12 @@ namespace OPC_UA_Client.Pages
             ReadDisplay.ItemsSource = readCollection;
            }
 
-        private void OncloseStack(object sender, EventArgs e)
+        private async void OncloseStack(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            await Navigation.PopAsync();
+            Navigation.RemovePage(this);
         }
       
+
     }
 }

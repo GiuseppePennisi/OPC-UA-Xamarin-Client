@@ -1,4 +1,5 @@
 ﻿using OPC_UA_Client.Pages;
+using OPC_UA_Client.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,26 @@ namespace OPC_UA_Client
             InitializeComponent();
             client = _client;
             DisplayReads();
+        }
+
+        public ReadPage(ClientOPC _client, string _nodeId) //Node Id Format: ns=1;i=1003
+        {
+            InitializeComponent();
+            string[] tmp = _nodeId.Split(';');
+            Console.WriteLine("NAMESPACE: "+ tmp[0]);
+            Console.WriteLine("IDENTIFIER: " + tmp[1]);
+            string nSIndex = tmp[0].Substring(3);
+            string idNode = tmp[1].Substring(2);
+            Console.WriteLine("HELP1 nSIndex"+ nSIndex);
+            Console.WriteLine("HELP2 idNode" + idNode);
+            NodeID.Text = idNode;
+            NodeNamespace.Text = nSIndex;
+            client = _client;
+            DisplayReads();
+        }
+
+        public ReadPage(ClientOPC _client, ListNode node) {
+            NodeID.Text = node.Id;
         }
         public void DisplayReads()
         {
@@ -77,7 +98,7 @@ namespace OPC_UA_Client
                         }
 
                         ContentPage popReadPage = new PopupReadPage(nodesRead);
-
+                        popReadPage.Title = "Read Details";
                         await Navigation.PushAsync(popReadPage);
 
 

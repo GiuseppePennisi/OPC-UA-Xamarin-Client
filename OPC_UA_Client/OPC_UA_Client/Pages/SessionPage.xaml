@@ -5,40 +5,40 @@
              NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <ScrollView>
-        <StackLayout Orientation="Vertical">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <StackLayout>
+            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Label Text="Session Name: " FontSize="Large" TextColor="#212121" />
                 <Label x:Name="SessionName" FontSize="Large" TextColor="#757575"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Vertical">
                 <Label Text="Session Namespace Index: " FontSize="Medium" TextColor="#212121" />
                 <Label x:Name="NamespaceIndex" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Vertical">
                 <Label Text="Session Identifier: " FontSize="Medium" TextColor="#212121" />
                 <Label VerticalOptions="End" x:Name="Identifier" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Vertical">
                 <Label Text="Endpoint URL: " FontSize="Medium" TextColor="#212121" />
                 <Label VerticalOptions="End" x:Name="EndpointUrl" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Vertical">
                 <Label Text="Transport Uri: " FontSize="Medium" TextColor="#212121" />
                 <Label VerticalOptions="End" x:Name="TransportUri" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Vertical">
                 <Label Text="Security Mode: " FontSize="Medium" TextColor="#212121" />
                 <Label VerticalOptions="End" x:Name="SecurityMode" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
+        </StackLayout>
             <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                 <Button
                 x:Name="ReadButton"
                 Text="Read"
                 Font="small"
-                HorizontalOptions="End"
                 Clicked="OnRead"
-                Margin="0,40,0,0"
-                
+                Margin="0,0,0,0"
                 BackgroundColor="#FF9800"
                 TextColor="White">
                 </Button>
@@ -46,53 +46,33 @@
                 x:Name="WriteButton"
                 Text="Write"
                 Font="small"
-                HorizontalOptions="End"
                 Clicked="OnWrite"
-                Margin="0,40,0,0"
+                Margin="0,0,0,0"
                 BackgroundColor="#FF9800"
                 TextColor="White">
                 </Button>
                 <Button
+                x:Name="BrowseButton"
+                Text="Browse"
+                Font="small"
+                Clicked="OnBrowse"
+                Margin="0,0,0,0"
+                BackgroundColor="#FF9800"
+                TextColor="White">
+                    </Button>
+                </StackLayout>
+                <Button
                 x:Name="SubscriptionButton"
                 Text="Subscription"
                 Font="small"
-                HorizontalOptions="End"
+                HorizontalOptions="Center"
                 Clicked="OnSubscription"
-                Margin="0,40,0,0"
+                Margin="0,0,0,0"
                 BackgroundColor="#FF9800"
                 TextColor="White">
                 </Button>
-            </StackLayout>
-                <StackLayout VerticalOptions="Fill">
-                    <Label  Text="Address Space Browse" FontSize="Large" HorizontalOptions="Center"/>
-                    <StackLayout x:Name="ParentLayout" Orientation ="Horizontal" HorizontalOptions="Center" IsVisible="False">
-                        <Label Text="Parent Node: " FontSize="Medium"/>
-                        <Label x:Name="ParentNodeEntry" FontSize="Medium"/>
-                    </StackLayout>
-                    <ListView x:Name="treeView" 
-                        SelectedItem="Mode=Twoway"
-                        ItemTapped="OnItemTapped">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Orientation = "Vertical" Margin = "10,10,10,10">
-                                        <Label Text = "{Binding NodeName}" FontSize="Small" />
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <Button
-                    VerticalOptions="Start"
-                    HorizontalOptions="Start"
-                    x:Name="BackTreeButton"
-                    Text="Go Back Tree"
-                    Font="small"
-                    Clicked="OnBackTree"
-                    BackgroundColor="#FF9800"
-                    TextColor="White"/>
-                </StackLayout>
-            </StackLayout>
-        </ScrollView>
+            
+        </StackLayout>
+            </ScrollView>
     </ContentPage.Content>
 </ContentPage>
