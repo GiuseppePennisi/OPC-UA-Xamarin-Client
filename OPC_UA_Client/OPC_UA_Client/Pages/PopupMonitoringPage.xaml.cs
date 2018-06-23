@@ -23,12 +23,14 @@ namespace OPC_UA_Client.Pages
         public ClientOPC client;
         public uint CHandle;
         public DataChangeView v;
+        public Color default_color;
         string message;
         bool isNumeric;
         double result;
         string reset = "--/--/---- --:--:--";
         public  PopupMonitoringPage (ClientOPC _client, uint clientHandle)
 		{
+            
             CloseWhenBackgroundIsClicked = true;
             CHandle = clientHandle;
             client = _client;
@@ -36,7 +38,7 @@ namespace OPC_UA_Client.Pages
 
             MessagingCenter.Subscribe<ClientOPC,DataChangeView>(this,message,(client,view)=> {
 
-            Device.BeginInvokeOnMainThread(() => {    
+            Device.BeginInvokeOnMainThread(() => {
                 ClientHandleEntry.Text = view.ClientHandle.ToString();
 
                 if (string.IsNullOrEmpty(view.SourceTimestamp.ToString()))
@@ -56,10 +58,22 @@ namespace OPC_UA_Client.Pages
                 isNumeric = Double.TryParse(view.Value, out result);
                 
                 GraphButton.IsEnabled = isNumeric;
-                });
+                if (!FrameContainer.IsVisible) {
+                    if (LabelEmptyFrame.IsVisible == true)
+                    {
+                        BackgroundColor = default_color;
+                        LabelEmptyFrame.IsVisible = false;
+                    }
+                    FrameContainer.IsVisible = true;
+                }
+            });
                 
             });
             InitializeComponent();
+            FrameContainer.IsVisible = false;
+            LabelEmptyFrame.IsVisible = true;
+            default_color= this.BackgroundColor;
+            this.BackgroundColor = Color.White;
             GraphButton.IsEnabled = false;
         }
 

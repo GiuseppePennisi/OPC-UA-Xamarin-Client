@@ -4,8 +4,10 @@
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              x:Class="OPC_UA_Client.Pages.PopupMonitoringPage"
                  xmlns:oxy="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms"
-             NavigationPage.HasBackButton="False">
-    <AbsoluteLayout >
+             NavigationPage.HasBackButton="False"
+                 >
+    <AbsoluteLayout>
+        <Label x:Name="LabelEmptyFrame" Text="There Is No Notification Message To Display!" FontSize="Medium" HorizontalOptions="Center"/>
         <Frame x:Name="FrameContainer" Margin="10,0,0,0" Padding="5,5,5,5"  BackgroundColor="White"   OutlineColor="#FF9800">
             <StackLayout>
                 <Label Text="Monitoring Details" Font="Bold,22"></Label>
@@ -13,8 +15,8 @@
                     <Label FontSize="Medium" Text="Client Handle:" TextColor="#212121"></Label>
                     <Label  FontSize="Medium" x:Name="ClientHandleEntry" TextColor="#757575"></Label>
                 </StackLayout>
-              
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                     <Label FontSize="Medium" Text="Source Timestamp: " TextColor="#212121" HorizontalOptions="CenterAndExpand"></Label>
                     <Label FontSize="Medium" x:Name="SourceTimeEntry" TextColor="#757575" HorizontalOptions="CenterAndExpand"></Label>
                 </StackLayout>
@@ -22,7 +24,7 @@
                     <Label FontSize="Medium" Text="Server Timestamp: " TextColor="#212121"></Label>
                     <Label FontSize="Medium" x:Name="ServerTimeEntry" TextColor="#757575"></Label>
                 </StackLayout>
-               <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal">
 
                     <Label FontSize="Medium" Text="Status Code: " TextColor="#212121"></Label>
                     <Label FontSize="Medium" x:Name="StatusCodeEntry" TextColor="#757575"></Label>
@@ -34,12 +36,11 @@
                 </StackLayout>
                 <Button Text="Close" Clicked="CloseMonitoring" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
                 <Button Text="Graph" x:Name="GraphButton" Clicked="GoToGraph" BackgroundColor="#FF9800" TextColor="White" HorizontalOptions="Center"></Button>
-               
+
 
             </StackLayout>
-            
+
         </Frame>
-       
     </AbsoluteLayout>
 
 </pages:PopupPage>
