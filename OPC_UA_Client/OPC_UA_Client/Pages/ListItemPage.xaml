@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OPC_UA_Client.Pages.ListItemPage"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="NoItemsLabel" Text="No Monitored Items To Display!" FontSize="Large" IsVisible="False"/>
+            <ListView x:Name="MonitoredItemsDisplay" HasUnevenRows="True"
+            SelectedItem="Mode=Twoway"
+            ItemTapped="OnSelectedItem">
+                <ListView.ItemTemplate >
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View >
+                                <StackLayout Orientation="Horizontal" >
+                                    <StackLayout Orientation="Vertical" Margin="10,10" >
+                                        <StackLayout Orientation="Horizontal" Margin="120,0,0,0" >
+                                            <Label Text="Client Handle: "  TextColor="#212121" Font="Bold,22"  ></Label>
+                                            <Label x:Name="ClientHandle" Text="{Binding clientHandle}"  TextColor="#212121" Font="Bold,22" ></Label>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Namespace Index: " FontSize="Medium" TextColor="#212121" />
+                                            <Label Text="{Binding namespaceIndex}" FontSize="Medium" TextColor="#757575"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Node Identifier: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding identifier}" FontSize="Medium" TextColor="#757575"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Sampling Interval: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding samplingInterval}" FontSize="Medium" TextColor="#757575"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Filter Trigger: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding filterTrigger}" FontSize="Medium" TextColor="#757575"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Deadband Type: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding deadbandType}" FontSize="Medium" TextColor="#757575"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Deadband Value: " FontSize="Medium" TextColor="#212121"/>
+                                            <Label Text="{Binding deadbandValue}" FontSize="Medium" TextColor="#757575"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -15,17 +15,14 @@ namespace OPC_UA_Client.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class DetailSubscriptionPage : ContentPage
 	{
-        ObservableCollection<MonitoredItemView> monitoredItemViews = new ObservableCollection<MonitoredItemView>();
         ClientOPC client;
         uint subscriptionId;
 		public DetailSubscriptionPage (ClientOPC _client, uint _subscriptionId)
 		{
             InitializeComponent();
-            BindingContext = monitoredItemViews;
             subscriptionId = _subscriptionId;
             client = _client;
             DisplaySubscription();
-            displayItems();
 		}
 
         private void DisplaySubscription()
@@ -38,27 +35,6 @@ namespace OPC_UA_Client.Pages
             maxNotifications.Text = subView.MaxNotificationPerPublish.ToString();
             priority.Text = subView.Priority.ToString();
             publishingEnabled.Text = subView.PublishEnabled.ToString();
-        }
-
-        void displayItems()
-        {
-            monitoredItemViews.Clear();
-            foreach (MonitoredItemView item in client.GetMonitoredItemViews(subscriptionId))
-            {
-                monitoredItemViews.Add(item);
-            }
-            MonitoredItemsDisplay.ItemsSource = null;
-            MonitoredItemsDisplay.SeparatorColor = Color.Blue;
-            MonitoredItemsDisplay.ItemsSource = monitoredItemViews;
-        }
-
-        private async void OnSelectedItem(object sender, ItemTappedEventArgs e)
-        {
-            MonitoredItemView selected = e.Item as MonitoredItemView;
-            Console.WriteLine("Client handle Detail sub: " + selected.clientHandle);
-            var _monitorPopup = new PopupMonitoringPage(client, selected.clientHandle);
-            _monitorPopup.Title = "Item Monitoring Service";
-            await Navigation.PushAsync(_monitorPopup);
         }
 
         private async void NewMonitoredItem(object sender, EventArgs e)
@@ -91,5 +67,11 @@ namespace OPC_UA_Client.Pages
             return true;
         }
 
+        private async void OnViewItems(object sender, EventArgs e)
+        {
+            ContentPage listItemPage = new ListItemPage(client, subscriptionId);
+            listItemPage.Title = "Monitored Items View";
+            await Navigation.PushAsync(listItemPage);
+        }
     }
 }

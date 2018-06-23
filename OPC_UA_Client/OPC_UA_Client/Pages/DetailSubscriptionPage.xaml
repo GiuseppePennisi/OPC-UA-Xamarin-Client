@@ -4,6 +4,7 @@
              x:Class="OPC_UA_Client.Pages.DetailSubscriptionPage"
              NavigationPage.HasBackButton="False">
     <ContentPage.Content>
+        <StackLayout>
         <StackLayout Orientation="Vertical" VerticalOptions="Center">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Label Text="Subscription ID: " Font="Bold,22" TextColor="#212121" />
@@ -33,63 +34,28 @@
                 <Label Text="Publishing Enabled: " FontSize="Medium" TextColor="#212121" />
                 <Label x:Name="publishingEnabled" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
+            <BoxView BackgroundColor="#FF9800" WidthRequest="1" HeightRequest="2"></BoxView>
             <StackLayout>
-                <Button x:Name="CreateMonitoredItem"
+                    <Button x:Name="CreateMonitoredItem"
                 Text="Create Monitored Item"
                 Font="small"
                 HorizontalOptions="Start"
                 Clicked="NewMonitoredItem"
-                Margin="0,40,0,0"
+                Margin="0,25,0,0"
                 BackgroundColor="#FF9800"
                 TextColor="White"
-                        />
+                WidthRequest="200"/>
+                    <Button x:Name="ViewMonitoredItems"
+                Text="View Monitored Items"
+                Font="small"
+                HorizontalOptions="Start"
+                Clicked="OnViewItems"
+                Margin="0,25,0,0"
+                BackgroundColor="#FF9800"
+                TextColor="White"
+                WidthRequest="200"/>
             </StackLayout>
-
-            <BoxView BackgroundColor="#FF9800" WidthRequest="1" HeightRequest="2"></BoxView>
-            <ListView x:Name="MonitoredItemsDisplay" HasUnevenRows="True"
-            SelectedItem="Mode=Twoway"
-            ItemTapped="OnSelectedItem" >
-                <ListView.ItemTemplate >
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View >
-                                <StackLayout Orientation="Horizontal" >
-                                    <StackLayout Orientation="Vertical" Margin="10,10" >
-                                        <StackLayout Orientation="Horizontal" Margin="120,0,0,0" >
-                                            <Label Text="Client Handle: "  TextColor="#212121" Font="Bold,22"  ></Label>
-                                            <Label x:Name="ClientHandle" Text="{Binding clientHandle}"  TextColor="#212121" Font="Bold,22" ></Label>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="Namespace Index: " FontSize="Medium" TextColor="#212121" />
-                                            <Label Text="{Binding namespaceIndex}" FontSize="Medium" TextColor="#757575"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="Node Identifier: " FontSize="Medium" TextColor="#212121"/>
-                                            <Label Text="{Binding identifier}" FontSize="Medium" TextColor="#757575"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="Sampling Interval: " FontSize="Medium" TextColor="#212121"/>
-                                            <Label Text="{Binding samplingInterval}" FontSize="Medium" TextColor="#757575"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="Filter Trigger: " FontSize="Medium" TextColor="#212121"/>
-                                            <Label Text="{Binding filterTrigger}" FontSize="Medium" TextColor="#757575"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="Deadband Type: " FontSize="Medium" TextColor="#212121"/>
-                                            <Label Text="{Binding deadbandType}" FontSize="Medium" TextColor="#757575"/>
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="Deadband Value: " FontSize="Medium" TextColor="#212121"/>
-                                            <Label Text="{Binding deadbandValue}" FontSize="Medium" TextColor="#757575"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
         </StackLayout>
+    </StackLayout>
     </ContentPage.Content>
 </ContentPage>
