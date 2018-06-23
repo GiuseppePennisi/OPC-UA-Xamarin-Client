@@ -20,9 +20,13 @@ namespace OPC_UA_Client.Pages
         Stack<string> hierarchyStringAddressSpace; //Mantiene la gerarchia di nodi parent 
         public ObservableCollection<ListNode> nodes = new ObservableCollection<ListNode>();
         public Tree storedTree;
+        public bool useMode; //Se true permette di leggere o scrivere i nodi dell'address space senza children nodes
+                             //Se false permette di creare per un nodo dell'address space un monitored Item su una subscription
+        private uint subId; //Necessario per la creazione del monitoredItem su una subscription nota 
 
         public BrowsePage (ClientOPC _client, Tree tree)
 		{
+            useMode = true;
             client = _client;
             storedTree = tree;
             BindingContext = nodes;
@@ -30,6 +34,20 @@ namespace OPC_UA_Client.Pages
             hierarchyStringAddressSpace = new Stack<string>();
             hierarchyAddressSpace.Push(tree);
             InitializeComponent ();
+            DisplayNodes();
+        }
+
+        public BrowsePage(ClientOPC _client, Tree tree, uint _subscriptionID)
+        {
+            subId = _subscriptionID;
+            useMode = false;
+            client = _client;
+            storedTree = tree;
+            BindingContext = nodes;
+            hierarchyAddressSpace = new Stack<Tree>();
+            hierarchyStringAddressSpace = new Stack<string>();
+            hierarchyAddressSpace.Push(tree);
+            InitializeComponent();
             DisplayNodes();
         }
 
@@ -83,19 +101,31 @@ namespace OPC_UA_Client.Pages
             else
             {
                 await DisplayAlert("Info", "There are no children for this node!", "Ok");
-                Console.WriteLine("NODECLASS SELECTED: " + selected.NodeClass);
-                Console.WriteLine("NODE ID SELECTED: " + selected.Id);
+             
                 if (selected.NodeClass.Equals("Variable")) {
-                  var selection = await DisplayActionSheet("Select Action: ","cancel",null,"Read","Write");
-                    if (selection.Equals("Read")) {
-                        ContentPage readPage = new ReadPage(client, selected.Id);
-                        readPage.Title = "OPC Read Service";
-                        await Navigation.PushAsync(readPage);
+                    if (useMode)
+                    {
+                        var selection = await DisplayActionSheet("Select Action: ", "cancel", null, "Read", "Write");
+                        if (selection.Equals("Read"))
+                        {
+                            ContentPage readPage = new ReadPage(client, selected.Id);
+                            readPage.Title = "OPC Read Service";
+                            await Navigation.PushAsync(readPage);
+                        }
+                        else if (selection.Equals("Write"))
+                        {
+                            ContentPage writePage = new WritePage(client, selected.Id);
+                            writePage.Title = "OPC Write Service";
+                            await Navigation.PushAsync(writePage);
+                        }
                     }
-                    else if (selection.Equals("Write")) {
-                        ContentPage writePage = new WritePage(client, selected.Id);
-                        writePage.Title = "OPC Write Service";
-                        await Navigation.PushAsync(writePage);
+                    else {
+                        var choice = await DisplayAlert("Info", "Do you want to create a monitored item for this variable node?", "yes", "no");
+
+                        if (choice) {
+                            MessagingCenter.Send<BrowsePage,string> (this, "update", selected.Id);
+                            Navigation.RemovePage(this);
+                        }
                     }
                 }
             }

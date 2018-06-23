@@ -28,15 +28,13 @@ namespace OPC_UA_Client
         public ReadPage(ClientOPC _client, string _nodeId) //Node Id Format: ns=1;i=1003
         {
             InitializeComponent();
+
             string[] tmp = _nodeId.Split(';');
-            Console.WriteLine("NAMESPACE: "+ tmp[0]);
-            Console.WriteLine("IDENTIFIER: " + tmp[1]);
             string nSIndex = tmp[0].Substring(3);
             string idNode = tmp[1].Substring(2);
-            Console.WriteLine("HELP1 nSIndex"+ nSIndex);
-            Console.WriteLine("HELP2 idNode" + idNode);
             NodeID.Text = idNode;
             NodeNamespace.Text = nSIndex;
+
             client = _client;
             DisplayReads();
         }
