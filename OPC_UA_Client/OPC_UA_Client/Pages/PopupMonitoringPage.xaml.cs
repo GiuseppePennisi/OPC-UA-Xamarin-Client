@@ -29,46 +29,38 @@ namespace OPC_UA_Client.Pages
         string reset = "--/--/---- --:--:--";
         public  PopupMonitoringPage (ClientOPC _client, uint clientHandle)
 		{
-
-
-          
-            
             CloseWhenBackgroundIsClicked = true;
             CHandle = clientHandle;
             client = _client;
             message = "update: " + CHandle;
-            
-
-            //devi verificare che il client Handle sia uguale a quello che passi con a sub e la send 
-
-
-
 
             MessagingCenter.Subscribe<ClientOPC,DataChangeView>(this,message,(client,view)=> {
-               
-                
-                Device.BeginInvokeOnMainThread(() => {
-                
+
+            Device.BeginInvokeOnMainThread(() => {    
                 ClientHandleEntry.Text = view.ClientHandle.ToString();
-                    if (string.IsNullOrEmpty(view.SourceTimestamp.ToString()))
-                        SourceTimeEntry.Text = reset;
-                    else
-                SourceTimeEntry.Text = view.SourceTimestamp.ToString();
-                    if (string.IsNullOrEmpty(view.ServerTimestamp.ToString()))
-                        ServerTimeEntry.Text = reset;
-                    else
-                        ServerTimeEntry.Text = view.ServerTimestamp.ToString();
+
+                if (string.IsNullOrEmpty(view.SourceTimestamp.ToString()))
+                    SourceTimeEntry.Text = reset;
+                else
+                    SourceTimeEntry.Text = view.SourceTimestamp.ToString();
+
+                if (string.IsNullOrEmpty(view.ServerTimestamp.ToString()))
+                    ServerTimeEntry.Text = reset;
+                else
+                    ServerTimeEntry.Text = view.ServerTimestamp.ToString();
+
                 StatusCodeEntry.Text = view.StatusCode.ToString();
+
                 ValueEntry.Text = view.Value.ToString();
+
                 isNumeric = Double.TryParse(view.Value, out result);
-                    Console.WriteLine("Is numeric? "+isNumeric);
+                
                 GraphButton.IsEnabled = isNumeric;
                 });
                 
             });
             InitializeComponent();
             GraphButton.IsEnabled = false;
-
         }
 
         protected override bool OnBackButtonPressed()
@@ -105,8 +97,8 @@ namespace OPC_UA_Client.Pages
 
         private async Task GoToGraph(object sender, EventArgs e)
         {
-            var _GraphPage = new GraphPage(client,message, ClientHandleEntry.Text);
-            _GraphPage.Title="Monitoring" + ClientHandleEntry.Text;
+            var _GraphPage = new GraphPage(client,message);
+            _GraphPage.Title = "Item Client Handle: " + ClientHandleEntry.Text;
             await Navigation.PushAsync(_GraphPage);
         }
 
