@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OPC_UA_Client.Pages.SubscriptionsPage"
+              NavigationPage.HasBackButton="False">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="GO TO SESSION" Clicked="gotoSessionClicked"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="SubscriptionsDisplay" HasUnevenRows="True"
+            ItemTapped="OnTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+                            <ViewCell.View >
+                                <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                        <Label Text="Subscription ID: " Font="Bold,22" TextColor="#212121" />
+                                        <Label Text="{Binding SubscriptionID}" Font="Bold,22" TextColor="#212121"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Publish Interval: " FontSize="Medium" TextColor="#212121" />
+                                        <Label Text="{Binding PublishingInterval}" FontSize="Medium" TextColor="#757575"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Lifetime Count: " FontSize="Medium" TextColor="#212121" />
+                                        <Label Text="{Binding LifeTimeCount}" FontSize="Medium" TextColor="#757575"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Keep Alive Count" FontSize="Medium" TextColor="#212121" />
+                                        <Label Text="{Binding KeepAliveCount}" FontSize="Medium" TextColor="#757575"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Max Notifications Per Publish: " FontSize="Medium" TextColor="#212121" />
+                                        <Label Text="{Binding MaxNotificationPerPublish}" FontSize="Medium" TextColor="#757575"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Priority: " FontSize="Medium" TextColor="#212121" />
+                                        <Label Text="{Binding Priority}" FontSize="Medium" TextColor="#757575"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Publishing Enabled: " FontSize="Medium" TextColor="#212121" />
+                                        <Label Text="{Binding PublishEnabled}" FontSize="Medium" TextColor="#757575"/>
+                                    </StackLayout>
+                                    <BoxView BackgroundColor="#FF9800" WidthRequest="1" HeightRequest="2"></BoxView>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

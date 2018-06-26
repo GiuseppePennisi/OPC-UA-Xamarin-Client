@@ -49,8 +49,6 @@ namespace OPC_UA_Client
         }
         async void OnSelected(object sender, ItemTappedEventArgs e)
         {
-
-
             EndpointView selected = e.Item as EndpointView;
 
             int i = storedList.endpointList.IndexOf(selected);

@@ -170,7 +170,10 @@ namespace OPC_UA_Client.Pages
             {
                 if (await DisplayAlert("Warning", "Are you sure you want to go back to session details?", "Yes", "No"))
                 {
-                    
+
+                    base.OnBackButtonPressed();
+                    await Navigation.PopAsync();
+                    Navigation.RemovePage(this);
                 }
             });
            

@@ -72,5 +72,41 @@ namespace OPC_UA_Client.Pages
             // We must handle the action ourselves: see above.
             return true;
         }
+
+        private void gotoSessionClicked(object sender, EventArgs e)
+        {
+            Console.WriteLine("PIPPOOOOO" + Navigation.NavigationStack.Count);
+            if (Navigation.NavigationStack.Count == 5)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    {
+
+                        base.OnBackButtonPressed();
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        await Navigation.PopAsync();
+
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
+            else if (Navigation.NavigationStack.Count == 6)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    {
+
+                        base.OnBackButtonPressed();
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        await Navigation.PopAsync();
+
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
+        }
     }
 }

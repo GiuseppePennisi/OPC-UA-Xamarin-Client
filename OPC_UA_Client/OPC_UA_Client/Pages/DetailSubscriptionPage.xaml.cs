@@ -51,15 +51,9 @@ namespace OPC_UA_Client.Pages
             // Begin an asyncronous task on the UI thread because we intend to ask the users permission.
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (await DisplayAlert("Warning", "Do you want to close Subscription?", "Yes", "No"))
-                {
-                    client.CloseSubscription(subscriptionId);
-
                     base.OnBackButtonPressed();
-                  
                     await Navigation.PopAsync();
                     Navigation.RemovePage(this);
-                }
             });
 
             // Always return true because this method is not asynchronous.
@@ -72,6 +66,40 @@ namespace OPC_UA_Client.Pages
             ContentPage listItemPage = new ListItemPage(client, subscriptionId);
             listItemPage.Title = "Monitored Items View";
             await Navigation.PushAsync(listItemPage);
+        }
+
+        private void gotoSessionClicked(object sender, EventArgs e)
+        {
+            if (Navigation.NavigationStack.Count == 4)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    {
+
+                        base.OnBackButtonPressed();
+
+                        await Navigation.PopAsync();
+
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
+            else if(Navigation.NavigationStack.Count == 5) {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    {
+
+                        base.OnBackButtonPressed();
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        await Navigation.PopAsync();
+
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
+
         }
     }
 }
