@@ -33,7 +33,6 @@ namespace OPC_UA_Client
         // Recuperare l'elenco degli endpoint esposti dal server
         public ListEndpoint DiscoveryEndpoints(String endpointURL)
         {
-
             ListEndpoint list = new ListEndpoint();
             var endpointConfiguration = EndpointConfiguration.Create(config);
             try
@@ -46,24 +45,19 @@ namespace OPC_UA_Client
 
                 for (int i = 0; i < endpoints.Count; i++)
                 {
-                    list.endpointList.Add(new EndpointView(endpoints[i].EndpointUrl, endpoints[i].SecurityMode.ToString(), endpoints[i].TransportProfileUri, i, endpoints[i].SecurityPolicyUri.Split('#')[1]));
+                    list.endpointList.Add(
+                        new EndpointView(endpoints[i].EndpointUrl, endpoints[i].SecurityMode.ToString(), endpoints[i].TransportProfileUri, i, endpoints[i].SecurityPolicyUri.Split('#')[1]));
                 }
-
                 return list;
             }
             catch (System.UriFormatException)
             {
-
                 return list = null;
             }
-
             catch (ServiceResultException p)
             {
-
                 throw new BadConnectException("Impossible to connect to server!", p);
-
             }
-
         }
 
         public async void CreateCertificate()
@@ -140,7 +134,6 @@ namespace OPC_UA_Client
 
         public async Task<SessionView> CreateSessionChannelAsync(int indexEndpoint, string username, string password)
         {
-
             SessionView sessionView;
             UserIdentity userI = new UserIdentity(username, password);
             var endpoint = new ConfiguredEndpoint(null, endpoints[indexEndpoint]);
@@ -156,18 +149,17 @@ namespace OPC_UA_Client
                 }
                 else
                 {
-                    EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0, session.Endpoint.SecurityPolicyUri.Split('#')[1]);
-                    sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
+                    EndpointView endpointView = 
+                        new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0, session.Endpoint.SecurityPolicyUri.Split('#')[1]);
+                    sessionView =
+                        new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
                 }
-
                 return sessionView;
             }
             catch (ServiceResultException p)
             {
                 throw new BadUserException(p.Message, p);
-
             }
-
         }
         
         /*TimestampsToReturn*/
@@ -180,13 +172,11 @@ namespace OPC_UA_Client
             DiagnosticInfoCollection diagnosticInfos = null;
             ReadValueId nodeToRead = new ReadValueId
             {
-
                 NodeId = node,
                 AttributeId = attribute,
-                IndexRange = null, // Da aggiungere al metodo dopo 
-                DataEncoding = null // da aggiungere al metodo dopo
+                IndexRange = null, 
+                DataEncoding = null
             };
-
             ReadValueIdCollection nodesToRead = new ReadValueIdCollection();
             nodesToRead.Add(nodeToRead);
             TimestampsToReturn t = TimestampsToReturn.Invalid;
@@ -208,40 +198,29 @@ namespace OPC_UA_Client
             try
             {
                 session.Read(null, maxAge, t, nodesToRead, out results, out diagnosticInfos);
-
                 foreach (DataValue result in results)
                 {
-
                     switch (timestamp)
                     {
                         case 0:
-
                             nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), result.SourceTimestamp.ToString(), reset));
-
                             break;
                         case 1:
                             nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), reset, result.ServerTimestamp.ToString()));
-
                             break;
                         case 2:
                             nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), result.SourceTimestamp.ToString(), result.ServerTimestamp.ToString()));
-
                             break;
                         case 3:
                             nodesRead.Add(new NodeView(result.Value.ToString(), result.StatusCode.ToString(), reset, reset));
-
                             break;
                     }
                 }
             }
             catch (NullReferenceException p)
             {
-
                 throw new NoNodeToReadException("Node not found", p);
-
             }
-
-
             return nodesRead;
         }
 
@@ -324,27 +303,20 @@ namespace OPC_UA_Client
         {
             NodeId node = null;
             List<String> statusCodeWrite = new List<String>();
-
                     node = new NodeId(identifier, namespaceIndex);
-            
             DataValue valueToWrite = new DataValue()
             {
                 Value = (new Variant(value))
-
             };
-
             DiagnosticInfoCollection diagnosticInfos = null;
             WriteValueCollection nodesTowrite = new WriteValueCollection();
-
             WriteValue nodeToWrite = new WriteValue()
             {
-
                 NodeId = node,
                 AttributeId = attribute,
                 Value = valueToWrite,
-                IndexRange = null // da aggiungere al metodo dopo
+                IndexRange = null 
             };
-
             nodesTowrite.Add(nodeToWrite);
             StatusCodeCollection writeResults;
             session.Write(null, nodesTowrite, out writeResults, out diagnosticInfos);
@@ -402,10 +374,10 @@ namespace OPC_UA_Client
         }
 
         //Create subscriptions
-        public SubscriptionView CreateSub(double requestedPublishingInterval, uint requestedLifeTimeCount, uint requestedKeepAliveCount, uint MaxNotificationPerPublish, bool _PublishingEnabled, byte Priority)
+        public SubscriptionView CreateSub(double requestedPublishingInterval, uint requestedLifeTimeCount, uint requestedKeepAliveCount, 
+            uint MaxNotificationPerPublish, bool _PublishingEnabled, byte Priority)
         {
             SubscriptionView sub;
-
             Subscription subscription = new Subscription()
             {
                 KeepAliveCount = requestedKeepAliveCount,
@@ -415,17 +387,17 @@ namespace OPC_UA_Client
                 PublishingInterval = Convert.ToInt32(requestedPublishingInterval),
                 PublishingEnabled = _PublishingEnabled
             };
-
             //Aggiunge la subscription al campo subscriptions della sessione
             session.AddSubscription(subscription);
-
             /*
              * La create comunica con il server e crea effettivamente la subscription, salvando nei campi current
              * i valori revised (PublishingInterval, KeepAliveCount, LifetimeCount) 
             */
             subscription.Create();
-            sub = new SubscriptionView(subscription.Id, subscription.CurrentPublishingInterval, subscription.CurrentLifetimeCount, subscription.CurrentKeepAliveCount, subscription.MaxNotificationsPerPublish, subscription.PublishingEnabled, subscription.CurrentPriority);
-
+            sub = 
+                new SubscriptionView(subscription.Id, subscription.CurrentPublishingInterval, subscription.CurrentLifetimeCount, 
+                subscription.CurrentKeepAliveCount, subscription.MaxNotificationsPerPublish, 
+                subscription.PublishingEnabled, subscription.CurrentPriority);
             return sub;
         }
 
@@ -436,7 +408,9 @@ namespace OPC_UA_Client
 
             foreach (Subscription sub in collectionSubscription)
             {
-                listSubView.Add(new SubscriptionView(sub.Id, sub.CurrentPublishingInterval, sub.CurrentLifetimeCount, sub.CurrentKeepAliveCount, sub.MaxNotificationsPerPublish, sub.PublishingEnabled, sub.Priority));
+                listSubView.Add(
+                    new SubscriptionView(sub.Id, sub.CurrentPublishingInterval, sub.CurrentLifetimeCount, sub.CurrentKeepAliveCount, 
+                    sub.MaxNotificationsPerPublish, sub.PublishingEnabled, sub.Priority));
             }
             return listSubView;
         }
@@ -453,9 +427,10 @@ namespace OPC_UA_Client
         }
 
         // string nodeClass: Parametro per gestire MonitoredItem con NodeClass diversa da Variable
-        public MonitoredItemView CreateMonitoredItem(uint subscriptionId, ushort namespaceIndex, uint identifierNode, int samplingInterval, bool discardOldest, uint queueSize, int monitoringMode, int filterTrigger, uint deadbandType, double deadbandValue)
+        public MonitoredItemView CreateMonitoredItem(uint subscriptionId, ushort namespaceIndex, uint identifierNode, 
+            int samplingInterval, bool discardOldest, uint queueSize, 
+            int monitoringMode, int filterTrigger, uint deadbandType, double deadbandValue)
         {
-
             Subscription sub = GetSubscription(subscriptionId);
             NodeId node;
             //Initialize Filter Parameters
@@ -480,7 +455,6 @@ namespace OPC_UA_Client
                     filterTriggerView = "StatusValue";
                     break;
             }
-
             string deadbandTypeView;
             switch (deadbandType)
             {
@@ -496,16 +470,13 @@ namespace OPC_UA_Client
                 default:
                     deadbandTypeView = null;
                     break;
-
             }
-
             DataChangeFilter filter = new DataChangeFilter()
             {
                 Trigger = _trigger,
                 DeadbandType = deadbandType,
                 DeadbandValue = deadbandValue
             };
-
             //Initialize Monitored Item Parameters
             MonitoringMode _monitoringMode;
             switch (monitoringMode)
@@ -522,10 +493,8 @@ namespace OPC_UA_Client
                 default:
                     _monitoringMode = MonitoringMode.Reporting;
                     break;
-
             }
-
-            //Set NodeId della variabile che si vuole leggere con gestione dell'identifier sia string che integer
+           
              node = new NodeId(identifierNode, namespaceIndex);
            try { 
                     session.ReadNode(node);
@@ -533,8 +502,7 @@ namespace OPC_UA_Client
                     catch (ServiceResultException )
                     {
                        throw new NoNodeToReadException("Node not found!");
-                    }
-                
+                    }   
             MonitoredItem monitoredItem = new MonitoredItem(clientHandle)
             {
                 AttributeId = Attributes.Value,
@@ -547,20 +515,14 @@ namespace OPC_UA_Client
                 StartNodeId = node
             };
             clientHandle++; //Identifier di un singolo monitored item --> univoco solo all'interno della subscription
-
             monitoredItem.Notification += new MonitoredItemNotificationEventHandler(OnNotificationItem);
-
             //Aggiunge l'item tra i monitored items della subscription senza crearlo
-
             sub.AddItem(monitoredItem);
-
             //Se aggiungiamo altri monitoredItem la funzione successiva li creerà tutti
-
             //Comunica con il server e crea effettivamente il monitoredItem
             IList<MonitoredItem> createdMonitoredItems = sub.CreateItems();
             sub.ApplyChanges();
            //Questa funzione ritorna la lista dei monitoredItems creati al momento della chiamata
-
             return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
         }
 
