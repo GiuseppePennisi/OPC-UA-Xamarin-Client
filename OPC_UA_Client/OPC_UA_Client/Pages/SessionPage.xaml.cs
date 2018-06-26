@@ -33,6 +33,7 @@ namespace OPC_UA_Client
             EndpointUrl.Text = sessionView.endpointView.endpointURL;
             SecurityMode.Text = sessionView.endpointView.securityMode;
             TransportUri.Text = sessionView.endpointView.transportProfileURI;
+            SecurityPolicy.Text = sessionView.endpointView.securityPolicyUri;
         }
 
         private async void OnRead(object sender, EventArgs e)

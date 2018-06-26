@@ -23,6 +23,8 @@
                                         <Label Text="{Binding transportProfileURI}" FontSize="Small" TextColor="#757575"/>
                                         <Label Text="Security Mode: " FontSize="Medium" TextColor="#212121"/>
                                         <Label Text="{Binding securityMode}" FontSize="Small" TextColor="#757575"/>
+                                        <Label Text="Security Policy: " FontSize="Medium" TextColor="#212121"/>
+                                        <Label Text="{Binding securityPolicyUri}" FontSize="Small" TextColor="#757575"/>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell.View>
