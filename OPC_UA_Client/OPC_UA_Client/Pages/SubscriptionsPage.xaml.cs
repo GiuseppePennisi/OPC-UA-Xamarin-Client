@@ -32,9 +32,11 @@ namespace OPC_UA_Client.Pages
             subscriptionsView.Clear();
             foreach (var sub in storedList)
             {
-
                 subscriptionsView.Add(sub);
-
+            }
+            if (subscriptionsView.Count == 0)
+            {
+                NoSubsLabel.IsVisible = true;
             }
             SubscriptionsDisplay.ItemsSource = null;
             SubscriptionsDisplay.SeparatorColor = Color.FromHex("#4CAF50");

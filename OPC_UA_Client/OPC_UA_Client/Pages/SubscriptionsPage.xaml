@@ -9,6 +9,7 @@
 
     <ContentPage.Content>
         <StackLayout>
+            <Label x:Name="NoSubsLabel" Text="No Subscriptions To Display!" FontSize="Large" IsVisible="False" HorizontalOptions="Center"/>
             <ListView x:Name="SubscriptionsDisplay" HasUnevenRows="True"
             ItemTapped="OnTapped">
                 <ListView.ItemTemplate>

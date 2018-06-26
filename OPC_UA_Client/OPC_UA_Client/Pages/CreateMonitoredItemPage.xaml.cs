@@ -185,7 +185,6 @@ namespace OPC_UA_Client.Pages
 
         private void gotoSessionClicked(object sender, EventArgs e)
         {
-            Console.WriteLine("PIPPOOOOO"+Navigation.NavigationStack.Count);
             if (Navigation.NavigationStack.Count == 5)
             {
                 Device.BeginInvokeOnMainThread(async () =>
