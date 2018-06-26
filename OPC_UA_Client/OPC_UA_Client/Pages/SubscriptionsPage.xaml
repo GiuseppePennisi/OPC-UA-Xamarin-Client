@@ -44,11 +44,17 @@
                                         <Label Text="Publishing Enabled: " FontSize="Medium" TextColor="#212121" />
                                         <Label Text="{Binding PublishEnabled}" FontSize="Medium" TextColor="#757575"/>
                                     </StackLayout>
+
+                                    <Button Text="Delete Subscription" BackgroundColor="#FF9800" TextColor="White" Clicked="OnSubscriptionDelete"></Button>
                                     <BoxView BackgroundColor="#FF9800" WidthRequest="1" HeightRequest="2"></BoxView>
                                 </StackLayout>
+                                
                             </ViewCell.View>
+                            
                         </ViewCell>
+                    
                     </DataTemplate>
+                    
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>

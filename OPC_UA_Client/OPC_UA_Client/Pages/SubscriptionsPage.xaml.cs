@@ -1,4 +1,5 @@
-﻿using OPC_UA_Client.ViewModel;
+﻿using Acr.UserDialogs;
+using OPC_UA_Client.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -66,6 +67,29 @@ namespace OPC_UA_Client.Pages
             // Always return true because this method is not asynchronous.
             // We must handle the action ourselves: see above.
 
+        }
+
+        private void OnSubscriptionDelete(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.ShowLoading();
+                });
+            });
+            var button = sender as Button;
+            var subView = button.BindingContext as SubscriptionView;
+            client.CloseSubscription(subView.SubscriptionID);
+            storedList = client.GetSubscriptionViews();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
+                });
+            });
+            displaySubscriptions();
         }
     }
 }
