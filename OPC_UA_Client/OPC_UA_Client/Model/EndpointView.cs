@@ -8,15 +8,16 @@ namespace OPC_UA_Client
     {
         public string endpointURL { get; set; }
         public string securityMode { get; set; }
+        public string securityPolicyUri { get; set; }
         public string transportProfileURI { get; set; }
         public int endpointID { get; set; }
-        public EndpointView(string _endPointURL, string _securityMode, string _transportProfileURI,int _endpointID) {
+        public EndpointView(string _endPointURL, string _securityMode, string _transportProfileURI,int _endpointID, string _securityPolicyUri) {
 
             endpointURL = _endPointURL;
             securityMode = _securityMode;
             transportProfileURI = _transportProfileURI;
             endpointID = _endpointID;
-
+            securityPolicyUri = _securityPolicyUri;
         }
 
         public EndpointView() {

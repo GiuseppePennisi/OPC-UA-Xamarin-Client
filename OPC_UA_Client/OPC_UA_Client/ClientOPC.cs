@@ -46,8 +46,7 @@ namespace OPC_UA_Client
 
                 for (int i = 0; i < endpoints.Count; i++)
                 {
-                    list.endpointList.Add(new EndpointView(endpoints[i].EndpointUrl, endpoints[i].SecurityMode.ToString(), endpoints[i].TransportProfileUri, i));
-
+                    list.endpointList.Add(new EndpointView(endpoints[i].EndpointUrl, endpoints[i].SecurityMode.ToString(), endpoints[i].TransportProfileUri, i, endpoints[i].SecurityPolicyUri.Split('#')[1]));
                 }
 
                 return list;
@@ -120,7 +119,7 @@ namespace OPC_UA_Client
                 }
                 else
                 {
-                    EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0);
+                    EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0, session.Endpoint.SecurityPolicyUri.Split('#')[1]);
                     sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
                 }
                 return sessionView;
@@ -157,7 +156,7 @@ namespace OPC_UA_Client
                 }
                 else
                 {
-                    EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0);
+                    EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0, session.Endpoint.SecurityPolicyUri.Split('#')[1]);
                     sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
                 }
 
@@ -168,7 +167,6 @@ namespace OPC_UA_Client
                 throw new BadUserException(p.Message, p);
 
             }
-
 
         }
         
@@ -357,7 +355,6 @@ namespace OPC_UA_Client
             return statusCodeWrite;
         }
 
-
         public List<String> WriteVariable( uint identifier, ushort namespaceIndex, Object value, uint attribute)
         {
             NodeId node = null;
@@ -431,6 +428,7 @@ namespace OPC_UA_Client
 
             return sub;
         }
+
         public List<SubscriptionView> GetSubscriptionViews()
         {
             List<SubscriptionView> listSubView = new List<SubscriptionView>();
@@ -442,8 +440,7 @@ namespace OPC_UA_Client
             }
             return listSubView;
         }
-
-
+        
         //Funzione che permette di recuperare la subscription a cui bisogna aggiungere il monitoredItem
         public Subscription GetSubscription(uint subscriptionId)
         {
@@ -567,7 +564,6 @@ namespace OPC_UA_Client
             return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
         }
 
-
         public MonitoredItemView CreateMonitoredItem(uint subscriptionId, ushort namespaceIndex, string identifierNode, int samplingInterval, bool discardOldest, uint queueSize, int monitoringMode, int filterTrigger, uint deadbandType, double deadbandValue)
         {
 
@@ -678,9 +674,7 @@ namespace OPC_UA_Client
 
             return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
         }
-
-
-
+        
         public List<MonitoredItemView> GetMonitoredItemViews(uint subscriptionId)
         {
             List<MonitoredItemView> ItemViews = new List<MonitoredItemView>();
@@ -766,6 +760,7 @@ namespace OPC_UA_Client
 
 
         }
+
         public Tree GetRootNode()
         {
             ReferenceDescriptionCollection references;
@@ -800,6 +795,7 @@ namespace OPC_UA_Client
                 return null;
             }
         }
+
         public Tree GetChildren(string node)
         {
             ReferenceDescriptionCollection references;

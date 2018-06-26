@@ -11,7 +11,7 @@
                 <Label Text="Session Name: " FontSize="Large" TextColor="#212121" />
                 <Label x:Name="SessionName" FontSize="Large" TextColor="#757575"/>
             </StackLayout>
-                <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Horizontal">
                 <Label Text="Session Namespace Index: " FontSize="Medium" TextColor="#212121" />
                 <Label x:Name="NamespaceIndex" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
@@ -27,11 +27,15 @@
                 <Label Text="Transport Uri: " FontSize="Medium" TextColor="#212121" />
                 <Label VerticalOptions="End" x:Name="TransportUri" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
-                <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Security Mode: " FontSize="Medium" TextColor="#212121" />
                 <Label VerticalOptions="End" x:Name="SecurityMode" FontSize="Medium" TextColor="#757575"/>
             </StackLayout>
-        </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Security Policy: " FontSize="Medium" TextColor="#212121" />
+                <Label VerticalOptions="End" x:Name="SecurityPolicy" FontSize="Medium" TextColor="#757575"/>
+            </StackLayout>
+                </StackLayout>
             <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                 <Button
                 x:Name="ReadButton"
@@ -74,7 +78,7 @@
                 Text="View Subscriptions"
                 Font="small"
                 Clicked="onViewSubs"
-                Margin="5,5,5,5"
+                Margin="5,0,5,0"
                 BackgroundColor="#FF9800"
                 TextColor="White" />
             </StackLayout>
