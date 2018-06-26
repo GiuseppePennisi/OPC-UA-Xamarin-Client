@@ -69,16 +69,13 @@ namespace OPC_UA_Client
 
         public async void CreateCertificate()
         {
-
             application = new ApplicationInstance
             {
                 ApplicationType = ApplicationType.Client,
                 ConfigSectionName = "Opc.Ua.Client"
             };
-
             if (Device.RuntimePlatform == "Android")
             {
-
                 string currentFolder = DependencyService.Get<IPathService>().PublicExternalFolder.ToString();
                 string filename = application.ConfigSectionName + ".Config.xml";
 
@@ -88,31 +85,20 @@ namespace OPC_UA_Client
                 // load the application configuration.
 
                 config = await application.LoadApplicationConfiguration(currentFolder + filename, false);
-
-
             }
             else
             {
                 // load the application configuration.
                 config = await application.LoadApplicationConfiguration(false);
             }
-
             // check the application certificate.
             haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
             config.ApplicationName = "OPC UA Sample Client";
             if (haveAppCertificate)
             {
-
                 config.ApplicationUri = Utils.GetApplicationUriFromCertificate(config.SecurityConfiguration.ApplicationCertificate.Certificate);
-
                 config.CertificateValidator.CertificateValidation += new CertificateValidationEventHandler(CertificateValidator_CertificateValidation);
-
-            }
-            else
-            {
-
-                //Console.WriteLine("PIPPO: haveappcertificateFalse");
-            }
+            }           
         }
 
         public async Task<SessionView> CreateSessionChannelAsync(int indexEndpoint)
@@ -123,7 +109,7 @@ namespace OPC_UA_Client
             var endpoint = new ConfiguredEndpoint(null, endpoints[indexEndpoint]);
 
             Console.WriteLine("Prima della creazione");
-            try {
+           try {
                 session = await Task.Run(() =>
                 {
                     return Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
@@ -143,12 +129,13 @@ namespace OPC_UA_Client
                 return sessionView;
 
             }
-            catch (ServiceResultException p)
+          catch (ServiceResultException p)
             {
                 throw new UnsupportedEndpointException(p.Message);
                 
                 }
                     }
+
         public async Task<SessionView> CreateSessionChannelAsync(int indexEndpoint, string username, string password)
         {
 
@@ -414,40 +401,6 @@ namespace OPC_UA_Client
             return statusCodeWrite;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         private void CertificateValidator_CertificateValidation(CertificateValidator validator, CertificateValidationEventArgs e)
         {
             if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
@@ -492,7 +445,6 @@ namespace OPC_UA_Client
 
             return sub;
         }
-
         public List<SubscriptionView> GetSubscriptionViews()
         {
             List<SubscriptionView> listSubView = new List<SubscriptionView>();
@@ -504,6 +456,7 @@ namespace OPC_UA_Client
             }
             return listSubView;
         }
+
 
         //Funzione che permette di recuperare la subscription a cui bisogna aggiungere il monitoredItem
         public Subscription GetSubscription(uint subscriptionId)

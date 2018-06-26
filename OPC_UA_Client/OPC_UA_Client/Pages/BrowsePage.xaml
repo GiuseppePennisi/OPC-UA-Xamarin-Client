@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OPC_UA_Client.Pages.BrowsePage"
              NavigationPage.HasBackButton="False">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  Text="SESSION" Clicked="gotoSessionClicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="Fill">
             <Label  Text="Address Space Browse" FontSize="Large" HorizontalOptions="Center"/>

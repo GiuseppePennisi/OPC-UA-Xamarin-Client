@@ -111,12 +111,14 @@ namespace OPC_UA_Client.Pages
                             ContentPage readPage = new ReadPage(client, selected.Id);
                             readPage.Title = "OPC Read Service";
                             await Navigation.PushAsync(readPage);
+                            Navigation.RemovePage(this);
                         }
                         else if (selection.Equals("Write"))
                         {
                             ContentPage writePage = new WritePage(client, selected.Id);
                             writePage.Title = "OPC Write Service";
                             await Navigation.PushAsync(writePage);
+                            Navigation.RemovePage(this);
                         }
                     }
                     else {
@@ -167,9 +169,7 @@ namespace OPC_UA_Client.Pages
             {
                 if (await DisplayAlert("Warning", "Are you sure you want to go back to session details?", "Yes", "No"))
                 {
-                    base.OnBackButtonPressed();
-                    await Navigation.PopAsync();
-                    Navigation.RemovePage(this);
+                    
                 }
             });
            
@@ -178,6 +178,21 @@ namespace OPC_UA_Client.Pages
             return true;
         }
 
-        
+        private void gotoSessionClicked(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+
+                    base.OnBackButtonPressed();
+                    await Navigation.PopAsync();
+                    Navigation.RemovePage(this);
+                
+            });
+
+            // Always return true because this method is not asynchronous.
+            // We must handle the action ourselves: see above.
+
+        }
+
     }
 }

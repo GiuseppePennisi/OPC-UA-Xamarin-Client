@@ -142,5 +142,23 @@ namespace OPC_UA_Client.Pages
 
             }
         }
+
+        private void gotoSessionClicked(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+
+                {
+
+                    base.OnBackButtonPressed();
+
+                    await Navigation.PopAsync();
+                }
+            });
+
+            // Always return true because this method is not asynchronous.
+            // We must handle the action ourselves: see above.
+
+        }
     }
 }
