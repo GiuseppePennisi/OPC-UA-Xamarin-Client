@@ -4,7 +4,7 @@
              x:Class="OPC_UA_Client.ReadPage"
              NavigationPage.HasBackButton="False">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="SESSION" Clicked="gotoSessionClicked"/>
+        <ToolbarItem Text="GO TO SESSION" Clicked="gotoSessionClicked"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         

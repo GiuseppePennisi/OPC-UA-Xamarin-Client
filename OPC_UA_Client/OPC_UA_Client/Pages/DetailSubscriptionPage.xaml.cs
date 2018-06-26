@@ -67,5 +67,39 @@ namespace OPC_UA_Client.Pages
             listItemPage.Title = "Monitored Items View";
             await Navigation.PushAsync(listItemPage);
         }
+
+        private void gotoSessionClicked(object sender, EventArgs e)
+        {
+            if (Navigation.NavigationStack.Count == 4)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    {
+
+                        base.OnBackButtonPressed();
+
+                        await Navigation.PopAsync();
+
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
+            else if(Navigation.NavigationStack.Count == 5) {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+
+                    {
+
+                        base.OnBackButtonPressed();
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        await Navigation.PopAsync();
+
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
+
+        }
     }
 }

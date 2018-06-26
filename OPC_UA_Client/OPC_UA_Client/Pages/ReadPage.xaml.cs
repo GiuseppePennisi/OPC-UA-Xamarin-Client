@@ -168,6 +168,8 @@ namespace OPC_UA_Client
                     base.OnBackButtonPressed();
 
                     await Navigation.PopAsync();
+
+                    Navigation.RemovePage(this);
                 }
             });
 

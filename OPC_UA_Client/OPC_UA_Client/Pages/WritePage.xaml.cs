@@ -153,6 +153,8 @@ namespace OPC_UA_Client.Pages
                     base.OnBackButtonPressed();
 
                     await Navigation.PopAsync();
+
+                    Navigation.RemovePage(this);
                 }
             });
 
