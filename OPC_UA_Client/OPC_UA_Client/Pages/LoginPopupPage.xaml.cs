@@ -35,22 +35,16 @@ namespace OPC_UA_Client
 
         private async void OnLoginButton(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
-            {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     UserDialogs.Instance.ShowLoading();
                 });
-            });
            try
             {
-
                 string username = UsernameEntry.Text;
                 string password = PasswordEntry.Text;
 
-                sessionView = await client.CreateSessionChannelAsync(index, username, password);
-
-            }
+                sessionView = await client.CreateSessionChannelAsync(index, username, password); }
             catch (BadUserException p)
             {
 

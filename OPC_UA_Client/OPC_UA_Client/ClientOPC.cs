@@ -108,7 +108,6 @@ namespace OPC_UA_Client
             UserIdentity userI = new UserIdentity(new AnonymousIdentityToken());
             var endpoint = new ConfiguredEndpoint(null, endpoints[indexEndpoint]);
 
-            Console.WriteLine("Prima della creazione");
            try {
                 session = await Task.Run(() =>
                 {
@@ -117,12 +116,10 @@ namespace OPC_UA_Client
 
                 if (session == null)
                 {
-                    Console.WriteLine("Creazione sessione fallita: dentro il client");
                     sessionView = null;
                 }
                 else
                 {
-                    Console.WriteLine("Sessione creata: dentro il client");
                     EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0);
                     sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
                 }
@@ -136,13 +133,18 @@ namespace OPC_UA_Client
                 }
                     }
 
+        public void deleteMonitoredItem(uint subscriptionId, uint clientHandle)
+        {
+            Subscription sub = GetSubscription(subscriptionId);
+            sub.RemoveItem(sub.FindItemByClientHandle(clientHandle));
+        }
+
         public async Task<SessionView> CreateSessionChannelAsync(int indexEndpoint, string username, string password)
         {
 
             SessionView sessionView;
             UserIdentity userI = new UserIdentity(username, password);
             var endpoint = new ConfiguredEndpoint(null, endpoints[indexEndpoint]);
-            Console.WriteLine("Prima della creazione");
             try
             {
                 session =await Task.Run(() =>
@@ -151,12 +153,10 @@ namespace OPC_UA_Client
                 });
                 if (session == null)
                 {
-                    Console.WriteLine("Creazione sessione fallita: dentro il client");
-                    sessionView = null;
+                     sessionView = null;
                 }
                 else
                 {
-                    Console.WriteLine("Sessione creata: dentro il client");
                     EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0);
                     sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
                 }
@@ -165,7 +165,6 @@ namespace OPC_UA_Client
             }
             catch (ServiceResultException p)
             {
-                Console.WriteLine("Sono dentro l'eccezione client");
                 throw new BadUserException(p.Message, p);
 
             }
@@ -353,8 +352,6 @@ namespace OPC_UA_Client
             session.Write(null, nodesTowrite, out writeResults, out diagnosticInfos);
             for (int i = 0; i < writeResults.Count; i++)
             {
-                Console.WriteLine("-----------------------------------------");
-                Console.WriteLine(writeResults[i].ToString());
                 statusCodeWrite.Add(writeResults[i].ToString());
             }
             return statusCodeWrite;
@@ -394,8 +391,6 @@ namespace OPC_UA_Client
             session.Write(null, nodesTowrite, out writeResults, out diagnosticInfos);
             for (int i = 0; i < writeResults.Count; i++)
             {
-                Console.WriteLine("-----------------------------------------");
-                Console.WriteLine(writeResults[i].ToString());
                 statusCodeWrite.Add(writeResults[i].ToString());
             }
             return statusCodeWrite;
@@ -406,14 +401,6 @@ namespace OPC_UA_Client
             if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
             {
                 e.Accept = config.SecurityConfiguration.AutoAcceptUntrustedCertificates;
-                if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
-                {
-                    Console.WriteLine("Accepted Certificate: " + e.Certificate.Subject.ToString());
-                }
-                else
-                {
-                    Console.WriteLine("Rejected Certificate: " + e.Certificate.Subject.ToString());
-                }
             }
         }
 
@@ -440,7 +427,6 @@ namespace OPC_UA_Client
              * i valori revised (PublishingInterval, KeepAliveCount, LifetimeCount) 
             */
             subscription.Create();
-            Console.WriteLine("PIPPO: il publishing interval è pari a: "+subscription.CurrentPublishingInterval);
             sub = new SubscriptionView(subscription.Id, subscription.CurrentPublishingInterval, subscription.CurrentLifetimeCount, subscription.CurrentKeepAliveCount, subscription.MaxNotificationsPerPublish, subscription.PublishingEnabled, subscription.CurrentPriority);
 
             return sub;
@@ -549,11 +535,9 @@ namespace OPC_UA_Client
                     }
                     catch (ServiceResultException )
                     {
-                    Console.WriteLine("Sono dentro la mon int");
-                        throw new NoNodeToReadException("Node not found!");
+                       throw new NoNodeToReadException("Node not found!");
                     }
                 
-            Console.WriteLine("Sono il clientHandle"+clientHandle);
             MonitoredItem monitoredItem = new MonitoredItem(clientHandle)
             {
                 AttributeId = Attributes.Value,
@@ -578,8 +562,7 @@ namespace OPC_UA_Client
             //Comunica con il server e crea effettivamente il monitoredItem
             IList<MonitoredItem> createdMonitoredItems = sub.CreateItems();
             sub.ApplyChanges();
-            Console.WriteLine("creazione avvenuta con successo");
-            //Questa funzione ritorna la lista dei monitoredItems creati al momento della chiamata
+           //Questa funzione ritorna la lista dei monitoredItems creati al momento della chiamata
 
             return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
         }
@@ -664,13 +647,10 @@ namespace OPC_UA_Client
                 session.ReadNode(node);
             }
             catch (ServiceResultException)
-            {
-                Console.WriteLine("Sono dentro la mon strint");
-                throw new NoNodeToReadException("Node not found!");
+            {throw new NoNodeToReadException("Node not found!");
             }
 
-            Console.WriteLine("Sono il clientHandle" + clientHandle);
-            MonitoredItem monitoredItem = new MonitoredItem(clientHandle)
+           MonitoredItem monitoredItem = new MonitoredItem(clientHandle)
             {
                 AttributeId = Attributes.Value,
                 DiscardOldest = discardOldest,
@@ -694,8 +674,7 @@ namespace OPC_UA_Client
             //Comunica con il server e crea effettivamente il monitoredItem
             IList<MonitoredItem> createdMonitoredItems = sub.CreateItems();
             sub.ApplyChanges();
-            Console.WriteLine("creazione avvenuta con successo");
-            //Questa funzione ritorna la lista dei monitoredItems creati al momento della chiamata
+             //Questa funzione ritorna la lista dei monitoredItems creati al momento della chiamata
 
             return new MonitoredItemView(monitoredItem.ClientHandle, monitoredItem.ResolvedNodeId.NamespaceIndex, monitoredItem.ResolvedNodeId.Identifier.ToString(), subscriptionId, monitoredItem.SamplingInterval, filterTriggerView, deadbandTypeView, deadbandValue);
         }
@@ -781,7 +760,7 @@ namespace OPC_UA_Client
              
 
                 MessagingCenter.Send<ClientOPC, DataChangeView>(this, message, view);
-                Console.WriteLine("ho inviato la view");
+               
             }
            
 

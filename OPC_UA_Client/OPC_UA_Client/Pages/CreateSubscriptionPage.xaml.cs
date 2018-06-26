@@ -1,4 +1,5 @@
-﻿using OPC_UA_Client.ViewModel;
+﻿using Acr.UserDialogs;
+using OPC_UA_Client.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,10 @@ namespace OPC_UA_Client.Pages
 
         private async void OnCreateSubscription(object sender, EventArgs e)
         {
+             Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.ShowLoading();
+                });
             
             Double reqPubInterval;
             uint reqLifeTimeCount;
@@ -85,7 +90,13 @@ namespace OPC_UA_Client.Pages
                     throw new FormatException("Priority Format not valid!", p);
                 }
 
-                SubscriptionView subView = client.CreateSub(reqPubInterval, reqLifeTimeCount, reqMaxKeepAliveCount, maxNotPerPublish, true, priority);
+                SubscriptionView subView = await Task.Run(()=> client.CreateSub(reqPubInterval, reqLifeTimeCount, reqMaxKeepAliveCount, maxNotPerPublish, true, priority));
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
+                });
+
                 if (subView.PublishingInterval != reqPubInterval || subView.KeepAliveCount != reqMaxKeepAliveCount || subView.LifeTimeCount != reqLifeTimeCount)
                 {
                      await DisplayAlert("Info", "Subscription created successfully with revised parameters.", "ok");
@@ -96,7 +107,7 @@ namespace OPC_UA_Client.Pages
                 }
               
                     ContentPage detailSubPage = new DetailSubscriptionPage(client, subView.SubscriptionID);
-                    detailSubPage.Title = "OPC Subscription Details";
+                    detailSubPage.Title = "Subscription Details";
                 
                 await Navigation.PushAsync(detailSubPage);
                 Navigation.RemovePage(this);
