@@ -168,13 +168,9 @@ namespace OPC_UA_Client.Pages
             // Begin an asyncronous task on the UI thread because we intend to ask the users permission.
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (await DisplayAlert("Warning", "Are you sure you want to go back to session details?", "Yes", "No"))
-                {
-
                     base.OnBackButtonPressed();
                     await Navigation.PopAsync();
                     Navigation.RemovePage(this);
-                }
             });
            
             // Always return true because this method is not asynchronous.
@@ -184,18 +180,33 @@ namespace OPC_UA_Client.Pages
 
         private void gotoSessionClicked(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            if (Navigation.NavigationStack.Count == 6)
             {
-
-                    base.OnBackButtonPressed();
-                    await Navigation.PopAsync();
-                    Navigation.RemovePage(this);
-                
-            });
-
-            // Always return true because this method is not asynchronous.
-            // We must handle the action ourselves: see above.
-
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    {
+                        base.OnBackButtonPressed();
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        await Navigation.PopAsync();
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
+            else if (Navigation.NavigationStack.Count == 7)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    {
+                        base.OnBackButtonPressed();
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+                        await Navigation.PopAsync();
+                        Navigation.RemovePage(this);
+                    }
+                });
+            }
         }
 
     }
