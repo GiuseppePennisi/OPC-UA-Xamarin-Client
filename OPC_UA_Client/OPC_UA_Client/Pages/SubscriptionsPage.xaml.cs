@@ -47,6 +47,25 @@ namespace OPC_UA_Client.Pages
             ContentPage detailSubPage = new DetailSubscriptionPage(client, item.SubscriptionID);
             detailSubPage.Title = "OPC Subscription Details";
             await Navigation.PushAsync(detailSubPage);
+            
+        }
+
+        private void gotoSessionClicked(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                {
+                    base.OnBackButtonPressed();
+                   
+                    await Navigation.PopAsync();
+
+                    Navigation.RemovePage(this);
+                }
+            });
+
+            // Always return true because this method is not asynchronous.
+            // We must handle the action ourselves: see above.
+
         }
     }
 }

@@ -63,11 +63,10 @@
                 </StackLayout>
                 <Button
                 x:Name="SubscriptionButton"
-                Text="Subscription"
+                Text="Create Subscription"
                 Font="small"
-                HorizontalOptions="Center"
                 Clicked="OnSubscription"
-                Margin="0,0,0,0"
+                Margin="5,5,5,5"
                 BackgroundColor="#FF9800"
                 TextColor="White">
                 </Button>
@@ -75,7 +74,7 @@
                 Text="View Subscriptions"
                 Font="small"
                 Clicked="onViewSubs"
-                Margin="0,0,0,0"
+                Margin="5,5,5,5"
                 BackgroundColor="#FF9800"
                 TextColor="White" />
             </StackLayout>

@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OPC_UA_Client.Pages.SubscriptionsPage"
               NavigationPage.HasBackButton="False">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="GO TO SESSION" Clicked="gotoSessionClicked"/>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="SubscriptionsDisplay" HasUnevenRows="True"
