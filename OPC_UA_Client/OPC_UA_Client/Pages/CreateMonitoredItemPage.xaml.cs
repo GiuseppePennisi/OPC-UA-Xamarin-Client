@@ -47,10 +47,7 @@ namespace OPC_UA_Client.Pages
 
         private async void OnCreateMonitoredItem(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                UserDialogs.Instance.ShowLoading();
-            });
+            
             int typeID;
             ushort namespaceIndex;
             string identifierNode=null;
@@ -127,6 +124,10 @@ namespace OPC_UA_Client.Pages
                     throw new FormatException("Deadband Value Format is not valid!", p);
                 }
 
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.ShowLoading();
+                });
                 if (typeID == 0)
                 {
                     await Task.Run(() => client.CreateMonitoredItem(subscriptionId, namespaceIndex, identifierNodeInt, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue));
