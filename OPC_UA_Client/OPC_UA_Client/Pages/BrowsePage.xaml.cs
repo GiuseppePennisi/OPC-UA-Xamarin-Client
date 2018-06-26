@@ -118,6 +118,7 @@ namespace OPC_UA_Client.Pages
                             ContentPage writePage = new WritePage(client, selected.Id);
                             writePage.Title = "OPC Write Service";
                             await Navigation.PushAsync(writePage);
+                            
                             Navigation.RemovePage(this);
                         }
                     }
