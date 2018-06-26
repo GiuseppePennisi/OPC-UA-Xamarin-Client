@@ -73,13 +73,12 @@ namespace OPC_UA_Client.Pages
 
             if (selected.Children == true)
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
+               
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         UserDialogs.Instance.ShowLoading();
                     });
-                });
+              
 
                 storedTree = await Task.Run(() =>
                 {
@@ -136,8 +135,6 @@ namespace OPC_UA_Client.Pages
 
         private async void OnBackTree(object sender, EventArgs e)
         {
-            Console.WriteLine("STRING HIERARCHY" + hierarchyStringAddressSpace.Count);
-            Console.WriteLine("TREE HIERARCHY" + hierarchyAddressSpace.Count);
             if (hierarchyAddressSpace.Count == 1 && hierarchyStringAddressSpace.Count == 0)
             {
                 await DisplayAlert("Info", "This is the address space root node!", "Ok");

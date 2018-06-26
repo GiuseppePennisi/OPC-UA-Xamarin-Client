@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acr.UserDialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -49,8 +50,7 @@ namespace OPC_UA_Client.Pages
         private async void OnSelectedItem(object sender, ItemTappedEventArgs e)
         {
             MonitoredItemView selected = e.Item as MonitoredItemView;
-            Console.WriteLine("Client handle Detail sub: " + selected.clientHandle);
-            var _monitorPopup = new PopupMonitoringPage(client, selected.clientHandle);
+           var _monitorPopup = new PopupMonitoringPage(client, selected.clientHandle);
             _monitorPopup.Title = "Item Monitoring Service";
             await Navigation.PushAsync(_monitorPopup);
         }
@@ -75,7 +75,6 @@ namespace OPC_UA_Client.Pages
 
         private void gotoSessionClicked(object sender, EventArgs e)
         {
-            Console.WriteLine("PIPPOOOOO" + Navigation.NavigationStack.Count);
             if (Navigation.NavigationStack.Count == 5)
             {
                 Device.BeginInvokeOnMainThread(async () =>
@@ -105,6 +104,25 @@ namespace OPC_UA_Client.Pages
 
                         Navigation.RemovePage(this);
                     }
+                });
+            }
+        }
+
+        private async void OnItemDelete(object sender, EventArgs e)
+        {
+            if (await DisplayAlert("Warning", "Do you want to cancel the selected monitored item?", "yes", "no"))
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.ShowLoading();
+                });
+                var button = sender as Button;
+                var itemView = button.BindingContext as MonitoredItemView;
+                await Task.Run(() => client.deleteMonitoredItem(itemView.subscriptionId, itemView.clientHandle));
+                displayItems();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
                 });
             }
         }

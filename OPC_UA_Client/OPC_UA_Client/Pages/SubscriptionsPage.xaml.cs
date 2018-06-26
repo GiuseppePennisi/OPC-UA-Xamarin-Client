@@ -48,7 +48,7 @@ namespace OPC_UA_Client.Pages
         {
             var item = e.Item as SubscriptionView;
             ContentPage detailSubPage = new DetailSubscriptionPage(client, item.SubscriptionID);
-            detailSubPage.Title = "OPC Subscription Details";
+            detailSubPage.Title = "Subscription Details";
             await Navigation.PushAsync(detailSubPage);
             
         }
@@ -71,27 +71,26 @@ namespace OPC_UA_Client.Pages
 
         }
 
-        private void OnSubscriptionDelete(object sender, EventArgs e)
+        private async void OnSubscriptionDelete(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            if (await DisplayAlert("Warning", "Do you want to cancel the selected subscription and its monitored items?", "yes", "no"))
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    UserDialogs.Instance.ShowLoading();
-                });
-            });
-            var button = sender as Button;
-            var subView = button.BindingContext as SubscriptionView;
-            client.CloseSubscription(subView.SubscriptionID);
-            storedList = client.GetSubscriptionViews();
-            Device.BeginInvokeOnMainThread(() =>
-            {
+                 UserDialogs.Instance.ShowLoading();
+                 });
+
+                var button = sender as Button;
+                var subView = button.BindingContext as SubscriptionView;
+                await Task.Run(() => client.CloseSubscription(subView.SubscriptionID));
+                storedList = client.GetSubscriptionViews();
+                displaySubscriptions();
+
                 Device.BeginInvokeOnMainThread(() =>
-                {
-                    UserDialogs.Instance.HideLoading();
-                });
-            });
-            displaySubscriptions();
+                 {
+                     UserDialogs.Instance.HideLoading();
+                 });
+            }
         }
     }
 }

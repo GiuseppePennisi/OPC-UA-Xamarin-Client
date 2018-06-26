@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acr.UserDialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,10 @@ namespace OPC_UA_Client.Pages
 
         private async void OnCreateMonitoredItem(object sender, EventArgs e)
         {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                UserDialogs.Instance.ShowLoading();
+            });
             int typeID;
             ushort namespaceIndex;
             string identifierNode=null;
@@ -124,17 +129,21 @@ namespace OPC_UA_Client.Pages
 
                 if (typeID == 0)
                 {
-                    client.CreateMonitoredItem(subscriptionId, namespaceIndex, identifierNodeInt, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue);
+                    await Task.Run(() => client.CreateMonitoredItem(subscriptionId, namespaceIndex, identifierNodeInt, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue));
                 }
                 else
                 {
-                    client.CreateMonitoredItem(subscriptionId, namespaceIndex, identifierNode, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue);
+                    await Task.Run(() => client.CreateMonitoredItem(subscriptionId, namespaceIndex, identifierNode, samplingInterval, discardOldest, queueSize, monitoringMode, filterTrigger, deadbandType, deadbandValue));
 
                 }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.HideLoading();
+                });
                 await DisplayAlert("Info", "Monitored Item Created Successfully", "Ok");
 
                 ContentPage detailSubPage1 = new DetailSubscriptionPage(client, subscriptionId);
-                detailSubPage1.Title = "OPC Subscription Details";
+                detailSubPage1.Title = "Subscription Details";
                 Navigation.RemovePage(Navigation.NavigationStack[this.Navigation.NavigationStack.Count - 2]);
                 await Navigation.PushAsync(detailSubPage1);
                 

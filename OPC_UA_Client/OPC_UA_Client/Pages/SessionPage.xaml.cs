@@ -53,7 +53,7 @@ namespace OPC_UA_Client
         private async void OnSubscription(object sender, EventArgs e)
         {
             ContentPage subPage = new CreateSubscriptionPage(client);
-            subPage.Title = "OPC Subscription Service";
+            subPage.Title = "Subscription Service";
             await Navigation.PushAsync(subPage);
         }
 
@@ -87,7 +87,7 @@ namespace OPC_UA_Client
         private async void onViewSubs(object sender, EventArgs e)
         {
             ContentPage subsPage = new SubscriptionsPage(client);
-            subsPage.Title = "OPC Subscriptions View";
+            subsPage.Title = "Subscriptions View";
             await Navigation.PushAsync(subsPage);
         }
     }

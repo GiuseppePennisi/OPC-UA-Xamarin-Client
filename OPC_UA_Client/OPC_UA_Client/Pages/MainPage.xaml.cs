@@ -34,13 +34,12 @@ namespace OPC_UA_Client
             if (endpointUrl != null)
             {
                 bool connectToServer = true;
-                Device.BeginInvokeOnMainThread(() =>
-                {
+               
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         UserDialogs.Instance.ShowLoading();
                     });
-                });
+                
                 ConnectButton.IsEnabled = false;
                 ListEndpoint results;
                 await Task.Run(() =>OpcClient.CreateCertificate());

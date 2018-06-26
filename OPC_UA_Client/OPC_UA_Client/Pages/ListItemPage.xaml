@@ -46,8 +46,9 @@
                                             <Label Text="Deadband Value: " FontSize="Medium" TextColor="#212121"/>
                                             <Label Text="{Binding deadbandValue}" FontSize="Medium" TextColor="#757575"/>
                                         </StackLayout>
+                                        <Button Text="Delete Monitored Item" BackgroundColor="#FF9800" TextColor="White" Clicked="OnItemDelete"/>
                                     </StackLayout>
-                                </StackLayout>
+                                     </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
