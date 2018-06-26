@@ -821,7 +821,6 @@ namespace OPC_UA_Client
                 return null;
             }
         }
-
         public Tree GetChildren(string node)
         {
             ReferenceDescriptionCollection references;

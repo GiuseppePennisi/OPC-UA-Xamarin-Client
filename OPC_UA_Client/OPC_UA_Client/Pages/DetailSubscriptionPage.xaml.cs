@@ -51,15 +51,9 @@ namespace OPC_UA_Client.Pages
             // Begin an asyncronous task on the UI thread because we intend to ask the users permission.
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (await DisplayAlert("Warning", "Do you want to close Subscription?", "Yes", "No"))
-                {
-                    client.CloseSubscription(subscriptionId);
-
                     base.OnBackButtonPressed();
-                  
                     await Navigation.PopAsync();
                     Navigation.RemovePage(this);
-                }
             });
 
             // Always return true because this method is not asynchronous.
