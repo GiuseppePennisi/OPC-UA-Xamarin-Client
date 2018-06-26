@@ -414,40 +414,6 @@ namespace OPC_UA_Client
             return statusCodeWrite;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         private void CertificateValidator_CertificateValidation(CertificateValidator validator, CertificateValidationEventArgs e)
         {
             if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
@@ -868,7 +834,6 @@ namespace OPC_UA_Client
                 return null;
             }
         }
-
         public Tree GetChildren(string node)
         {
             ReferenceDescriptionCollection references;

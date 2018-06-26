@@ -5,9 +5,7 @@
              NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <StackLayout>
-           
             <ListView x:Name="EndpointsDisplay" HasUnevenRows="True"
-            
             ItemTapped="OnSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -32,8 +30,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-           
-            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

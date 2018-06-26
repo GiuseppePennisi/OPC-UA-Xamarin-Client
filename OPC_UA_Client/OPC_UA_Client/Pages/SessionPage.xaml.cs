@@ -83,5 +83,12 @@ namespace OPC_UA_Client
             browsePage.Title = "OPC Browse Service";
             await Navigation.PushAsync(browsePage);
         }
+
+        private async void onViewSubs(object sender, EventArgs e)
+        {
+            ContentPage subsPage = new SubscriptionsPage(client);
+            subsPage.Title = "OPC Subscriptions View";
+            await Navigation.PushAsync(subsPage);
+        }
     }
 }
