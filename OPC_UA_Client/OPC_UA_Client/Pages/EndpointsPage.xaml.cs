@@ -55,23 +55,18 @@ namespace OPC_UA_Client
             string action = null;
             try
             {
-               
                 action = await DisplayActionSheet("Select authentication mode: ", "cancel", null, "Anonymous", "Username & Password");
-               
-
-
+              
                 if (action.Equals("Anonymous"))
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        UserDialogs.Instance.ShowLoading();
-
-
+                        UserDialogs.Instance.ShowLoading();  
                     });
 
                     try
                     {
-                        sessionView = await client.CreateSessionChannelAsync(i);
+                        sessionView = await Task.Run(() => client.CreateSessionChannelAsync(i));
                        
                     }
                     catch (NotImplementedException)

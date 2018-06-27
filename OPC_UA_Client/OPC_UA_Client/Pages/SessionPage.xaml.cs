@@ -17,15 +17,41 @@ namespace OPC_UA_Client
 	{
         public ClientOPC client;
         public SessionView sessionView;
-        public SessionPage (ClientOPC _client, SessionView _sessionView)
+        public  SessionPage (ClientOPC _client, SessionView _sessionView)
 		{
             InitializeComponent();
             client = _client;
             sessionView = _sessionView;
             DisplaySession();
+            SubscribePage();
         }
-        
 
+        private void SubscribePage() {
+            MessagingCenter.Subscribe<ClientOPC>(this, "SessionClose",
+                async (sender) => {
+                    Console.WriteLine("SESSION CLOSEEEEEE");
+                    await Task.Run(() =>
+                    {
+                       Device.BeginInvokeOnMainThread(() =>   DisplayAlert("Error", "Session Expired!", "Ok"));
+                    });
+
+                    //DOBBIAMO RIMUOVERE LE PAGINE PRECEDENTI
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => {
+                            Page p = new MainPage();
+                            Navigation.PushAsync(p);
+                            foreach (var page in Navigation.NavigationStack.ToList()) {
+                                if (page != p) {
+                                    Navigation.RemovePage(page);
+                                }
+                            }
+                            MessagingCenter.Unsubscribe<ClientOPC>(this, "SessionClose");
+                        });
+                    });
+                });
+        }
+ 
         private void DisplaySession() {
             NamespaceIndex.Text = sessionView.indexNameSpace;
             Identifier.Text = sessionView.identifier;

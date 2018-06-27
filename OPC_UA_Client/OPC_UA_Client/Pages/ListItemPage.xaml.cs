@@ -118,7 +118,7 @@ namespace OPC_UA_Client.Pages
                 });
                 var button = sender as Button;
                 var itemView = button.BindingContext as MonitoredItemView;
-                await Task.Run(() => client.deleteMonitoredItem(itemView.subscriptionId, itemView.clientHandle));
+                await Task.Run(() => client.DeleteMonitoredItem(itemView.subscriptionId, itemView.clientHandle));
                 displayItems();
                 Device.BeginInvokeOnMainThread(() =>
                 {
