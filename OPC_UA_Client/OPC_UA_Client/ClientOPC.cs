@@ -100,6 +100,16 @@ namespace OPC_UA_Client
             }           
         }
 
+        private void OnKeepAliveHandler(object sender, EventArgs e)
+        {
+            
+            if (session.KeepAliveStopped)
+            {
+                Console.WriteLine("SESSION CLOSED SEND!");
+                MessagingCenter.Send<ClientOPC>(this, "SessionClose");
+            }
+        }
+
         public async Task<SessionView> CreateSessionChannelAsync(int indexEndpoint)
         {
             SessionView sessionView;
@@ -110,15 +120,17 @@ namespace OPC_UA_Client
            try {
                 session = await Task.Run(() =>
                 {
-                    return Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
+                   return Session.Create(config, endpoint, false, "OPC Client", 60000, userI, null);
+                   
                 });
-
+               
                 if (session == null)
                 {
                     sessionView = null;
                 }
                 else
                 {
+                    session.KeepAlive += OnKeepAliveHandler;
                     EndpointView endpointView = new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0, session.Endpoint.SecurityPolicyUri.Split('#')[1]);
                     sessionView = new SessionView(session.SessionId.Identifier.ToString(), session.SessionId.NamespaceIndex.ToString(), session.SessionName, endpointView);
                 }
@@ -131,13 +143,7 @@ namespace OPC_UA_Client
                 
                 }
                     }
-
-        public void deleteMonitoredItem(uint subscriptionId, uint clientHandle)
-        {
-            Subscription sub = GetSubscription(subscriptionId);
-            sub.RemoveItem(sub.FindItemByClientHandle(clientHandle));
-        }
-
+        
         public async Task<SessionView> CreateSessionChannelAsync(int indexEndpoint, string username, string password)
         {
 
@@ -949,6 +955,11 @@ namespace OPC_UA_Client
             return(session.RemoveSubscription(sub));
         }
 
+        public void DeleteMonitoredItem(uint subscriptionId, uint clientHandle)
+        {
+            Subscription sub = GetSubscription(subscriptionId);
+            sub.RemoveItem(sub.FindItemByClientHandle(clientHandle));
+        }
     }
 
 }
