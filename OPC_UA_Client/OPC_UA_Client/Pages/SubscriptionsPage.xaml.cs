@@ -118,9 +118,30 @@ namespace OPC_UA_Client.Pages
                                 }
                             }
                             MessagingCenter.Unsubscribe<ClientOPC>(this, "SessionClose");
+                            
                         });
                     });
                 });
+
+
+
+            MessagingCenter.Subscribe<ClientOPC>(this, "SubDelete",
+               async (sender) => {
+
+                   await Task.Run(() =>
+                   {
+                       Device.BeginInvokeOnMainThread(() => DisplayAlert("Error", "One Subscription is deleted!", "Ok"));
+                   });
+
+
+                   await Task.Run(() =>
+                   {
+                       Device.BeginInvokeOnMainThread(() => {
+                          
+                           MessagingCenter.Unsubscribe<ClientOPC>(this, "Subdelete");
+                       });
+                   });
+               });
         }
     }
 }

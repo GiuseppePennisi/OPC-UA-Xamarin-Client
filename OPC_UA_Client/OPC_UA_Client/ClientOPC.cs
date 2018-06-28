@@ -21,7 +21,8 @@ namespace OPC_UA_Client
         public ApplicationConfiguration config;
         public bool haveAppCertificate;
         public uint clientHandle { get; set; }
-       
+        
+
         public ClientOPC()
         {
             session = null;
@@ -96,11 +97,23 @@ namespace OPC_UA_Client
 
         private void OnKeepAliveHandler(object sender, EventArgs e)
         {
-            
+           
             if (session.KeepAliveStopped)
+
             {
                 Console.WriteLine("SESSION CLOSED SEND!");
                 MessagingCenter.Send<ClientOPC>(this, "SessionClose");
+            }
+        }
+        
+
+        private void OnStateChangedHandler(object sender, SubscriptionStateChangedEventArgs e)
+        {
+            var sub = sender as Subscription;
+            if (e.Status==SubscriptionChangeMask.Deleted)
+            {
+                Console.WriteLine("Suscription Deleted SEND!");
+                MessagingCenter.Send<ClientOPC>(this, "SubDelete");
             }
         }
 
@@ -394,7 +407,7 @@ namespace OPC_UA_Client
                 PublishingInterval = Convert.ToInt32(requestedPublishingInterval),
                 PublishingEnabled = _PublishingEnabled
             };
-            
+            subscription.StateChanged += OnStateChangedHandler;
             //Aggiunge la subscription al campo subscriptions della sessione
             session.AddSubscription(subscription);
             /*
