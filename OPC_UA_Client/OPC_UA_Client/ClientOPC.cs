@@ -101,6 +101,7 @@ namespace OPC_UA_Client
             if (session.KeepAliveStopped)
 
             {
+                session = null;
                 Console.WriteLine("SESSION CLOSED SEND!");
                 MessagingCenter.Send<ClientOPC>(this, "SessionClose");
             }
