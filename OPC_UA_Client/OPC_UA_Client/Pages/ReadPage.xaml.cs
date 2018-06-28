@@ -23,6 +23,7 @@ namespace OPC_UA_Client
             InitializeComponent();
             client = _client;
             DisplayReads();
+            SubscribePage();
         }
 
         public ReadPage(ClientOPC _client, string _nodeId) //Node Id Format: ns=1;i=1003
@@ -37,10 +38,12 @@ namespace OPC_UA_Client
 
             client = _client;
             DisplayReads();
+            SubscribePage();
         }
 
         public ReadPage(ClientOPC _client, ListNode node) {
             NodeID.Text = node.Id;
+            SubscribePage();
         }
         public void DisplayReads()
         {
@@ -176,6 +179,35 @@ namespace OPC_UA_Client
             // Always return true because this method is not asynchronous.
             // We must handle the action ourselves: see above.
             
+        }
+
+        private void SubscribePage()
+        {
+            MessagingCenter.Subscribe<ClientOPC>(this, "SessionClose",
+                async (sender) => {
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => DisplayAlert("Error", "Session Expired!", "Ok"));
+                    });
+
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => {
+                            Page p = new MainPage();
+                            Navigation.PushAsync(p);
+                            foreach (var page in Navigation.NavigationStack.ToList())
+                            {
+                                if (page != p)
+                                {
+                                    Navigation.RemovePage(page);
+                                }
+                            }
+                            MessagingCenter.Unsubscribe<ClientOPC>(this, "SessionClose");
+                        });
+                    });
+                });
         }
     }
     

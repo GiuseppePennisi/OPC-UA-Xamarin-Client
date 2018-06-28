@@ -29,13 +29,13 @@ namespace OPC_UA_Client
         private void SubscribePage() {
             MessagingCenter.Subscribe<ClientOPC>(this, "SessionClose",
                 async (sender) => {
-                    Console.WriteLine("SESSION CLOSEEEEEE");
+                    
                     await Task.Run(() =>
                     {
                        Device.BeginInvokeOnMainThread(() =>   DisplayAlert("Error", "Session Expired!", "Ok"));
                     });
 
-                    //DOBBIAMO RIMUOVERE LE PAGINE PRECEDENTI
+                    
                     await Task.Run(() =>
                     {
                         Device.BeginInvokeOnMainThread(() => {

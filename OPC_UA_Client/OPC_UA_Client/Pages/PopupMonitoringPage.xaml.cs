@@ -75,6 +75,7 @@ namespace OPC_UA_Client.Pages
             default_color= this.BackgroundColor;
             this.BackgroundColor = Color.White;
             GraphButton.IsEnabled = false;
+            SubscribePage();
         }
 
         protected override bool OnBackButtonPressed()
@@ -116,7 +117,34 @@ namespace OPC_UA_Client.Pages
             await Navigation.PushAsync(_GraphPage);
         }
 
-       
+        private void SubscribePage()
+        {
+            MessagingCenter.Subscribe<ClientOPC>(this, "SessionClose",
+                async (sender) => {
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => DisplayAlert("Error", "Session Expired!", "Ok"));
+                    });
+
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => {
+                            Page p = new MainPage();
+                            Navigation.PushAsync(p);
+                            foreach (var page in Navigation.NavigationStack.ToList())
+                            {
+                                if (page != p)
+                                {
+                                    Navigation.RemovePage(page);
+                                }
+                            }
+                            MessagingCenter.Unsubscribe<ClientOPC>(this, "SessionClose");
+                        });
+                    });
+                });
+        }
     }
     }
 

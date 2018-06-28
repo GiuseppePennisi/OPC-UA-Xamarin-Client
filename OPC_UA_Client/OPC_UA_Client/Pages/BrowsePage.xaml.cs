@@ -35,6 +35,7 @@ namespace OPC_UA_Client.Pages
             hierarchyAddressSpace.Push(tree);
             InitializeComponent ();
             DisplayNodes();
+            SubscribePage();
         }
 
         public BrowsePage(ClientOPC _client, Tree tree, uint _subscriptionID)
@@ -49,6 +50,7 @@ namespace OPC_UA_Client.Pages
             hierarchyAddressSpace.Push(tree);
             InitializeComponent();
             DisplayNodes();
+            SubscribePage();
         }
 
         private void DisplayNodes()
@@ -205,6 +207,33 @@ namespace OPC_UA_Client.Pages
                 });
             }
         }
+        private void SubscribePage()
+        {
+            MessagingCenter.Subscribe<ClientOPC>(this, "SessionClose",
+                async (sender) => {
 
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => DisplayAlert("Error", "Session Expired!", "Ok"));
+                    });
+
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => {
+                            Page p = new MainPage();
+                            Navigation.PushAsync(p);
+                            foreach (var page in Navigation.NavigationStack.ToList())
+                            {
+                                if (page != p)
+                                {
+                                    Navigation.RemovePage(page);
+                                }
+                            }
+                            MessagingCenter.Unsubscribe<ClientOPC>(this, "SessionClose");
+                        });
+                    });
+                });
+        }
     }
 }

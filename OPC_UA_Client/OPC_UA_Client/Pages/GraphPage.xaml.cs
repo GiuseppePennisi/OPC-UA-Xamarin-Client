@@ -47,6 +47,7 @@ namespace OPC_UA_Client.Pages
             });
            
             InitializeComponent ();
+            SubscribePage();
 		}
         protected override void OnAppearing()
         {
@@ -71,6 +72,34 @@ namespace OPC_UA_Client.Pages
             // Always return true because this method is not asynchronous.
             // We must handle the action ourselves: see above.
             return true;
+        }
+        private void SubscribePage()
+        {
+            MessagingCenter.Subscribe<ClientOPC>(this, "SessionClose",
+                async (sender) => {
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => DisplayAlert("Error", "Session Expired!", "Ok"));
+                    });
+
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => {
+                            Page p = new MainPage();
+                            Navigation.PushAsync(p);
+                            foreach (var page in Navigation.NavigationStack.ToList())
+                            {
+                                if (page != p)
+                                {
+                                    Navigation.RemovePage(page);
+                                }
+                            }
+                            MessagingCenter.Unsubscribe<ClientOPC>(this, "SessionClose");
+                        });
+                    });
+                });
         }
     }
 }

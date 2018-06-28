@@ -19,6 +19,7 @@ namespace OPC_UA_Client.Pages
         {
             client = _client;
             InitializeComponent();
+            SubscribePage();
         }
 
         private async void OnCreateSubscription(object sender, EventArgs e)
@@ -143,5 +144,33 @@ namespace OPC_UA_Client.Pages
 
         }
 
+        private void SubscribePage()
+        {
+            MessagingCenter.Subscribe<ClientOPC>(this, "SessionClose",
+                async (sender) => {
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => DisplayAlert("Error", "Session Expired!", "Ok"));
+                    });
+
+
+                    await Task.Run(() =>
+                    {
+                        Device.BeginInvokeOnMainThread(() => {
+                            Page p = new MainPage();
+                            Navigation.PushAsync(p);
+                            foreach (var page in Navigation.NavigationStack.ToList())
+                            {
+                                if (page != p)
+                                {
+                                    Navigation.RemovePage(page);
+                                }
+                            }
+                            MessagingCenter.Unsubscribe<ClientOPC>(this, "SessionClose");
+                        });
+                    });
+                });
+        }
     }
 }

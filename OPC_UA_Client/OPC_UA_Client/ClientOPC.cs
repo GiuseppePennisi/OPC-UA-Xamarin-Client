@@ -155,6 +155,7 @@ namespace OPC_UA_Client
                 }
                 else
                 {
+                    session.KeepAlive += OnKeepAliveHandler;
                     EndpointView endpointView = 
                         new EndpointView(session.Endpoint.EndpointUrl, session.Endpoint.SecurityMode.ToString(), session.Endpoint.TransportProfileUri, 0, session.Endpoint.SecurityPolicyUri.Split('#')[1]);
                     sessionView =
@@ -393,6 +394,7 @@ namespace OPC_UA_Client
                 PublishingInterval = Convert.ToInt32(requestedPublishingInterval),
                 PublishingEnabled = _PublishingEnabled
             };
+            
             //Aggiunge la subscription al campo subscriptions della sessione
             session.AddSubscription(subscription);
             /*
