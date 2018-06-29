@@ -120,6 +120,7 @@ namespace OPC_UA_Client
                         sessionPage.Title = "OPC Session Services";
 
                         await Navigation.PushAsync(sessionPage);
+                        
 
 
                     }

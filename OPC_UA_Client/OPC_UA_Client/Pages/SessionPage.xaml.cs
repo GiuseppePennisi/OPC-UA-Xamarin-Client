@@ -40,6 +40,7 @@ namespace OPC_UA_Client
                     {
                         Device.BeginInvokeOnMainThread(() => {
                             Page p = new MainPage();
+                            p.Title="Client OPC";
                             Navigation.PushAsync(p);
                             foreach (var page in Navigation.NavigationStack.ToList()) {
                                 if (page != p) {
@@ -116,6 +117,21 @@ namespace OPC_UA_Client
             ContentPage subsPage = new SubscriptionsPage(client);
             subsPage.Title = "Subscriptions View";
             await Navigation.PushAsync(subsPage);
+        }
+
+        private void SessionCloseBar(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                if (await DisplayAlert("Warning", "Are you sure you want to close session?", "Yes", "No"))
+                {
+                    client.session.Close();
+
+                    base.OnBackButtonPressed();
+
+                    await Navigation.PopToRootAsync();
+                }
+            });
         }
     }
 }

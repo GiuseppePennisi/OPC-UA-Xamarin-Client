@@ -110,6 +110,7 @@ namespace OPC_UA_Client.Pages
                     {
                         Device.BeginInvokeOnMainThread(() => {
                             Page p = new MainPage();
+                            p.Title = "Client OPC";
                             Navigation.PushAsync(p);
                             foreach (var page in Navigation.NavigationStack.ToList())
                             {

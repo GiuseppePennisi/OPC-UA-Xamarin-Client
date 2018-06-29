@@ -64,6 +64,7 @@ namespace OPC_UA_Client.Pages
                         Device.BeginInvokeOnMainThread(() => {
                             Page p = new MainPage();
                             Navigation.PushAsync(p);
+                            p.Title = "Client OPC";
                             foreach (var page in Navigation.NavigationStack.ToList())
                             {
                                 if (page != p)
