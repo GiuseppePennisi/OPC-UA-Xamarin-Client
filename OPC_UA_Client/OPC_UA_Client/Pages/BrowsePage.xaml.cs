@@ -179,6 +179,15 @@ namespace OPC_UA_Client.Pages
 
         private void gotoSessionClicked(object sender, EventArgs e)
         {
+            if(Navigation.NavigationStack.Count == 4)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    base.OnBackButtonPressed();
+                await Navigation.PopAsync();
+                Navigation.RemovePage(this);
+                });
+            }
             if (Navigation.NavigationStack.Count == 6)
             {
                 Device.BeginInvokeOnMainThread(async () =>

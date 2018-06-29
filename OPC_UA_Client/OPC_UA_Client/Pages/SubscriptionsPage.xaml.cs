@@ -27,6 +27,7 @@ namespace OPC_UA_Client.Pages
             BindingContext = subscriptionsView;
             displaySubscriptions();
             SubscribePage();
+           // SubscriberOnSubDelete();
         }
 
         private void displaySubscriptions()
@@ -122,9 +123,10 @@ namespace OPC_UA_Client.Pages
                         });
                     });
                 });
-
-
-
+        }
+       /* 
+        private void SubscriberOnSubDelete()
+        {
             MessagingCenter.Subscribe<ClientOPC>(this, "SubDelete",
                async (sender) => {
 
@@ -137,11 +139,11 @@ namespace OPC_UA_Client.Pages
                    await Task.Run(() =>
                    {
                        Device.BeginInvokeOnMainThread(() => {
-                          
-                           MessagingCenter.Unsubscribe<ClientOPC>(this, "Subdelete");
+
+                           MessagingCenter.Unsubscribe<ClientOPC>(this, "SubDelete");
                        });
                    });
                });
-        }
+        }*/
     }
 }
