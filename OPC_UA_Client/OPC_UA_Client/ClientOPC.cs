@@ -937,6 +937,7 @@ namespace OPC_UA_Client
         {
             Subscription sub = GetSubscription(subscriptionId);
             sub.RemoveItem(sub.FindItemByClientHandle(clientHandle));
+            sub.ApplyChanges();
         }
     }
 
